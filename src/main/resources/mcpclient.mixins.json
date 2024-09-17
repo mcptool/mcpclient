@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.wrrulos.mcpclient.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "PacketAndChannelHandlerMixin",
+    "PacketAndChannelHandlerMixin$PluginChannelRegistrationMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
