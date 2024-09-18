@@ -7,7 +7,9 @@
     "PluginChannelHandlerMixin"
   ],
   "client": [
-    "ClientPlayNetworkHandlerMixin"
+    "ChatHudMixin",
+    "ClientPlayNetworkHandlerMixin",
+    "SuggestionWindowMixin"
   ],
   "injectors": {
     "defaultRequire": 1
