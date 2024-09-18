@@ -4,10 +4,10 @@
   "package": "dev.wrrulos.mcpclient.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "PacketAndChannelHandlerMixin",
-    "PacketAndChannelHandlerMixin$PluginChannelRegistrationMixin"
+    "PluginChannelHandlerMixin"
   ],
   "client": [
+    "ClientPlayNetworkHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

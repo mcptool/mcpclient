@@ -11,25 +11,52 @@ public class PluginMessageStorage {
 
     // List to store plugin message channels temporarily
     private static final List<String> storedPluginMessages = new ArrayList<>();
+    // List to store vulnerable plugin message channels
+    public static final List<String> vulnerablePluginMessages = new ArrayList<>();
 
     /**
      * Adds a plugin message to the storage list.
      *
      * @param message The plugin message to be stored.
      */
-    public static void addPluginMessage(String message) {
+    public void addPluginMessage(String message) {
+        if (storedPluginMessages.contains(message)) {
+            return;
+        }
+
+        System.out.println("[LOG] Adding plugin message to storage: " + message);
         storedPluginMessages.add(message);
     }
 
     /**
      * Sends all stored plugin messages to the player and clears the storage.
      */
-    public static void sendStoredPluginMessages() {
+    public void sendStoredPluginMessages() {
+        if (storedPluginMessages.isEmpty()) {
+            return;
+        }
+
+        ChatUtils.sendMessage("§fRegistered plugin message channels:");
+
         for (String message : storedPluginMessages) {
-            ChatUtils.sendMessage(message);
+            System.out.println("[LOG] Sending message: " + message);
+
+            if (vulnerablePluginMessages.contains(message)) {
+                ChatUtils.sendMessage("§f• " + "§d" + message + " &cVULNERABLE");
+                continue;
+            }
+
+            ChatUtils.sendMessage("§f• " + "§a" + message);
         }
 
         // Clear the list after sending the messages
         storedPluginMessages.clear();
+    }
+
+    /**
+     * Adds known vulnerable plugin messages to the list.
+     */
+    public void loadVulnerablePluginMessages() {
+        vulnerablePluginMessages.add("authmevelocity:main");
     }
 }

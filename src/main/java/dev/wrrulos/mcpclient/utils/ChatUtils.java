@@ -28,6 +28,12 @@ public class ChatUtils {
 
         // Send the message to the player's chat, applying the specified formatting
         if (client.player != null) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             client.player.sendMessage(parseColoredText(message), false);
         }
     }
