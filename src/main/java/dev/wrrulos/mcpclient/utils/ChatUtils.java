@@ -10,11 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Utility class for sending messages to the player's chat in Minecraft.
- * This class provides a reusable method to send messages to the user with color formatting.
+    * Utility class for sending messages to the player's chat in Minecraft.
+    * This class provides a reusable method to send messages to the user with color formatting.
  */
 public class ChatUtils {
-
     /**
      * Sends a message to the player in the Minecraft chat.
      *
@@ -23,17 +22,11 @@ public class ChatUtils {
     public static void sendMessage(String message) {
         // Get the instance of the Minecraft client
         MinecraftClient client = MinecraftClient.getInstance();
-        System.out.println("Sending message: " + message);
+        System.out.println("Sending message/command: " + message);
         System.out.println("Client: " + client.player);
 
         // Send the message to the player's chat, applying the specified formatting
         if (client.player != null) {
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
             client.player.sendMessage(parseColoredText(message), false);
         }
     }

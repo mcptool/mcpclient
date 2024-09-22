@@ -4,11 +4,18 @@
   "package": "dev.wrrulos.mcpclient.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ClientConnectionMixin",
+    "HandshakeC2SMixin",
     "PluginChannelHandlerMixin"
   ],
   "client": [
     "ChatHudMixin",
     "ClientPlayNetworkHandlerMixin",
+    "GameMenuScreenMixin",
+    "InGameHudMixin",
+    "MessageHandlerMixin",
+    "PlayerListHudMixin",
+    "SessionMixin",
     "SuggestionWindowMixin"
   ],
   "injectors": {

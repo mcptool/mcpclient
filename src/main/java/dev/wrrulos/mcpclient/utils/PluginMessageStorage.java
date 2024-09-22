@@ -32,7 +32,14 @@ public class PluginMessageStorage {
      * Sends all stored plugin messages to the player and clears the storage.
      */
     public void sendStoredPluginMessages() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            System.out.println("[ERROR] Error while sleeping thread: " + e.getMessage());
+        }
+
         if (storedPluginMessages.isEmpty()) {
+            ChatUtils.sendMessage("§fNo plugin message channels registered.");
             return;
         }
 
@@ -58,5 +65,6 @@ public class PluginMessageStorage {
      */
     public void loadVulnerablePluginMessages() {
         vulnerablePluginMessages.add("authmevelocity:main");
+        vulnerablePluginMessages.add("signedvelocity:main");
     }
 }

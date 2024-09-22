@@ -143,6 +143,9 @@ public class ChatHudMixin {
         return m;
     }
 
+    /**
+     * Calculates the target height for the mask based on the chat state.
+     */
     @Unique
     private int getTargetHeight() {
         var shownLineCount = 0;  // Number of lines currently shown in the chat

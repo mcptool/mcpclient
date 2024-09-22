@@ -7,7 +7,7 @@ public class CommandConstants {
     public static class HelpCommand {
         public static final String HELP_MESSAGE = PREFIX + "&7&m-------------------------\n" +
             "&c&lMCP&f&lTool &7- &fHelp\n" +
-            "&7&m-------------------------\n" +
+            "&7&m-------------------------\n&r" +
             "&7- &f/mcptool help &7- &fDisplays this message.\n" +
             "&7- &f/mcptool players &7- &fDisplays the current online players.\n" +
             "&7- &f/mcptool gamemode <gamemode> &7- &fChanges your gamemode.\n" +
@@ -17,13 +17,24 @@ public class CommandConstants {
             "&7&m-------------------------";
     }
 
+    public static class PluginsCommand {
+        public static final String SENDING = PREFIX + "&7Sending payloads to try to view server plugins via TAB autocomplete...";
+        public static final String NO_PLUGINS = PREFIX + "&cNo plugins found. The server has blocked tab autocompletion.";
+        public static final String PLUGINS_FOUND = PREFIX + "&7Plugins found: &a";
+    }
+
     public static class ExploitCommand {
         public static final String INVALID_EXPLOIT = PREFIX + "&cInvalid exploit. Use &f/mcptool help exploit &cto view all exploits.";
         public static final String EXPLOIT_LIST = PREFIX + "&7&m-------------------------\n" +
             "&c&lMCP&f&lTool &7- &fExploits\n" +
-            "&7&m-------------------------\n" +
-            "&7- &fauthme-velocity-payload &7- &fSends the AuthMe Velocity Payload Exploit.\n" +
+            "&7&m-------------------------&r\n" +
+            "&7- &fauthmevelocity &7- &fSends the AuthMe Velocity Payload Exploit. Bypasses the AuthMe plugin.\n" +
             "&7&m-------------------------";
-        public static final String AUTHME_VELOCITY_EXPLOIT_SENDING = PREFIX + "&7Sending the AuthMe Velocity Payload Exploit to the server...";
     }
+
+    public static class AuthMeVelocityExploit {
+        public static final String SENDING = PREFIX + "&7Sending the AuthMe Velocity Payload Exploit to the server...";
+    }
+
+
 }
