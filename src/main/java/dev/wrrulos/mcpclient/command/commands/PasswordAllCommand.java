@@ -3,6 +3,7 @@ package dev.wrrulos.mcpclient.command.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import dev.wrrulos.mcpclient.data.PlayerData;
+import dev.wrrulos.mcpclient.utils.ChatUtils;
 import dev.wrrulos.mcpclient.utils.MCPToolCLI;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
@@ -45,14 +46,13 @@ public class PasswordAllCommand {
 
         // If no other players are online, show an error message
         if (playerDataMap.isEmpty()) {
-           // context.getSource().getPlayer().sendMessage(ColorUtil.parseColoredText("&8[&d#&8] &fNo players were found on the server."), false);
-            //context.getSource().getPlayer().sendMessage(ColorUtil.parseColoredText(CommandConstants.NO_PLAYERS), true);
-            return 1; // Return if there are no other players
+            ChatUtils.parseColoredText("&8[&d#&8] &fNo players were found on the server.");
+            return 1;
         }
 
         // Construct the command for all players except the current one
         String usernames = String.join(" ", playerDataMap.keySet());
-        String command = "mcptool password " + usernames;
+        String command = "mcptool --mcpassword " + usernames;
 
         // Execute the command using MCPToolCLI
         MCPToolCLI.runCommand(command);
