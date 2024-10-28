@@ -21,7 +21,6 @@ import java.util.Set;
 public class ClientConnectionMixin {
     @Unique
     private static final Set<String> receivedPacketTypes = new HashSet<>();
-
     /*
         * Intercept packets received by the client connection.
         *
