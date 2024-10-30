@@ -5,7 +5,7 @@ public class CommandConstants {
     public static final String INVALID_COMMAND = PREFIX + "&cInvalid command. Use &f/mcptool help &cto view all commands.";
 
     public static class HelpCommand {
-        public static final String HELP_MESSAGE = PREFIX + "&7&m-------------------------\n" +
+        public static final String HELP_MESSAGE = "&7&m-------------------------&r\n" +
             "&c&lMCP&f&lTool &7- &fHelp\n" +
             "&7&m-------------------------\n&r" +
             "&7- &b/mcptool help &7- &fDisplays this message.\n" +
