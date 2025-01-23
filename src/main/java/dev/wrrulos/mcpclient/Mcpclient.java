@@ -12,7 +12,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 
-public class Mcpclient implements ModInitializer {
+public class    Mcpclient implements ModInitializer {
     private static final PluginMessageStorage pluginMessageStorage = new PluginMessageStorage();
     private static final PluginTabStorage pluginTabStorage = new PluginTabStorage();
     private static final KeyBindManager keyBindManager = new KeyBindManager();

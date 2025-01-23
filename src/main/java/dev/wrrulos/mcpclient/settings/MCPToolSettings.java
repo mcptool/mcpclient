@@ -10,11 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class MCPToolSettings {
-
-    // Gson instance for JSON serialization/deserialization
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-
-    // File location for the configuration file
     private static final File CONFIG_FILE = new File(FabricLoader.getInstance().getConfigDir().toFile(), "mcptool_settings.json");
 
     // Configuration fields with default values

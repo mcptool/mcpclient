@@ -3,7 +3,6 @@ package dev.wrrulos.mcpclient.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import dev.wrrulos.mcpclient.command.commands.HelpCommand;
-import dev.wrrulos.mcpclient.command.commands.PasswordAllCommand;
 import dev.wrrulos.mcpclient.command.commands.PluginsCommand;
 import dev.wrrulos.mcpclient.command.commands.exploits.ExploitCommand;
 import dev.wrrulos.mcpclient.constants.messages.CommandConstants;
@@ -25,7 +24,6 @@ public class CommandManager {
                 .then(HelpCommand.register())
                 .then(PluginsCommand.register())
                 .then(ExploitCommand.register())
-                .then(PasswordAllCommand.register())
         );
     }
 
