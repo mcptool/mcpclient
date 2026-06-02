@@ -16,10 +16,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.example.ExampleMod"
+			"dev.wrrulosdev.mcpclient.MCPClientMain"
 		],
 		"client": [
-			"com.example.client.ExampleModClient"
+			"dev.wrrulosdev.mcpclient.client.MCPClient"
 		]
 	},
 	"mixins": [

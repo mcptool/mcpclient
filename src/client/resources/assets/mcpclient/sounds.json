@@ -1,0 +1,10 @@
+{
+  "menu_music": {
+    "sounds": [
+      {
+        "name": "mcpclient:menu_music",
+        "stream": true
+      }
+    ]
+  }
+}

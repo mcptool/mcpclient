@@ -1,9 +1,20 @@
 {
 	"required": true,
-	"package": "com.example.client.mixin",
+	"package": "dev.wrrulosdev.mcpclient.client.mixins",
 	"compatibilityLevel": "JAVA_25",
 	"client": [
-		"ExampleClientMixin"
+		"accessor.ServerListAccessor",
+		"accessor.JoinMultiplayerScreenAccessor",
+		"accessor.MinecraftAccessor",
+		"network.PluginChannelHandlerMixin",
+		"network.ServerListMixin",
+		"gui.LogoDrawerMixin",
+		"gui.AbstractSelectionListMixin",
+		"screen.TitleScreenMixin",
+		"screen.PanoramaMixin",
+		"screen.LinearLayoutMixin",
+		"screen.JoinMultiplayerScreenMixin",
+		"music.MusicsMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
