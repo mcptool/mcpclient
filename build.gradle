@@ -18,7 +18,7 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		"modid" {
+		"mcpclient" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}
