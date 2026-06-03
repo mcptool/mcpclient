@@ -60,7 +60,7 @@ public class CustomButton extends AbstractWidget {
 
         if (!style.transparent) {
             int bgColor = getBackgroundColor();
-            graphics.fill(getX(), getY(), getX() + width, getY() + height, bgColor);
+            renderRoundedBackground(graphics, getX(), getY(), width, height, bgColor);
         }
 
         if (style.borderEnabled) {
@@ -74,6 +74,27 @@ public class CustomButton extends AbstractWidget {
         if (!getMessage().getString().isEmpty()) {
             renderButtonText(graphics);
         }
+    }
+
+    /**
+     * Generates a procedurally constructed background matrix layer applying a localized 2-pixel corner indentation sequence.
+     * @param graphics The screen graphics rendering pipeline extractor context.
+     * @param x        The relative horizontal screen coordinate offset.
+     * @param y        The relative vertical screen coordinate offset.
+     * @param width    The complete pixel scale length bounds metric of the component.
+     * @param height   The complete pixel scale vertical height bounds metric of the component.
+     * @param color    The designated integer hexadecimal ARGB standard profile color payload value.
+     */
+    private void renderRoundedBackground(GuiGraphicsExtractor graphics, int x, int y, int width, int height, int color) {
+        graphics.fill(x + 2, y, x + width - 2, y + 1, color);
+
+        graphics.fill(x + 1, y + 1, x + width - 1, y + 2, color);
+
+        graphics.fill(x, y + 2, x + width, y + height - 2, color);
+
+        graphics.fill(x + 1, y + height - 2, x + width - 1, y + height - 1, color);
+
+        graphics.fill(x + 2, y + height - 1, x + width - 2, y + height, color);
     }
 
     /**
@@ -117,16 +138,24 @@ public class CustomButton extends AbstractWidget {
     }
 
     /**
-     * Outlines the custom button framing bounds on screen coordinates.
+     * Draws segment vectors mapping an identical customized rounded profile structure boundary across target coordinate scales.
      * @param graphics The screen graphics rendering pipeline extractor context.
      */
     private void renderBorder(GuiGraphicsExtractor graphics) {
         int borderColor = this.active ? style.borderColor : style.disabledBorderColor;
+        int x = getX();
+        int y = getY();
 
-        graphics.fill(getX(), getY(), getX() + width, getY() + 1, borderColor);
-        graphics.fill(getX(), getY() + height - 1, getX() + width, getY() + height, borderColor);
-        graphics.fill(getX(), getY(), getX() + 1, getY() + height, borderColor);
-        graphics.fill(getX() + width - 1, getY(), getX() + width, getY() + height, borderColor);
+        graphics.fill(x + 2, y, x + width - 2, y + 1, borderColor);
+        graphics.fill(x + 2, y + height - 1, x + width - 2, y + height, borderColor);
+
+        graphics.fill(x, y + 2, x + 1, y + height - 2, borderColor);
+        graphics.fill(x + width - 1, y + 2, x + width, y + height - 2, borderColor);
+
+        graphics.fill(x + 1, y + 1, x + 2, y + 2, borderColor);
+        graphics.fill(x + width - 2, y + 1, x + width - 1, y + 2, borderColor);
+        graphics.fill(x + 1, y + height - 2, x + 2, y + height - 1, borderColor);
+        graphics.fill(x + width - 2, y + height - 2, x + width - 1, y + height - 1, borderColor);
     }
 
     /**
