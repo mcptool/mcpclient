@@ -28,6 +28,18 @@ public class TextureConstants {
             "textures/gui/icons/discord.png"
         );
 
+    public static final Identifier URL_ICON =
+        Identifier.fromNamespaceAndPath(
+            "mcpclient",
+            "textures/gui/icons/url.png"
+        );
+
+    public static final Identifier URL_HOVER_ICON =
+        Identifier.fromNamespaceAndPath(
+            "mcpclient",
+            "textures/gui/icons/url_hover.png"
+        );
+
     public static final Identifier ACCOUNT_ICON =
         Identifier.fromNamespaceAndPath(
             "mcpclient",

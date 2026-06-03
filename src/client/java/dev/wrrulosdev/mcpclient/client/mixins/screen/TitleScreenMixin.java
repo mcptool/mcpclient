@@ -263,45 +263,14 @@ public class TitleScreenMixin extends Screen {
                 .size(26, 26)
                 .tooltip(
                     Tooltip.create(
-                        Component.literal("Spoofing!")
+                        Component.literal("MCPTool Website!")
                     )
                 )
                 .style(style -> style
                     .border(false)
                     .transparent(true)
                     .image(
-                        TextureConstants.ACCOUNT_ICON,
-                        0,
-                        0,
-                        50,
-                        30,
-                        50,
-                        30
-                    )
-                    .hoverImage(TextureConstants.ACCOUNT_HOVER_ICON)
-                )
-                .onPress(button -> {
-                    Minecraft.getInstance().keyboardHandler.setClipboard(
-                        "https://discord.mcptool.net"
-                    );
-                })
-                .build()
-        );
-
-        this.addRenderableWidget(
-            CustomButton.builder(Component.empty())
-                .position(this.width - 68, 10)
-                .size(26, 26)
-                .tooltip(
-                    Tooltip.create(
-                        Component.literal("Spoofing!")
-                    )
-                )
-                .style(style -> style
-                    .border(false)
-                    .transparent(true)
-                    .image(
-                        TextureConstants.NETWORK_ICON,
+                        TextureConstants.URL_ICON,
                         0,
                         0,
                         30,
@@ -309,7 +278,7 @@ public class TitleScreenMixin extends Screen {
                         30,
                         30
                     )
-                    .hoverImage(TextureConstants.NETWORK_HOVER_ICON)
+                    .hoverImage(TextureConstants.URL_HOVER_ICON)
                 )
                 .onPress(button -> {
                     Minecraft.getInstance().keyboardHandler.setClipboard(
