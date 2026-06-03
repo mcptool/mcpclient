@@ -63,4 +63,16 @@ public class TextureConstants {
             "mcpclient",
             "textures/gui/icons/network_hover.png"
         );
+
+    public static final Identifier HOME_ICON =
+        Identifier.fromNamespaceAndPath(
+            "mcpclient",
+            "textures/gui/icons/home.png"
+        );
+
+    public static final Identifier HOME_HOVER_ICON =
+        Identifier.fromNamespaceAndPath(
+            "mcpclient",
+            "textures/gui/icons/home_hover.png"
+        );
 }
