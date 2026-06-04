@@ -47,7 +47,11 @@ public class Msg {
             }
         }
 
-        Minecraft.getInstance().player.sendOverlayMessage(textComponent);
+        Minecraft.getInstance().player.sendSystemMessage(textComponent);
+
+        if (bossBarOverlay) {
+            Minecraft.getInstance().player.sendOverlayMessage(textComponent);
+        }
     }
 
     /**
