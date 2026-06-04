@@ -7,11 +7,14 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
+	mavenCentral()
+	maven { name = "ViaVersion"; url = "https://repo.viaversion.com" }
+	maven { name = "Lenni0451"; url = "https://maven.lenni0451.net/everything" }
+	maven {
+		name = "Jitpack"
+		url = "https://jitpack.io"
+		content { includeGroup "com.github.oryxel1" }
+	}
 }
 
 loom {
@@ -29,12 +32,14 @@ loom {
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	
+
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-	
+	runtimeOnly("com.viaversion:viafabricplus:4.5.4")
+	compileOnly("com.viaversion:viafabricplus-api:4.5.4")
+
 }
 
 processResources {

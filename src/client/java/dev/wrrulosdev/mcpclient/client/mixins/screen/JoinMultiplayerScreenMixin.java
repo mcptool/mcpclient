@@ -1,8 +1,11 @@
 package dev.wrrulosdev.mcpclient.client.mixins.screen;
 
+import com.viaversion.viafabricplus.ViaFabricPlus;
+import com.viaversion.viafabricplus.api.ViaFabricPlusBase;
 import dev.wrrulosdev.mcpclient.client.constants.TextureConstants;
 import dev.wrrulosdev.mcpclient.client.mixins.accessor.JoinMultiplayerScreenAccessor;
 import dev.wrrulosdev.mcpclient.client.screens.CustomButton;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
@@ -57,5 +60,30 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
             .build();
 
         this.addRenderableWidget(discordButton);
+
+        // ViaFabricPlusButton Button
+        if (!FabricLoader.getInstance().isModLoaded("viafabricplus")) return;
+
+        CustomButton viaFabricPlusButton = CustomButton.builder(Component.empty())
+            .position(this.width - 22 - 5, 5)
+            .size(22, 21)
+            .tooltip(Tooltip.create(Component.literal("Change version")))
+            .style(style -> style
+                .border(false)
+                .transparent(true)
+                .image(
+                    TextureConstants.NETWORK_ICON,
+                    0, 0, 25, 25, 25, 25
+                )
+                .hoverImage(TextureConstants.NETWORK_HOVER_ICON)
+            )
+            .onPress(button -> {
+                final ViaFabricPlusBase platform = ViaFabricPlus.getImpl();
+                platform.openProtocolSelectionScreen(this);
+            })
+            .build();
+
+        this.addRenderableWidget(viaFabricPlusButton);
+
     }
 }

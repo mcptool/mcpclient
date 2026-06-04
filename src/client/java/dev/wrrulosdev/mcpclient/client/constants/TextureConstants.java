@@ -75,4 +75,16 @@ public class TextureConstants {
             "mcpclient",
             "textures/gui/icons/home_hover.png"
         );
+
+    public static final Identifier EDIT_ICON =
+        Identifier.fromNamespaceAndPath(
+            "mcpclient",
+            "textures/gui/icons/edit.png"
+        );
+
+    public static final Identifier EDIT_HOVER_ICON =
+        Identifier.fromNamespaceAndPath(
+            "mcpclient",
+            "textures/gui/icons/edit_hover.png"
+        );
 }

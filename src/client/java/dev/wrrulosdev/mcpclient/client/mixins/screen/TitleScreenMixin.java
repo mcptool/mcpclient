@@ -242,10 +242,10 @@ public class TitleScreenMixin extends Screen {
                         TextureConstants.GITHUB_ICON,
                         0,
                         0,
-                        30,
-                        30,
-                        30,
-                        30
+                        23,
+                        23,
+                        23,
+                        23
                     )
                 )
                 .onPress(button -> {
@@ -253,6 +253,7 @@ public class TitleScreenMixin extends Screen {
                         "https://github.com/wrrulosdev/mcpclient"
                     );
                 })
+
                 .build()
         );
 
