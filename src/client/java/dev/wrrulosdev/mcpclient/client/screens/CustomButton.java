@@ -67,7 +67,7 @@ public class CustomButton extends AbstractWidget {
             renderBorder(graphics);
         }
 
-        if (style.texture != null || style.hoverTexture != null) {
+        if (style.texture != null || style.hoverTexture != null || style.disabledTexture != null) {
             renderButtonImage(graphics);
         }
 
@@ -166,7 +166,14 @@ public class CustomButton extends AbstractWidget {
         int imageX = getX() + (width - style.imageWidth) / 2;
         int imageY = getY() + (height - style.imageHeight) / 2;
 
-        Identifier currentTexture = (this.isHovered() && style.hoverTexture != null) ? style.hoverTexture : style.texture;
+        Identifier currentTexture = style.texture;
+
+        // Lógica actualizada para manejar el estado inactivo (active = false)
+        if (!this.active && style.disabledTexture != null) {
+            currentTexture = style.disabledTexture;
+        } else if (this.active && this.isHovered() && style.hoverTexture != null) {
+            currentTexture = style.hoverTexture;
+        }
 
         if (currentTexture != null) {
             graphics.blit(
@@ -401,6 +408,7 @@ public class CustomButton extends AbstractWidget {
 
         private Identifier texture = null;
         private Identifier hoverTexture = null;
+        private Identifier disabledTexture = null; // <- Nueva variable añadida
         private int imageU = 0;
         private int imageV = 0;
         private int imageWidth = 16;
@@ -489,6 +497,16 @@ public class CustomButton extends AbstractWidget {
         }
 
         /**
+         * Binds a designated disabled overlay texture layout to use when the button is inactive.
+         * @param disabledTexture The graphical target texture asset configuration wrapper structure.
+         * @return The current configuration instance state reference frame context.
+         */
+        public ButtonStyle disabledImage(Identifier disabledTexture) {
+            this.disabledTexture = disabledTexture;
+            return this;
+        }
+
+        /**
          * Overlays advanced resource sheet configurations tracking default canvas size constraints layouts boundaries profiles parameters.
          * @param texture      The target resource sheet structural location model metadata identifier component.
          * @param u            Horizontal texture coordinate frame layout reading position pixel metrics tracker index.
@@ -503,13 +521,13 @@ public class CustomButton extends AbstractWidget {
 
         /**
          * Complete graphical asset grid tracking assignment configuration parameters for customized resource sprite mapping sizes logic.
-         * @param texture       The target asset resource identity identifier model source package path structure pointer.
-         * @param u             Resource UV mapping coordinates horizontal layout origin location indices parameters.
-         * @param v             Resource UV texture coordinates vertical offset tracking origin baseline selection index parameters.
-         * @param regionWidth   Targeted individual source image section dimensions layout pixels space size selection lengths.
-         * @param regionHeight  Targeted section frame measurements vertical segment boundary elevation space measurement units.
-         * @param textureWidth  Total graphical texture image template horizontal resolution pixel canvas metrics length layout scales.
-         * @param textureHeight Total asset texture grid canvas graphic source vertical frame pixel density bounds scales.
+         * @param texture        The target asset resource identity identifier model source package path structure pointer.
+         * @param u              Resource UV mapping coordinates horizontal layout origin location indices parameters.
+         * @param v              Resource UV texture coordinates vertical offset tracking origin baseline selection index parameters.
+         * @param regionWidth    Targeted individual source image section dimensions layout pixels space size selection lengths.
+         * @param regionHeight   Targeted section frame measurements vertical segment boundary elevation space measurement units.
+         * @param textureWidth   Total graphical texture image template horizontal resolution pixel canvas metrics length layout scales.
+         * @param textureHeight  Total asset texture grid canvas graphic source vertical frame pixel density bounds scales.
          * @return The current configuration instance state reference frame context.
          */
         public ButtonStyle image(Identifier texture, int u, int v, int regionWidth, int regionHeight,
