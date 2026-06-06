@@ -38,7 +38,7 @@ public class HelpCommand implements Command {
     @Override
     public LiteralArgumentBuilder<FabricClientCommandSource> register() {
         return literal("help")
-            .executes(this::executeHelp);
+            .executes(this::executeRoot);
     }
 
     /**
@@ -48,7 +48,7 @@ public class HelpCommand implements Command {
      * @param context the command context containing information about the command execution
      * @return an integer representing the success status of the command execution.
      */
-    private int executeHelp(CommandContext<FabricClientCommandSource> context) {
+    private int executeRoot(CommandContext<FabricClientCommandSource> context) {
         sendHelpMenu(context.getSource());
         NotificationManager.show("KillAura", "Module enabled successfully.", NotificationType.SUCCESS);
         NotificationManager.show("KillAura", "Module enaabled successfully.", NotificationType.INFO);

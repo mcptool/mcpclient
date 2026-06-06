@@ -45,11 +45,9 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
 
     /**
      * Initializes custom UI components after the vanilla screen setup.
-     * <p>
      * Hides default buttons, creates custom replacements, and registers
      * additional client-side functionality such as server management,
      * direct join, and external integrations.
-     * </p>
      *
      * @param ci callback information from Mixin injection
      */
@@ -297,10 +295,8 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
 
     /**
      * Repositions all custom buttons after layout recalculation.
-     * <p>
      * Handles bottom button spacing, adaptive centering, and conditional
      * positioning for optional integrations.
-     * </p>
      *
      * @param ci callback information from Mixin injection
      */
@@ -337,9 +333,7 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
 
     /**
      * Updates button states when the selected server entry changes.
-     * <p>
      * Enables or disables editing-related actions depending on selection type.
-     * </p>
      *
      * @param ci callback information from Mixin injection
      */

@@ -6,6 +6,7 @@
 		"accessor.ServerListAccessor",
 		"accessor.JoinMultiplayerScreenAccessor",
 		"accessor.MinecraftAccessor",
+		"accessor.SessionAccessor",
 		"network.PluginChannelHandlerMixin",
 		"network.ServerListMixin",
 		"gui.LogoDrawerMixin",
@@ -15,6 +16,9 @@
 		"screen.PanoramaMixin",
 		"screen.LinearLayoutMixin",
 		"screen.JoinMultiplayerScreenMixin",
+		"options.UnitDoubleMixin",
+		"options.FullbrightMixin",
+		"player.LocalPlayerMixin",
 		"music.MusicsMixin"
 	],
 	"injectors": {

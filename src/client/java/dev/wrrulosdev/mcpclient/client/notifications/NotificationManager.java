@@ -55,9 +55,7 @@ public class NotificationManager {
 
     /**
      * Renders and updates all active notifications each frame.
-     * <p>
      * Handles animation timing, vertical stacking, fade effects, and dynamic layout calculation.
-     * </p>
      *
      * @param graphics Render context used for drawing UI elements
      * @param deltaTracker Frame timing information

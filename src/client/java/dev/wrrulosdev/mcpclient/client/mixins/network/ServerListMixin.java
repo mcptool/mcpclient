@@ -15,9 +15,15 @@ public class ServerListMixin {
 
     private static final String PROMOTED_IP = "mc.server.com";
 
+    /**
+     * Injects additional logic after the server list is loaded from disk.
+     * If the promoted server is not already present in the list, it is added
+     * to the top position to ensure visibility in the multiplayer menu.
+     *
+     * @param ci Callback information for the load method
+     */
     @Inject(method = "load", at = @At("TAIL"))
     private void addPromotedServers(CallbackInfo ci) {
-
         ServerList self = (ServerList) (Object) this;
 
         List<ServerData> list =

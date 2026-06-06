@@ -3,6 +3,9 @@ package dev.wrrulosdev.mcpclient.client.commands;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import dev.wrrulosdev.mcpclient.client.commands.commands.FakeCreativeCommand;
+import dev.wrrulosdev.mcpclient.client.commands.commands.FlyCommand;
+import dev.wrrulosdev.mcpclient.client.commands.commands.HClipCommand;
 import dev.wrrulosdev.mcpclient.client.commands.commands.HelpCommand;
 import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
 import dev.wrrulosdev.mcpclient.client.utilities.messages.Msg;
@@ -19,6 +22,9 @@ public class CommandManager {
 
     static {
         COMMANDS.add(new HelpCommand());
+        COMMANDS.add(new FlyCommand());
+        COMMANDS.add(new HClipCommand());
+        COMMANDS.add(new FakeCreativeCommand());
     }
 
     /**

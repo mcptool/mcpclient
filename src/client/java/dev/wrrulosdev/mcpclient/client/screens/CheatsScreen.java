@@ -20,7 +20,6 @@ public class CheatsScreen extends BaseAnimatedScreen {
     private static final int CARD_HEIGHT = 65;
     private static final int GAP = 15;
     private static final int SIDE_MARGIN = 20;
-
     private final Screen parentScreen;
     private final List<SwitchOptionCard> allCards = new ArrayList<>();
     private double scrollOffset = 0;
@@ -57,7 +56,6 @@ public class CheatsScreen extends BaseAnimatedScreen {
         addCard("HClip", "Teleports you horizontally through blocks.");
         addCard("VClip", "Teleports you vertically up or down.");
         addCard("Fake Gamemode", "Spoofs creative mode client-side without server permissions.");
-        addCard("FreeCam", "Lets your camera move independently from your player.");
         addCard("Jesus", "Allows you to walk on water and other liquids.");
         addCard("Spider", "Climb walls as if you were a spider.");
         addCard("NameTags", "Displays player names from longer distances.");
