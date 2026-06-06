@@ -168,7 +168,6 @@ public class CustomButton extends AbstractWidget {
 
         Identifier currentTexture = style.texture;
 
-        // Lógica actualizada para manejar el estado inactivo (active = false)
         if (!this.active && style.disabledTexture != null) {
             currentTexture = style.disabledTexture;
         } else if (this.active && this.isHovered() && style.hoverTexture != null) {
@@ -408,7 +407,7 @@ public class CustomButton extends AbstractWidget {
 
         private Identifier texture = null;
         private Identifier hoverTexture = null;
-        private Identifier disabledTexture = null; // <- Nueva variable añadida
+        private Identifier disabledTexture = null;
         private int imageU = 0;
         private int imageV = 0;
         private int imageWidth = 16;
