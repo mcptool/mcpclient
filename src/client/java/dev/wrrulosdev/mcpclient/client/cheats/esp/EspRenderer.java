@@ -1,4 +1,4 @@
-package dev.wrrulosdev.mcpclient.client.esp;
+package dev.wrrulosdev.mcpclient.client.cheats.esp;
 
 import net.minecraft.gizmos.Gizmos;
 import net.minecraft.gizmos.GizmoStyle;

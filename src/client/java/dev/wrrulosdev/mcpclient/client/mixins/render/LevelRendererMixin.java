@@ -1,7 +1,7 @@
 package dev.wrrulosdev.mcpclient.client.mixins.render;
 
-import dev.wrrulosdev.mcpclient.client.esp.BlockScanner;
-import dev.wrrulosdev.mcpclient.client.esp.EspRenderer;
+import dev.wrrulosdev.mcpclient.client.cheats.esp.BlockScanner;
+import dev.wrrulosdev.mcpclient.client.cheats.esp.EspRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,4 +1,4 @@
-package dev.wrrulosdev.mcpclient.client.esp;
+package dev.wrrulosdev.mcpclient.client.cheats.esp;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
