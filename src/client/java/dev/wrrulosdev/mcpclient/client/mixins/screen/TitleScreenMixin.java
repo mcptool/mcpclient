@@ -3,7 +3,7 @@ package dev.wrrulosdev.mcpclient.client.mixins.screen;
 import dev.wrrulosdev.mcpclient.client.constants.ButtonConstants;
 import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
 import dev.wrrulosdev.mcpclient.client.constants.TextureConstants;
-import dev.wrrulosdev.mcpclient.client.screens.CustomButton;
+import dev.wrrulosdev.mcpclient.client.screens.gui.CustomButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
@@ -14,7 +14,6 @@ import net.minecraft.client.gui.screens.options.OptionsScreen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -105,7 +104,7 @@ public class TitleScreenMixin extends Screen {
         // MCPTool Functions
         this.addRenderableWidget(
             CustomButton.builder(Component.literal("MCPTool Functions"))
-                .position(this.width / 2 - 80, this.height / 4 + 110) // Toma el lugar de +110
+                .position(this.width / 2 - 80, this.height / 4 + 110)
                 .size(159, 20)
                 .tooltip(
                     Tooltip.create(
@@ -137,7 +136,7 @@ public class TitleScreenMixin extends Screen {
         // Settings
         this.addRenderableWidget(
             CustomButton.builder(Component.literal("Settings"))
-                .position(this.width / 2 - 80, this.height / 4 + 135) // Bajó de +110 a +135
+                .position(this.width / 2 - 80, this.height / 4 + 135)
                 .size(76, 20)
                 .tooltip(
                     Tooltip.create(Component.literal("Open settings"))
@@ -167,7 +166,7 @@ public class TitleScreenMixin extends Screen {
         // Quit Game
         this.addRenderableWidget(
             CustomButton.builder(Component.literal("Quit Game"))
-                .position(this.width / 2 + 3, this.height / 4 + 135) // Bajó de +110 a +135
+                .position(this.width / 2 + 3, this.height / 4 + 135)
                 .size(76, 20)
                 .tooltip(
                     Tooltip.create(Component.literal("Exit the game"))
@@ -327,7 +326,7 @@ public class TitleScreenMixin extends Screen {
         int drawWidth = net.minecraft.util.Mth.clamp(desiredWidth, 50, 120);
         int drawHeight = (int) (drawWidth / 1.2);
         int logoX = (screen.width / 2) - (drawWidth / 2);
-        int logoY = screen.height / 8;
+        int logoY = screen.height / 6;
         int color = ARGB.white(1.0F);
         graphics.blit(
             RenderPipelines.GUI_TEXTURED,

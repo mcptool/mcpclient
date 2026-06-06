@@ -4,6 +4,8 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import dev.wrrulosdev.mcpclient.client.commands.Command;
 import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
+import dev.wrrulosdev.mcpclient.client.notifications.NotificationManager;
+import dev.wrrulosdev.mcpclient.client.notifications.NotificationType;
 import dev.wrrulosdev.mcpclient.client.utilities.messages.Msg;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
@@ -48,6 +50,11 @@ public class HelpCommand implements Command {
      */
     private int executeHelp(CommandContext<FabricClientCommandSource> context) {
         sendHelpMenu(context.getSource());
+        NotificationManager.show("KillAura", "Module enabled successfully.", NotificationType.SUCCESS);
+        NotificationManager.show("KillAura", "Module enaabled successfully.", NotificationType.INFO);
+        NotificationManager.show("WARNING!", "Module enabled .", NotificationType.WARNING);
+        NotificationManager.show("KillAura", "Lore Ipsum.", NotificationType.ERROR);
+
         return 1;
     }
 
