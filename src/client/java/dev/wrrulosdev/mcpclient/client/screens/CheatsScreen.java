@@ -60,9 +60,9 @@ public class CheatsScreen extends BaseAnimatedScreen {
         addCard("Spider", "Climb walls as if you were a spider.");
         addCard("NameTags", "Displays player names from longer distances.");
         addCard("Fullbright", "Removes darkness and maximizes visibility.");
+        addCard("AntiKB", "Reduces or prevents knockback from attacks.");
         addCard("NoFall", "Prevents or reduces fall damage.");
         addCard("AutoEat", "Automatically eats food when your hunger is low.");
-        addCard("XRay", "Highlights ores and valuable blocks through terrain.");
         addCard("ESP", "Shows players, mobs, and entities through walls.");
     }
 

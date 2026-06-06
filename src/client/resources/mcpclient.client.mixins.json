@@ -19,7 +19,9 @@
 		"options.UnitDoubleMixin",
 		"options.FullbrightMixin",
 		"player.LocalPlayerMixin",
-		"music.MusicsMixin"
+		"multiplayer.ClientPacketListenerMixin",
+		"music.MusicsMixin",
+		"render.LevelRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
