@@ -60,7 +60,7 @@ public class MenuScreen extends BaseAnimatedScreen {
             "Exploits",
             "List of available exploits.",
             TextureConstants.BOMB_ICON,
-            () -> System.out.println("Exploits")
+            () -> Minecraft.getInstance().setScreen(new ExploitsScreen(this))
         ));
 
         this.allCards.add(new CategoryCard(

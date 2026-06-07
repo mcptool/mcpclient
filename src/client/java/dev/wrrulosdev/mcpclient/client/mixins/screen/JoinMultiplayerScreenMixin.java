@@ -127,9 +127,25 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
             "Direct connect to server",
             TextureConstants.JOIN_ICON,
             TextureConstants.JOIN_HOVER_ICON,
-            b -> this.minecraft.setScreen(
-                new DirectJoinServerScreen(this, acc::invokeDirectJoinCallback, acc.getEditingServer())
-            )
+            b -> {
+                if (acc.getEditingServer() == null) {
+                    acc.setEditingServer(
+                        new ServerData(
+                            "",
+                            "",
+                            ServerData.Type.OTHER
+                        )
+                    );
+                }
+
+                this.minecraft.setScreen(
+                    new DirectJoinServerScreen(
+                        this,
+                        acc::invokeDirectJoinCallback,
+                        acc.getEditingServer()
+                    )
+                );
+            }
         );
 
         // Opens spoofing configuration screen (placeholder)
