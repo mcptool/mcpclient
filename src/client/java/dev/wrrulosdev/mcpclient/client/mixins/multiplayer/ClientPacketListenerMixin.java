@@ -39,10 +39,13 @@ public class ClientPacketListenerMixin {
      * @param packet The login packet received from the server during connection initialization.
      * @param ci     Callback information used to control or cancel the original method execution.
      */
-    @Inject(method = "handleLogin", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "handleLogin", at = @At("HEAD"))
     public void handleLogin(final ClientboundLoginPacket packet, CallbackInfo ci) {
+        PluginChannelStorage storage = MCPClient.getPluginChannelStorage();
 
-        PluginChannelStorage pluginChannelStorage = MCPClient.getPluginChannelStorage();
+        if (!storage.canRunLoginOnce()) {
+            return;
+        }
 
         new Thread(() -> {
             try {
@@ -52,7 +55,7 @@ public class ClientPacketListenerMixin {
                 return;
             }
 
-            pluginChannelStorage.sendStoredPluginMessages();
+            storage.sendStoredPluginMessages();
         }, "PluginChannelSender").start();
     }
 }

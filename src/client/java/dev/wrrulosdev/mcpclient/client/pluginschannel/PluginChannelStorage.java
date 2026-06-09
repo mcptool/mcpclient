@@ -15,44 +15,44 @@ public class PluginChannelStorage {
     private static final List<String> storedPluginMessages = new ArrayList<>();
     private static final List<String> vulnerablePluginMessages = new ArrayList<>();
     private static final List<String> vulnerablePluginMessagesFounded = new ArrayList<>();
+
     private static final AtomicBoolean sending = new AtomicBoolean(false);
+    private static final AtomicBoolean loginHandled = new AtomicBoolean(false);
 
     /**
-     * Adds a plugin message to the storage list if it's not already stored.
-     * This ensures that each plugin message is only stored once.
+     * Stores a discovered plugin message channel if it is not already registered
+     * and does not belong to Fabric internal communication namespaces.
      *
-     * @param message The plugin message to be stored.
+     * @param message Plugin channel identifier received from the server.
      */
     public void addPluginMessage(String message) {
         if (message.startsWith("fabric:") || message.startsWith("fabric-")) return;
         if (storedPluginMessages.contains(message)) return;
+
         System.out.println("[LOG] Adding plugin message to storage: " + message);
         storedPluginMessages.add(message);
     }
 
     /**
-     * Sends all stored plugin messages to the player and clears the storage list.
-     * This is typically called after the player has connected to the server.
+     * Processes all collected plugin message channels, displays them in chat,
+     * highlights known vulnerable channels, and generates a notification when
+     * potentially exploitable integrations are detected.
      */
     public void sendStoredPluginMessages() {
-        if (!sending.compareAndSet(false, true)) {
-            return;
-        }
+        if (storedPluginMessages.isEmpty()) return;
+        if (!sending.compareAndSet(false, true)) return;
 
         Minecraft client = Minecraft.getInstance();
 
         try {
-            if (storedPluginMessages.isEmpty()) {
-                return;
-            }
-
+            List<String> snapshot = new ArrayList<>(storedPluginMessages);
             vulnerablePluginMessagesFounded.clear();
 
             client.execute(() -> {
                 Msg.sendFormattedMessage(ClientConstants.PREFIX + "&cRegistered plugin message channels:");
-                Msg.sendFormattedMessage("&cFounded plugin channels: &6" + storedPluginMessages.size());
+                Msg.sendFormattedMessage("&cFounded plugin channels: &6" + snapshot.size());
 
-                for (String pluginChannel : storedPluginMessages) {
+                for (String pluginChannel : snapshot) {
                     if (vulnerablePluginMessages.contains(pluginChannel)) {
                         Msg.sendFormattedMessage("&f• &6" + pluginChannel + " &f(&6VULNERABLE&7)");
                         vulnerablePluginMessagesFounded.add(pluginChannel);
@@ -73,13 +73,34 @@ public class PluginChannelStorage {
             });
 
         } finally {
-            sending.set(false);
+            resetForNewConnection();
         }
     }
 
     /**
-     * Loads known vulnerable plugin messages into the list of vulnerable messages.
-     * This method is called during initialization to set up vulnerable channels.
+     * Performs an atomic validation to determine whether login-related
+     * processing can be executed for the current connection session.
+     *
+     * @return True if the login action has not yet been executed; otherwise false.
+     */
+    public boolean canRunLoginOnce() {
+        return loginHandled.compareAndSet(false, true);
+    }
+
+    /**
+     * Clears all runtime tracking state associated with the current server
+     * connection and prepares the storage system for a future login session.
+     */
+    public void resetForNewConnection() {
+        loginHandled.set(false);
+        sending.set(false);
+        vulnerablePluginMessagesFounded.clear();
+        storedPluginMessages.clear();
+    }
+
+    /**
+     * Registers known plugin messaging channels that are commonly associated
+     * with proxy integrations and may expose exploitable command execution paths.
      */
     public void loadVulnerablePluginMessages() {
         vulnerablePluginMessages.add("authmevelocity:main");
