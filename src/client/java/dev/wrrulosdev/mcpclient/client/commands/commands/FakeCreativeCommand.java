@@ -3,33 +3,40 @@ package dev.wrrulosdev.mcpclient.client.commands.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import dev.wrrulosdev.mcpclient.client.cheats.FakeCreative;
-import dev.wrrulosdev.mcpclient.client.cheats.Fly;
 import dev.wrrulosdev.mcpclient.client.commands.Command;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+
+import java.util.List;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
 
 public class FakeCreativeCommand implements Command {
 
+    public static String COMMAND_NAME = "fakegm";
+    public static List<String> COMMAND_ARGS = List.of();
+
     /**
-     * Registers the FakeCreative command.
+     * Registers the FakeCreative client command.
+     * <p>
+     * Usage:
+     * .fakegm
      *
-     * @return A LiteralArgumentBuilder that configures the "plugins" command.
+     * @return Command builder instance
      */
     @Override
     public LiteralArgumentBuilder<FabricClientCommandSource> register() {
-        return literal("fakegm")
+        return literal(COMMAND_NAME)
             .executes(this::executeRoot);
-
     }
 
     /**
+     * Executes the Fake Creative mode toggle.
      *
-     * @param context The command context, containing information about the player running the command.
-     * @return The result of the command execution (0 indicates success).
+     * @param context Command execution context
+     * @return Command result status
      */
     private int executeRoot(CommandContext<FabricClientCommandSource> context) {
         new FakeCreative().run();
-        return 0;
+        return 1;
     }
 }

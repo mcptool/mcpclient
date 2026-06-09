@@ -10,8 +10,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Minecraft.class)
 public class WindowTitleMixin {
+
+    /**
+     * Injects at the start of the title creation method and replaces
+     * the returned window title with a custom string.
+     *
+     * @param callback Return value holder for the window title string
+     */
     @Inject(method = "createTitle", at = @At(value = "HEAD"), cancellable = true)
     private void changeMinecraftTitle(CallbackInfoReturnable<String> callback) {
-        callback.setReturnValue("MCPClient " + ClientConstants.VERSION + " - " + SharedConstants.getCurrentVersion().name());
+        callback.setReturnValue(
+            "MCPClient " + ClientConstants.VERSION + " - " + SharedConstants.getCurrentVersion().name()
+        );
     }
 }

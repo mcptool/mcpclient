@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(ServerList.class)
-public class ServerListMixin {
+public class  ServerListMixin {
 
     private static final String PROMOTED_IP = "mc.server.com";
 

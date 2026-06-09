@@ -1,11 +1,11 @@
 package dev.wrrulosdev.mcpclient.client.commands.commands;
 
-import com.mojang.brigadier.arguments.DoubleArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import dev.wrrulosdev.mcpclient.client.cheats.HClip;
 import dev.wrrulosdev.mcpclient.client.commands.Command;
 import dev.wrrulosdev.mcpclient.client.commands.CommandManager;
+import dev.wrrulosdev.mcpclient.client.payloads.MultiChatPayload;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 import java.util.List;
@@ -13,16 +13,16 @@ import java.util.List;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
 
-public class HClipCommand implements Command {
+public class MultiChatCommand implements Command {
 
-    public static String COMMAND_NAME = "hclip";
-    public static List<String> COMMAND_ARGS = List.of("distance");
+    public static String COMMAND_NAME = "multichat";
+    public static List<String> COMMAND_ARGS = List.of("consoleCommand");
 
     /**
-     * Registers the HClip client command and its arguments.
+     * Registers the MultiChat client command and its arguments.
      * <p>
      * Usage:
-     * .hclip <distance>
+     * .multichat <consoleCommand>
      *
      * @return Command builder instance
      */
@@ -30,8 +30,9 @@ public class HClipCommand implements Command {
     public LiteralArgumentBuilder<FabricClientCommandSource> register() {
         return literal(COMMAND_NAME)
             .executes(this::executeRoot)
-            .then(argument(COMMAND_ARGS.getFirst(), DoubleArgumentType.doubleArg())
-                .executes(this::executeHClip)
+            .then(argument(COMMAND_ARGS.getFirst(), StringArgumentType.greedyString())
+                .suggests(CommandManager::suggestUsernames)
+                .executes(this::executeMultiChat)
             );
     }
 
@@ -49,14 +50,14 @@ public class HClipCommand implements Command {
     }
 
     /**
-     * Executes the HClip teleport using the supplied distance argument.
+     * Sends the supplied console command through the MultiChat payload.
      *
      * @param context Command execution context
      * @return Command result status
      */
-    private int executeHClip(CommandContext<FabricClientCommandSource> context) {
-        double distance = DoubleArgumentType.getDouble(context, COMMAND_ARGS.getFirst());
-        HClip.execute(distance);
+    private int executeMultiChat(CommandContext<FabricClientCommandSource> context) {
+        String consoleCommand = StringArgumentType.getString(context, COMMAND_ARGS.getFirst());
+        MultiChatPayload.send(consoleCommand);
         return 1;
     }
 }

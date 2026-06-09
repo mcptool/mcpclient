@@ -10,10 +10,6 @@ import net.minecraft.util.FormattedCharSequence;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
- * Interactive GUI card that represents a toggleable option with
- * optional settings access and animated visual rendering
- */
 public class SwitchOptionCard {
 
     private int height = 45;

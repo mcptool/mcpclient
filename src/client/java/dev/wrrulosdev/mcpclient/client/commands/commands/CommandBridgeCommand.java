@@ -1,11 +1,11 @@
 package dev.wrrulosdev.mcpclient.client.commands.commands;
 
-import com.mojang.brigadier.arguments.DoubleArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import dev.wrrulosdev.mcpclient.client.cheats.HClip;
 import dev.wrrulosdev.mcpclient.client.commands.Command;
 import dev.wrrulosdev.mcpclient.client.commands.CommandManager;
+import dev.wrrulosdev.mcpclient.client.payloads.CommandBridgePayload;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 import java.util.List;
@@ -13,16 +13,16 @@ import java.util.List;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
 
-public class HClipCommand implements Command {
+public class CommandBridgeCommand implements Command {
 
-    public static String COMMAND_NAME = "hclip";
-    public static List<String> COMMAND_ARGS = List.of("distance");
+    public static String COMMAND_NAME = "cmdbridge";
+    public static List<String> COMMAND_ARGS = List.of("serverId", "proxyCommand");
 
     /**
-     * Registers the HClip client command and its arguments.
+     * Registers the CommandBridge client command and its arguments.
      * <p>
      * Usage:
-     * .hclip <distance>
+     * .cmdbridge <serverId> <proxyCommand>
      *
      * @return Command builder instance
      */
@@ -30,8 +30,12 @@ public class HClipCommand implements Command {
     public LiteralArgumentBuilder<FabricClientCommandSource> register() {
         return literal(COMMAND_NAME)
             .executes(this::executeRoot)
-            .then(argument(COMMAND_ARGS.getFirst(), DoubleArgumentType.doubleArg())
-                .executes(this::executeHClip)
+            .then(argument(COMMAND_ARGS.get(0), StringArgumentType.string())
+                .suggests(CommandManager::suggestUsernames)
+                .then(argument(COMMAND_ARGS.get(1), StringArgumentType.greedyString())
+                    .suggests(CommandManager::suggestUsernames)
+                    .executes(this::executeCommandBridge)
+                )
             );
     }
 
@@ -49,14 +53,15 @@ public class HClipCommand implements Command {
     }
 
     /**
-     * Executes the HClip teleport using the supplied distance argument.
+     * Sends a command to a proxy server through the CommandBridge payload.
      *
      * @param context Command execution context
      * @return Command result status
      */
-    private int executeHClip(CommandContext<FabricClientCommandSource> context) {
-        double distance = DoubleArgumentType.getDouble(context, COMMAND_ARGS.getFirst());
-        HClip.execute(distance);
+    private int executeCommandBridge(CommandContext<FabricClientCommandSource> context) {
+        String serverId = StringArgumentType.getString(context, COMMAND_ARGS.get(0));
+        String proxyCommand = StringArgumentType.getString(context, COMMAND_ARGS.get(1));
+        CommandBridgePayload.send(serverId, proxyCommand);
         return 1;
     }
 }

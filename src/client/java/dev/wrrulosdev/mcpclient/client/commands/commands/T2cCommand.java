@@ -1,11 +1,11 @@
 package dev.wrrulosdev.mcpclient.client.commands.commands;
 
-import com.mojang.brigadier.arguments.DoubleArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import dev.wrrulosdev.mcpclient.client.cheats.HClip;
 import dev.wrrulosdev.mcpclient.client.commands.Command;
 import dev.wrrulosdev.mcpclient.client.commands.CommandManager;
+import dev.wrrulosdev.mcpclient.client.payloads.T2CPayload;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 import java.util.List;
@@ -13,16 +13,16 @@ import java.util.List;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
 
-public class HClipCommand implements Command {
+public class T2cCommand implements Command {
 
-    public static String COMMAND_NAME = "hclip";
-    public static List<String> COMMAND_ARGS = List.of("distance");
+    public static String COMMAND_NAME = "t2c";
+    public static List<String> COMMAND_ARGS = List.of("proxyCommand");
 
     /**
-     * Registers the HClip client command and its arguments.
+     * Registers the T2C client command and its arguments.
      * <p>
      * Usage:
-     * .hclip <distance>
+     * .t2c <proxyCommand>
      *
      * @return Command builder instance
      */
@@ -30,8 +30,9 @@ public class HClipCommand implements Command {
     public LiteralArgumentBuilder<FabricClientCommandSource> register() {
         return literal(COMMAND_NAME)
             .executes(this::executeRoot)
-            .then(argument(COMMAND_ARGS.getFirst(), DoubleArgumentType.doubleArg())
-                .executes(this::executeHClip)
+            .then(argument(COMMAND_ARGS.getFirst(), StringArgumentType.greedyString())
+                .suggests(CommandManager::suggestUsernames)
+                .executes(this::executeT2C)
             );
     }
 
@@ -49,14 +50,14 @@ public class HClipCommand implements Command {
     }
 
     /**
-     * Executes the HClip teleport using the supplied distance argument.
+     * Sends the supplied proxy command through the T2C payload.
      *
      * @param context Command execution context
      * @return Command result status
      */
-    private int executeHClip(CommandContext<FabricClientCommandSource> context) {
-        double distance = DoubleArgumentType.getDouble(context, COMMAND_ARGS.getFirst());
-        HClip.execute(distance);
+    private int executeT2C(CommandContext<FabricClientCommandSource> context) {
+        String proxyCommand = StringArgumentType.getString(context, COMMAND_ARGS.getFirst());
+        T2CPayload.send(proxyCommand);
         return 1;
     }
 }

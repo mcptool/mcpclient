@@ -9,6 +9,14 @@ import net.minecraft.client.player.LocalPlayer;
 
 public class HClip {
 
+    /**
+     * Teleports the local player horizontally relative to their current direction.
+     * A positive distance moves in one horizontal direction while a negative
+     * distance moves in the opposite direction. After teleporting, a chat
+     * message and notification are displayed to the user.
+     *
+     * @param distance Number of blocks to move horizontally
+     */
     public static void execute(double distance) {
         LocalPlayer player = Minecraft.getInstance().player;
 
@@ -17,14 +25,28 @@ public class HClip {
             return;
         }
 
-        float yaw = (float) player.position().y();
+        float yaw = player.getYRot();
         double yawRad = Math.toRadians(yaw);
         double deltaX = -Math.sin(yawRad) * distance;
         double deltaZ = Math.cos(yawRad) * distance;
+        player.setPos(
+            (player.position().x() - deltaZ),
+            player.position().y(),
+            (float) (player.position().z() + deltaX)
+        );
 
-        player.setPos((player.position().x() - deltaZ), player.position().y(), (float) (player.position().z() + deltaX));
         String direction = distance >= 0 ? "right" : "left";
-        Msg.sendFormattedMessage(ClientConstants.PREFIX + "&aTeleported &d" + Math.abs(distance) + " &ablocks &d" + direction);
-        NotificationManager.show("HClip", "Teleported " + Math.abs(distance) + " blocks " + direction, NotificationType.SUCCESS);
+        Msg.sendFormattedMessage(
+            ClientConstants.PREFIX +
+                "&cTeleported &f" +
+                Math.abs(distance) +
+                " &cblocks &fto" +
+                direction
+        );
+        NotificationManager.show(
+            "HClip",
+            "Teleported " + Math.abs(distance) + " blocks to" + direction,
+            NotificationType.SUCCESS
+        );
     }
 }

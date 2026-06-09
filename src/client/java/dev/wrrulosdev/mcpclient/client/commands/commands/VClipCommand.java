@@ -3,9 +3,11 @@ package dev.wrrulosdev.mcpclient.client.commands.commands;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import dev.wrrulosdev.mcpclient.client.cheats.HClip;
+import dev.wrrulosdev.mcpclient.client.cheats.VClip;
 import dev.wrrulosdev.mcpclient.client.commands.Command;
 import dev.wrrulosdev.mcpclient.client.commands.CommandManager;
+import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
+import dev.wrrulosdev.mcpclient.client.utilities.messages.Msg;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 import java.util.List;
@@ -13,16 +15,16 @@ import java.util.List;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
 
-public class HClipCommand implements Command {
+public class VClipCommand implements Command {
 
-    public static String COMMAND_NAME = "hclip";
+    public static String COMMAND_NAME = "vclip";
     public static List<String> COMMAND_ARGS = List.of("distance");
 
     /**
-     * Registers the HClip client command and its arguments.
+     * Registers the VClip client command and its arguments.
      * <p>
      * Usage:
-     * .hclip <distance>
+     * .vclip <distance>
      *
      * @return Command builder instance
      */
@@ -49,14 +51,14 @@ public class HClipCommand implements Command {
     }
 
     /**
-     * Executes the HClip teleport using the supplied distance argument.
+     * Executes the VClip teleport using the supplied distance argument.
      *
      * @param context Command execution context
      * @return Command result status
      */
     private int executeHClip(CommandContext<FabricClientCommandSource> context) {
         double distance = DoubleArgumentType.getDouble(context, COMMAND_ARGS.getFirst());
-        HClip.execute(distance);
+        VClip.execute(distance);
         return 1;
     }
 }

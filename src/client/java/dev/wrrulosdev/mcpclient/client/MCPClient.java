@@ -4,14 +4,17 @@ import dev.wrrulosdev.mcpclient.client.commands.CommandManager;
 import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
 import dev.wrrulosdev.mcpclient.client.mixins.accessor.SessionAccessor;
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationManager;
+import dev.wrrulosdev.mcpclient.client.payloads.*;
 import dev.wrrulosdev.mcpclient.client.pluginschannel.PluginChannelStorage;
 import dev.wrrulosdev.mcpclient.client.screens.MenuScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.User;
@@ -29,6 +32,13 @@ public class MCPClient implements ClientModInitializer {
 		// Debug
 		User user = Minecraft.getInstance().getUser();
 		((SessionAccessor) user).setUsername("MCPTool");
+
+		PayloadTypeRegistry.serverboundPlay().register(MultiChatPayload.TYPE, MultiChatPayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(EasyCommandBlockerPayload.TYPE, EasyCommandBlockerPayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(CloudSyncPayload.TYPE, CloudSyncPayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(T2CPayload.TYPE, T2CPayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(AtlasPayload.TYPE, AtlasPayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(CommandBridgePayload.TYPE, CommandBridgePayload.CODEC);
 
 		KeyMapping openMenuInGameTempKey = KeyMappingHelper.registerKeyMapping(new KeyMapping(
 			"key.mcpclient.open_overlay",

@@ -9,9 +9,6 @@ import net.minecraft.util.FormattedCharSequence;
 
 import java.util.List;
 
-/**
- * Represents a selectable category card within the menu interface.
- */
 public class CategoryCard {
 
     private static final int FIXED_CARD_HEIGHT = 45;

@@ -1,44 +1,39 @@
 package dev.wrrulosdev.mcpclient.client.commands.commands;
 
-import dev.wrrulosdev.mcpclient.client.cheats.Fly;
-import dev.wrrulosdev.mcpclient.client.commands.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import dev.wrrulosdev.mcpclient.client.mixins.accessor.SessionAccessor;
+import dev.wrrulosdev.mcpclient.client.cheats.Fly;
+import dev.wrrulosdev.mcpclient.client.commands.Command;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.User;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
 
 public class FlyCommand implements Command {
 
+    public static String COMMAND_NAME = "fly";
+
     /**
-     * Registers the Fly command.
+     * Registers the Fly client command.
+     * <p>
+     * Usage:
+     * .fly
      *
-     * @return A LiteralArgumentBuilder that configures the "plugins" command.
+     * @return Command builder instance
      */
     @Override
     public LiteralArgumentBuilder<FabricClientCommandSource> register() {
-        return literal("fly")
+        return literal(COMMAND_NAME)
             .executes(this::executeRoot);
-
     }
 
     /**
+     * Toggles the Fly cheat.
      *
-     * @param context The command context, containing information about the player running the command.
-     * @return The result of the command execution (0 indicates success).
+     * @param context Command execution context
+     * @return Command result status
      */
     private int executeRoot(CommandContext<FabricClientCommandSource> context) {
         new Fly().run();
-        User user = Minecraft.getInstance().getUser();
-
-        System.out.println("Before: " + ((SessionAccessor) user).getUsername());
-
-        ((SessionAccessor) user).setUsername("Raulito23");
-
-        System.out.println("After: " + ((SessionAccessor) user).getUsername());
-        return 0;
+        return 1;
     }
 }

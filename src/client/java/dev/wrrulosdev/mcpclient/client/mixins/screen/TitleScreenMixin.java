@@ -24,9 +24,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(TitleScreen.class)
 public class TitleScreenMixin extends Screen {
 
-    /**
-     * Protected fallback constructor assigning an empty descriptive literal screen name context.
-     */
     protected TitleScreenMixin() {
         super(Component.literal(""));
     }
