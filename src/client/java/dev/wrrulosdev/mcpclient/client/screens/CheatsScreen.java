@@ -77,12 +77,23 @@ public class CheatsScreen extends BaseAnimatedScreen {
                 FakeCreative.INSTANCE.run();
             }
         );
-
         addCard(
             "Jesus",
             "Allows you to walk on water and other liquids.",
             settings::isJesusEnabled,
             settings::setJesusEnabled
+        );
+        addCard(
+            "Spider",
+            "Climb walls as if you were a spider.",
+            settings::isSpiderEnabled,
+            settings::setSpiderEnabled
+        );
+        addCard(
+            "WallHack",
+            "Shows players through walls.",
+            settings::isWallhackEnabled,
+            settings::setWallhackEnabled
         );
 
         /*addCard("Fly", "Allows you to fly freely through the air.", newState -> {

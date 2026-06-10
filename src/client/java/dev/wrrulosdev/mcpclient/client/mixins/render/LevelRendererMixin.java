@@ -3,9 +3,11 @@ package dev.wrrulosdev.mcpclient.client.mixins.render;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.wrrulosdev.mcpclient.client.MCPClient;
 import dev.wrrulosdev.mcpclient.client.cheats.WallHackRenderer;
 import dev.wrrulosdev.mcpclient.client.cheats.esp.BlockScanner;
 import dev.wrrulosdev.mcpclient.client.cheats.esp.EspRenderer;
+import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -56,8 +58,13 @@ public class LevelRendererMixin {
         ChunkSectionsToRender chunkSectionsToRender,
         CallbackInfo ci
     ) {
-        WallHackRenderer.renderBoxes();
-        WallHackRenderer.renderStickMan();
+        CheatsSettings cheatsSettings = MCPClient.getSettingsManager().getCheatsSettings();
+
+        if (cheatsSettings.isWallhackEnabled()) {
+            WallHackRenderer.renderBoxes();
+            WallHackRenderer.renderStickMan();
+        }
+
         //BlockScanner.update(Minecraft.getInstance().player.blockPosition());
         //EspRenderer.render();
     }

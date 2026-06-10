@@ -10,15 +10,12 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
 
-public class JesusCommand implements Command {
+public class WallHackCommand implements Command {
 
-    public static String COMMAND_NAME = "jesus";
+    public static String COMMAND_NAME = "wallhack";
 
     /**
-     * Registers the Jesus client command.
-     * <p>
-     * Usage:
-     * .jesus
+     * Registers the wallhack client command.
      *
      * @return Command builder instance
      */
@@ -29,15 +26,15 @@ public class JesusCommand implements Command {
     }
 
     /**
-     * Toggles the Jesus cheat.
+     * Toggles the Wallhack cheat.
      *
      * @param context Command execution context
      * @return Command result status
      */
     private int executeRoot(CommandContext<FabricClientCommandSource> context) {
         CheatsSettings settings = MCPClient.getSettingsManager().getCheatsSettings();
-        settings.setJesusEnabled(!settings.isJesusEnabled());
-        CommandManager.sendStatus(COMMAND_NAME, settings.isJesusEnabled());
+        settings.setWallhackEnabled(!settings.isWallhackEnabled());
+        CommandManager.sendStatus(COMMAND_NAME, settings.isWallhackEnabled());
         return 1;
     }
 }

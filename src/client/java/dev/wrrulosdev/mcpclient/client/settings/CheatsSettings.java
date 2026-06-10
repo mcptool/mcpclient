@@ -7,6 +7,8 @@ public class CheatsSettings {
     private boolean flyEnabled = false;
     private boolean fakeGmEnabled = false;
     private boolean jesusEnabled = false;
+    private boolean spiderEnabled = false;
+    private boolean wallhackEnabled = false;
 
     private void save() {
         MCPClient.saveSettings();
@@ -36,6 +38,24 @@ public class CheatsSettings {
 
     public void setJesusEnabled(boolean jesusEnabled) {
         this.jesusEnabled = jesusEnabled;
+        save();
+    }
+
+    public boolean isWallhackEnabled() {
+        return wallhackEnabled;
+    }
+
+    public void setWallhackEnabled(boolean wallhackEnabled) {
+        this.wallhackEnabled = wallhackEnabled;
+        save();
+    }
+
+    public boolean isSpiderEnabled() {
+        return spiderEnabled;
+    }
+
+    public void setSpiderEnabled(boolean spiderEnabled) {
+        this.spiderEnabled = spiderEnabled;
         save();
     }
 }

@@ -2,6 +2,7 @@ package dev.wrrulosdev.mcpclient.client.mixins.player;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
 import dev.wrrulosdev.mcpclient.client.cheats.Jesus;
+import dev.wrrulosdev.mcpclient.client.cheats.Spider;
 import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -54,19 +55,8 @@ public abstract class LocalPlayerMixin {
         }
 
         // Spider
-        if (player.horizontalCollision
-            && (mc.options.keyUp.isDown() || mc.options.keyDown.isDown())) {
-
-            if (player.getDeltaMovement().y < 0.2) {
-                player.setDeltaMovement(
-                    player.getDeltaMovement().x,
-                    0.2,
-                    player.getDeltaMovement().z
-                );
-            }
-
-            player.setOnGround(true);
-            player.fallDistance = 0.0f;
+        if (cheatsSettings.isSpiderEnabled()) {
+            Spider.INSTANCE.run();
         }
     }
 }
