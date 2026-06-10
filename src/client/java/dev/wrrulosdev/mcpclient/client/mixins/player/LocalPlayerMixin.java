@@ -2,6 +2,7 @@ package dev.wrrulosdev.mcpclient.client.mixins.player;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
 import dev.wrrulosdev.mcpclient.client.cheats.Jesus;
+import dev.wrrulosdev.mcpclient.client.cheats.NoFall;
 import dev.wrrulosdev.mcpclient.client.cheats.Spider;
 import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import net.minecraft.client.Minecraft;
@@ -38,20 +39,8 @@ public abstract class LocalPlayerMixin {
         }
 
         // NoFall
-        if (player.getDeltaMovement().y < -0.1 && player.fallDistance > 3.0f) {
-            double nextY = player.getDeltaMovement().y;
-            AABB predictedBox = player.getBoundingBox().move(0, nextY - 0.1, 0);
-
-            if (!player.level().noCollision(player, predictedBox)) {
-                player.getAbilities().flying = true;
-                player.setDeltaMovement(
-                    player.getDeltaMovement().x,
-                    0.1,
-                    player.getDeltaMovement().z
-                );
-                player.getAbilities().flying = false;
-                player.fallDistance = 0.0f;
-            }
+        if (cheatsSettings.isNoFallEnabled()) {
+            NoFall.INSTANCE.run();
         }
 
         // Spider

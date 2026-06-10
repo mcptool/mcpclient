@@ -22,13 +22,15 @@ public class Jesus extends CheatBase {
         boolean isFluidBelow = player.level().getFluidState(pos).is(FluidTags.WATER)
             || player.level().getFluidState(pos).is(FluidTags.LAVA);
 
-        if (isFluidBelow && !player.isJumping()) {
-            player.setOnGround(true);
-            player.setDeltaMovement(
-                player.getDeltaMovement().x,
-                0,
-                player.getDeltaMovement().z
-            );
+        if (!isFluidBelow || player.isJumping()) {
+            return;
         }
+
+        player.setOnGround(true);
+        player.setDeltaMovement(
+            player.getDeltaMovement().x,
+            0.0D,
+            player.getDeltaMovement().z
+        );
     }
 }

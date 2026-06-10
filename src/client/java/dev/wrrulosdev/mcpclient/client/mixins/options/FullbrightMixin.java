@@ -1,5 +1,7 @@
 package dev.wrrulosdev.mcpclient.client.mixins.options;
 
+import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import net.minecraft.client.OptionInstance;
 import net.minecraft.client.Options;
 import org.spongepowered.asm.mixin.Final;
@@ -32,6 +34,8 @@ public abstract class FullbrightMixin {
         cancellable = true
     )
     private void forceFullbright(CallbackInfoReturnable<OptionInstance<Double>> info) {
-        gamma.set(100.0D);
+        CheatsSettings cheatsSettings = MCPClient.getSettingsManager().getCheatsSettings();
+        Double gammaValue = cheatsSettings.isFullBrightEnabled() ? 100.0D : 1.0D;
+        gamma.set(gammaValue);
     }
 }

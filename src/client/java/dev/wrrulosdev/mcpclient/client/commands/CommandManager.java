@@ -31,6 +31,7 @@ public class CommandManager {
         COMMANDS.add(new JesusCommand());
         COMMANDS.add(new WallHackCommand());
         COMMANDS.add(new SpiderCommand());
+        COMMANDS.add(new AntiKBCommand());
         COMMANDS.add(new HClipCommand());
         COMMANDS.add(new VClipCommand());
         COMMANDS.add(new FakeCreativeCommand());

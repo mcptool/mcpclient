@@ -65,7 +65,9 @@ public class LevelRendererMixin {
             WallHackRenderer.renderStickMan();
         }
 
-        //BlockScanner.update(Minecraft.getInstance().player.blockPosition());
-        //EspRenderer.render();
+        if (cheatsSettings.isBlockTrackerEnabled()) {
+            BlockScanner.update(Minecraft.getInstance().player.blockPosition());
+            EspRenderer.render();
+        }
     }
 }

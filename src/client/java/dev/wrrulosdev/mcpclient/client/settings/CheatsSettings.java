@@ -9,6 +9,12 @@ public class CheatsSettings {
     private boolean jesusEnabled = false;
     private boolean spiderEnabled = false;
     private boolean wallhackEnabled = false;
+    private boolean antikbEnabled = false;
+    private boolean hClipEnabled = false;
+    private boolean vClipEnabled = false;
+    private boolean fullBrightEnabled = false;
+    private boolean noFallEnabled = false;
+    private boolean blockTrackerEnabled = false;
 
     private void save() {
         MCPClient.saveSettings();
@@ -57,5 +63,56 @@ public class CheatsSettings {
     public void setSpiderEnabled(boolean spiderEnabled) {
         this.spiderEnabled = spiderEnabled;
         save();
+    }
+
+    public boolean isAntikbEnabled() {
+        return antikbEnabled;
+    }
+
+    public void setAntikbEnabled(boolean antikbEnabled) {
+        this.antikbEnabled = antikbEnabled;
+        save();
+    }
+
+    public boolean isHClipEnabled() {
+        return hClipEnabled;
+    }
+
+    public void setHClipEnabled(boolean hClipEnabled) {
+        this.hClipEnabled = hClipEnabled;
+        save();
+    }
+
+    public boolean isVClipEnabled() {
+        return vClipEnabled;
+    }
+
+    public void setVClipEnabled(boolean vClipEnabled) {
+        this.vClipEnabled = vClipEnabled;
+        save();
+    }
+
+    public boolean isFullBrightEnabled() {
+        return fullBrightEnabled;
+    }
+
+    public void setFullBrightEnabled(boolean fullBrightEnabled) {
+        this.fullBrightEnabled = fullBrightEnabled;
+    }
+
+    public boolean isNoFallEnabled() {
+        return noFallEnabled;
+    }
+
+    public void setNoFallEnabled(boolean noFallEnabled) {
+        this.noFallEnabled = noFallEnabled;
+    }
+
+    public boolean isBlockTrackerEnabled() {
+        return blockTrackerEnabled;
+    }
+
+    public void setBlockTrackerEnabled(boolean blockTrackerEnabled) {
+        this.blockTrackerEnabled = blockTrackerEnabled;
     }
 }
