@@ -29,13 +29,13 @@ public class HClip {
         double yawRad = Math.toRadians(yaw);
         double deltaX = -Math.sin(yawRad) * distance;
         double deltaZ = Math.cos(yawRad) * distance;
+        String direction = distance >= 0 ? "right" : "left";
+
         player.setPos(
             (player.position().x() - deltaZ),
             player.position().y(),
             (float) (player.position().z() + deltaX)
         );
-
-        String direction = distance >= 0 ? "right" : "left";
         Msg.sendFormattedMessage(
             ClientConstants.PREFIX +
                 "&cTeleported &f" +

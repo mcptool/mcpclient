@@ -8,6 +8,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import dev.wrrulosdev.mcpclient.client.commands.commands.*;
 import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
 import dev.wrrulosdev.mcpclient.client.utilities.messages.Msg;
+import dev.wrrulosdev.mcpclient.client.utilities.messages.TextUtilities;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.Minecraft;
 
@@ -27,6 +28,7 @@ public class CommandManager {
     static {
         COMMANDS.add(new HelpCommand());
         COMMANDS.add(new FlyCommand());
+        COMMANDS.add(new JesusCommand());
         COMMANDS.add(new HClipCommand());
         COMMANDS.add(new VClipCommand());
         COMMANDS.add(new FakeCreativeCommand());
@@ -64,9 +66,10 @@ public class CommandManager {
     }
 
     /**
-     * Registers all commands with the given command dispatcher.
+     * Registers the root command and all available client subcommands
+     * into the provided Brigadier command dispatcher.
      *
-     * @param dispatcher The CommandDispatcher used to register the commands.
+     * @param dispatcher The command dispatcher responsible for command registration.
      */
     public static void registerCommands(CommandDispatcher<FabricClientCommandSource> dispatcher) {
         LiteralArgumentBuilder<FabricClientCommandSource> mainCommand = literal(COMMAND_PREFIX)
@@ -76,6 +79,35 @@ public class CommandManager {
         dispatcher.register(mainCommand);
     }
 
+    /**
+     * Provides the visual formatting string used when displaying
+     * enabled or disabled command states in chat messages.
+     *
+     * @param state The current state associated with the command.
+     * @return A colorized status string representing the state value.
+     */
+    private static String statusMessageColor(boolean state) {
+        return (state ? "§aEnabled" : "§cDisabled");
+    }
+
+    /**
+     * Sends a formatted chat message indicating the current enabled
+     * or disabled state of a client command.
+     *
+     * @param commandName The name of the command whose state changed.
+     * @param status The resulting state after execution.
+     */
+    public static void sendStatus(String commandName, boolean status) {
+        Msg.sendFormattedMessage(ClientConstants.PREFIX + "&f" + TextUtilities.capitalize(commandName) + " " + statusMessageColor(status));
+    }
+
+    /**
+     * Sends a formatted usage message when a command is executed
+     * with missing or invalid arguments.
+     *
+     * @param commandName The command that was executed incorrectly.
+     * @param commandArgs The expected command argument list.
+     */
     public static void sendInvalidArgsMessage(String commandName, List<String> commandArgs) {
         Msg.sendFormattedMessage(ClientConstants.PREFIX + "&cUsage: /" + COMMAND_PREFIX + " " + commandName + " " + String.join(" ", commandArgs));
     }

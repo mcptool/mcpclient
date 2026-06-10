@@ -7,11 +7,9 @@ import dev.wrrulosdev.mcpclient.client.cheats.HClip;
 import dev.wrrulosdev.mcpclient.client.commands.Command;
 import dev.wrrulosdev.mcpclient.client.commands.CommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-
-import java.util.List;
-
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
+import java.util.List;
 
 public class HClipCommand implements Command {
 

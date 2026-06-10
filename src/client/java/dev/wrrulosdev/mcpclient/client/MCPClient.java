@@ -7,6 +7,7 @@ import dev.wrrulosdev.mcpclient.client.notifications.NotificationManager;
 import dev.wrrulosdev.mcpclient.client.payloads.*;
 import dev.wrrulosdev.mcpclient.client.pluginschannel.PluginChannelStorage;
 import dev.wrrulosdev.mcpclient.client.screens.MenuScreen;
+import dev.wrrulosdev.mcpclient.client.settings.SettingsManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -21,12 +22,21 @@ import net.minecraft.client.User;
 import net.minecraft.resources.Identifier;
 import org.lwjgl.glfw.GLFW;
 
+import java.io.IOException;
+
 public class MCPClient implements ClientModInitializer {
 	private static PluginChannelStorage pluginChannelStorage;
+	private static SettingsManager settingsManager;
 
-	@Override
+    @Override
 	public void onInitializeClient() {
 		start();
+
+		try {
+			settingsManager.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		// Debug
 		User user = Minecraft.getInstance().getUser();
@@ -66,9 +76,22 @@ public class MCPClient implements ClientModInitializer {
 
 	private void start() {
 		pluginChannelStorage = new PluginChannelStorage();
+		settingsManager = new SettingsManager();
+	}
+
+	public static void saveSettings() {
+		try {
+			getSettingsManager().save();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static PluginChannelStorage getPluginChannelStorage() {
 		return pluginChannelStorage;
+	}
+
+	public static SettingsManager getSettingsManager() {
+		return settingsManager;
 	}
 }

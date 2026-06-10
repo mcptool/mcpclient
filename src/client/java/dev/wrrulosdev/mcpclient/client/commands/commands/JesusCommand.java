@@ -3,24 +3,23 @@ package dev.wrrulosdev.mcpclient.client.commands.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import dev.wrrulosdev.mcpclient.client.MCPClient;
-import dev.wrrulosdev.mcpclient.client.cheats.FakeCreative;
+import dev.wrrulosdev.mcpclient.client.cheats.Fly;
 import dev.wrrulosdev.mcpclient.client.commands.Command;
 import dev.wrrulosdev.mcpclient.client.commands.CommandManager;
 import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import java.util.List;
+
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
 
-public class FakeCreativeCommand implements Command {
+public class JesusCommand implements Command {
 
-    public static String COMMAND_NAME = "fakegm";
-    public static List<String> COMMAND_ARGS = List.of();
+    public static String COMMAND_NAME = "jesus";
 
     /**
-     * Registers the FakeCreative client command.
+     * Registers the Jesus client command.
      * <p>
      * Usage:
-     * .fakegm
+     * .jesus
      *
      * @return Command builder instance
      */
@@ -31,16 +30,15 @@ public class FakeCreativeCommand implements Command {
     }
 
     /**
-     * Executes the Fake Creative mode toggle.
+     * Toggles the Jesus cheat.
      *
      * @param context Command execution context
      * @return Command result status
      */
     private int executeRoot(CommandContext<FabricClientCommandSource> context) {
         CheatsSettings settings = MCPClient.getSettingsManager().getCheatsSettings();
-        settings.setFakeGmEnabled(!settings.isFakeGmEnabled());
-        FakeCreative.INSTANCE.run();
-        CommandManager.sendStatus(COMMAND_NAME, settings.isFakeGmEnabled());
+        settings.setJesusEnabled(!settings.isJesusEnabled());
+        CommandManager.sendStatus(COMMAND_NAME, settings.isJesusEnabled());
         return 1;
     }
 }

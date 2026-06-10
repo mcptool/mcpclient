@@ -7,7 +7,7 @@ public abstract class CheatBase {
 
     /**
      * Executes the cheat if a local player instance is available.
-     *
+     * <p>
      * Retrieves the current player from the Minecraft client and
      * forwards execution to the implementation-specific handler.
      */

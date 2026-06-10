@@ -1,9 +1,10 @@
 package dev.wrrulosdev.mcpclient.client.mixins.player;
 
+import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.cheats.Jesus;
+import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.BlockPos;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,20 +22,18 @@ public abstract class LocalPlayerMixin {
     @Inject(method = "tick", at = @At("HEAD"))
     private void onTick(CallbackInfo ci) {
         LocalPlayer player = (LocalPlayer) (Object) this;
-        BlockPos pos = player.blockPosition().below();
         Minecraft mc = Minecraft.getInstance();
+        CheatsSettings cheatsSettings = MCPClient.getSettingsManager().getCheatsSettings();
 
-        // Jesus
-        boolean isFluidBelow = player.level().getFluidState(pos).is(FluidTags.WATER)
-            || player.level().getFluidState(pos).is(FluidTags.LAVA);
+        /*if (cheatsSettings.isFlyEnabled()) {
+            Fly.INSTANCE.run();
+        }
 
-        if (isFluidBelow && !player.isJumping()) {
-            player.setOnGround(true);
-            player.setDeltaMovement(
-                player.getDeltaMovement().x,
-                0,
-                player.getDeltaMovement().z
-            );
+        if (cheatsSettings.isFakeGmEnabled()) {
+            FakeCreative.INSTANCE.run();
+        }*/
+        if (cheatsSettings.isJesusEnabled()) {
+            Jesus.INSTANCE.run();
         }
 
         // NoFall

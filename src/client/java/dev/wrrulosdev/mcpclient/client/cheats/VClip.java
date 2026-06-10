@@ -9,6 +9,14 @@ import net.minecraft.client.player.LocalPlayer;
 
 public class VClip {
 
+    /**
+     * Teleports the local player vertically by the specified distance,
+     * displays a formatted chat message, and shows a success notification
+     * indicating the direction and amount of movement performed.
+     *
+     * @param distance The vertical offset applied to the player's current position.
+     *                 Positive values move upward while negative values move downward.
+     */
     public static void execute(double distance) {
         LocalPlayer player = Minecraft.getInstance().player;
 

@@ -1,9 +1,13 @@
 package dev.wrrulosdev.mcpclient.client.screens;
 
+import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.cheats.FakeCreative;
+import dev.wrrulosdev.mcpclient.client.cheats.Fly;
 import dev.wrrulosdev.mcpclient.client.constants.TextureConstants;
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationManager;
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationType;
 import dev.wrrulosdev.mcpclient.client.screens.gui.SwitchOptionCard;
+import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
@@ -14,6 +18,8 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class CheatsScreen extends BaseAnimatedScreen {
 
@@ -52,37 +58,62 @@ public class CheatsScreen extends BaseAnimatedScreen {
     private void loadCards() {
         this.allCards.clear();
 
-        addCard("Fly", "Allows you to fly freely through the air.");
-        addCard("HClip", "Teleports you horizontally through blocks.");
-        addCard("VClip", "Teleports you vertically up or down.");
-        addCard("Fake Gamemode", "Spoofs creative mode client-side.");
-        addCard("Jesus", "Allows you to walk on water and other liquids.");
-        addCard("Spider", "Climb walls as if you were a spider.");
-        addCard("Fullbright", "Removes darkness and maximizes visibility.");
-        addCard("AntiKB", "Reduces or prevents knockback from attacks.");
-        addCard("NoFall", "Prevents or reduces fall damage.");
-        addCard("AutoEat", "Automatically eats food when your hunger is low.");
-        addCard("Block tracker", "Shows blocks through walls.");
-        addCard("WallHack", "Shows players through walls.");
+        CheatsSettings settings = MCPClient.getSettingsManager().getCheatsSettings();
+        addCard(
+            "Fly",
+            "Allows you to fly freely through the air.",
+            settings::isFlyEnabled,
+            newState -> {
+                settings.setFlyEnabled(newState);
+                Fly.INSTANCE.run();
+            }
+        );
+        addCard(
+            "Fake Gamemode",
+            "Spoofs creative mode client-side.",
+            settings::isFakeGmEnabled,
+            newState -> {
+                settings.setFakeGmEnabled(newState);
+                FakeCreative.INSTANCE.run();
+            }
+        );
+
+        addCard(
+            "Jesus",
+            "Allows you to walk on water and other liquids.",
+            settings::isJesusEnabled,
+            settings::setJesusEnabled
+        );
+
+        /*addCard("Fly", "Allows you to fly freely through the air.", newState -> {
+            MCPClient.getSettingsManager().getCheatsSettings().setFlyEnabled(newState);
+            new Fly().run();
+        });
+        addCard("HClip", "Teleports you horizontally through blocks.", newState -> {
+            MCPClient.getSettingsManager().getCheatsSettings().setFlyEnabled(newState);
+        });
+        addCard("VClip", "Teleports you vertically up or down.", newState -> MCPClient.getSettingsManager().getCheatsSettings().setFlyEnabled(newState));
+        addCard("Fake Gamemode", "Spoofs creative mode client-side.", newState -> MCPClient.getSettingsManager().getCheatsSettings().setFlyEnabled(newState));
+        addCard("Jesus", "Allows you to walk on water and other liquids.", newState -> MCPClient.getSettingsManager().getCheatsSettings().setFlyEnabled(newState));
+        addCard("Spider", "Climb walls as if you were a spider.", newState -> MCPClient.getSettingsManager().getCheatsSettings().setFlyEnabled(newState));
+        addCard("Fullbright", "Removes darkness and maximizes visibility.", newState -> MCPClient.getSettingsManager().getCheatsSettings().setFlyEnabled(newState));
+        addCard("AntiKB", "Reduces or prevents knockback from attacks.", newState -> MCPClient.getSettingsManager().getCheatsSettings().setFlyEnabled(newState));
+        addCard("NoFall", "Prevents or reduces fall damage.", newState -> MCPClient.getSettingsManager().getCheatsSettings().setFlyEnabled(newState));
+        addCard("AutoEat", "Automatically eats food when your hunger is low.", newState -> MCPClient.getSettingsManager().getCheatsSettings().setFlyEnabled(newState));
+        addCard("Block tracker", "Shows blocks through walls.", newState -> MCPClient.getSettingsManager().getCheatsSettings().setFlyEnabled(newState));
+        addCard("WallHack", "Shows players through walls.", newState -> MCPClient.getSettingsManager().getCheatsSettings().setFlyEnabled(newState));*/
     }
 
-
-    /**
-     * Creates and configures a switch-based cheat module card
-     *
-     * @param title Display name of the module
-     * @param desc Description explaining module behavior
-     */
-    private void addCard(String title, String desc) {
+    private void addCard(String title, String desc, Supplier<Boolean> stateSupplier, Consumer<Boolean> onToggle) {
         SwitchOptionCard card = new SwitchOptionCard(
             title,
             desc,
-            false,
+            stateSupplier,
             TextureConstants.SIMPLE_SWITCH_ON,
             TextureConstants.SIMPLE_SWITCH_OFF,
             TextureConstants.SIMPLE_SETTINGS_ICON,
             TextureConstants.SIMPLE_RED_SETTINGS_ICON,
-            newState -> System.out.println(title + ": " + newState),
+            onToggle,
             () -> System.out.println(title + " settings")
         );
 

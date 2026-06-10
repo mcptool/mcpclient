@@ -5,15 +5,11 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import dev.wrrulosdev.mcpclient.client.commands.Command;
 import dev.wrrulosdev.mcpclient.client.commands.CommandManager;
-import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
 import dev.wrrulosdev.mcpclient.client.payloads.AtlasPayload;
-import dev.wrrulosdev.mcpclient.client.utilities.messages.Msg;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-
-import java.util.List;
-
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
+import java.util.List;
 
 public class AtlasCommand implements Command {
 

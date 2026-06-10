@@ -1,8 +1,11 @@
 package dev.wrrulosdev.mcpclient.client.cheats;
 
+import dev.wrrulosdev.mcpclient.client.MCPClient;
 import net.minecraft.client.player.LocalPlayer;
 
 public class Fly extends CheatBase {
+
+    public static final Fly INSTANCE = new Fly();
 
     /**
      * Enables client-side flight capabilities for the local player
@@ -12,8 +15,9 @@ public class Fly extends CheatBase {
      */
     @Override
     protected void onExecute(LocalPlayer player) {
-        player.getAbilities().flying = true;
-        player.getAbilities().mayfly = true;
+        boolean enabled = MCPClient.getSettingsManager().getCheatsSettings().isFlyEnabled();
+        player.getAbilities().flying = enabled;
+        player.getAbilities().mayfly = enabled;
         player.onUpdateAbilities();
     }
 }

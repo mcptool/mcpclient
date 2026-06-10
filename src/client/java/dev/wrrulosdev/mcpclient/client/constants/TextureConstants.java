@@ -217,12 +217,12 @@ public class TextureConstants {
     public static final Identifier SIMPLE_SWITCH_ON =
         Identifier.fromNamespaceAndPath(
             ClientConstants.IDENTIFIER,
-            "textures/gui/icons/simple_switch_off.png"
+            "textures/gui/icons/simple_switch_on.png"
         );
 
     public static final Identifier SIMPLE_SWITCH_OFF =
         Identifier.fromNamespaceAndPath(
             ClientConstants.IDENTIFIER,
-            "textures/gui/icons/simple_switch_on.png"
+            "textures/gui/icons/simple_switch_off.png"
         );
 }
