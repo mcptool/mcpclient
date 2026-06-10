@@ -10,10 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static dev.wrrulosdev.mcpclient.client.constants.PayloadConstants.PLUGINS_CHANNELS_VULNERABLES;
+
 public class PluginChannelStorage {
 
     private static final List<String> storedPluginMessages = new ArrayList<>();
-    private static final List<String> vulnerablePluginMessages = new ArrayList<>();
     private static final List<String> vulnerablePluginMessagesFounded = new ArrayList<>();
 
     private static final AtomicBoolean sending = new AtomicBoolean(false);
@@ -53,7 +54,7 @@ public class PluginChannelStorage {
                 Msg.sendFormattedMessage("&cFounded plugin channels: &6" + snapshot.size());
 
                 for (String pluginChannel : snapshot) {
-                    if (vulnerablePluginMessages.contains(pluginChannel)) {
+                    if (PLUGINS_CHANNELS_VULNERABLES.contains(pluginChannel)) {
                         Msg.sendFormattedMessage("&f• &6" + pluginChannel + " &f(&6VULNERABLE&7)");
                         vulnerablePluginMessagesFounded.add(pluginChannel);
                     } else {
@@ -96,14 +97,5 @@ public class PluginChannelStorage {
         sending.set(false);
         vulnerablePluginMessagesFounded.clear();
         storedPluginMessages.clear();
-    }
-
-    /**
-     * Registers known plugin messaging channels that are commonly associated
-     * with proxy integrations and may expose exploitable command execution paths.
-     */
-    public void loadVulnerablePluginMessages() {
-        vulnerablePluginMessages.add("authmevelocity:main");
-        vulnerablePluginMessages.add("signedvelocity:main");
     }
 }

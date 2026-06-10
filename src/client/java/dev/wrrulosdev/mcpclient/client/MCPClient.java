@@ -27,7 +27,6 @@ public class MCPClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		start();
-		pluginChannelStorage.loadVulnerablePluginMessages();
 
 		// Debug
 		User user = Minecraft.getInstance().getUser();
