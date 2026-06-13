@@ -76,7 +76,12 @@ public class CheatsScreen extends BaseAnimatedScreen {
             "Climb walls as if you were a spider.",
             () -> openModuleSettings("Spider", "Spider settings...", getSpiderSettings())
         );
-        addCard(NoFall.INSTANCE, "NoFall", "Prevents or reduces fall damage.", null);
+        addCard(
+            NoFall.INSTANCE,
+            "NoFall",
+            "Prevents or reduces fall damage.",
+            () -> openModuleSettings("NoFall", "NoFall settings...", getNoFallSettings())
+        );
     }
 
     /**
@@ -646,6 +651,29 @@ public class CheatsScreen extends BaseAnimatedScreen {
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(Spider.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(Spider.INSTANCE.getIdentifier(), val);
+                }
+            )
+        );
+
+        return settings;
+    }
+
+    /**
+     * Creates the settings collection used by the NoFall module.
+     *
+     * @return A list containing all NoFall configuration components.
+     */
+    private List<AbstractSettingComponent> getNoFallSettings() {
+        List<AbstractSettingComponent> settings =
+            new ArrayList<>();
+
+        settings.add(
+            new KeybindSetting(
+                "Assign a key bind to the NoFall",
+                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(NoFall.INSTANCE.getIdentifier()),
+                val -> {
+                    MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(NoFall.INSTANCE.getIdentifier(), val);
+                    MCPClient.getKeyBindManager().updateKey(NoFall.INSTANCE.getIdentifier(), val);
                 }
             )
         );
