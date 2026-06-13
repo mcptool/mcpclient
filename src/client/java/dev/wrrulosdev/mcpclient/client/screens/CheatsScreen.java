@@ -73,7 +73,9 @@ public class CheatsScreen extends BaseAnimatedScreen {
         addCard(
             Spider.INSTANCE,
             "Spider",
-            "Climb walls as if you were a spider.", null);
+            "Climb walls as if you were a spider.",
+            () -> openModuleSettings("Spider", "Spider settings...", getSpiderSettings())
+        );
         addCard(NoFall.INSTANCE, "NoFall", "Prevents or reduces fall damage.", null);
     }
 
@@ -610,6 +612,40 @@ public class CheatsScreen extends BaseAnimatedScreen {
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(Jesus.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(Jesus.INSTANCE.getIdentifier(), val);
+                }
+            )
+        );
+
+        return settings;
+    }
+
+    /**
+     * Creates the settings collection used by the Spider module.
+     *
+     * @return A list containing all Spider configuration components.
+     */
+    private List<AbstractSettingComponent> getSpiderSettings() {
+        List<AbstractSettingComponent> settings =
+            new ArrayList<>();
+
+        settings.add(
+            new SliderSetting(
+                "Spider Speed",
+                0.2f,
+                1.0f,
+                (float) MCPClient.getSettingsManager().getCheatsSettings().getSpiderSpeed(),
+                "x",
+                val -> MCPClient.getSettingsManager().getCheatsSettings().setSpiderSpeed(val)
+            )
+        );
+
+        settings.add(
+            new KeybindSetting(
+                "Assign a key bind to the Spider",
+                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(Spider.INSTANCE.getIdentifier()),
+                val -> {
+                    MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(Spider.INSTANCE.getIdentifier(), val);
+                    MCPClient.getKeyBindManager().updateKey(Spider.INSTANCE.getIdentifier(), val);
                 }
             )
         );

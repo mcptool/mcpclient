@@ -90,7 +90,7 @@ public class Spider extends CheatBase {
         if (player.getDeltaMovement().y < 0.2D) {
             player.setDeltaMovement(
                 player.getDeltaMovement().x,
-                0.2D,
+                this.getSettings().getSpiderSpeed(),
                 player.getDeltaMovement().z
             );
         }

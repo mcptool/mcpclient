@@ -21,6 +21,8 @@ public class CheatsSettings {
     private double jesusSpeed = 1.0D;
 
     private boolean spiderEnabled = false;
+    private double spiderSpeed = 0.2D;
+
     private boolean wallhackEnabled = false;
     private boolean antikbEnabled = false;
     private boolean hClipEnabled = false;
@@ -86,6 +88,14 @@ public class CheatsSettings {
 
     public boolean isSpiderEnabled() { return spiderEnabled; }
     public void setSpiderEnabled(boolean spiderEnabled) { this.spiderEnabled = spiderEnabled; save(); }
+
+    public double getSpiderSpeed() {
+        return spiderSpeed;
+    }
+
+    public void setSpiderSpeed(double spiderSpeed) {
+        this.spiderSpeed = spiderSpeed;
+    }
 
     public boolean isAntikbEnabled() { return antikbEnabled; }
     public void setAntikbEnabled(boolean antikbEnabled) { this.antikbEnabled = antikbEnabled; save(); }
