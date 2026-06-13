@@ -2,7 +2,6 @@ package dev.wrrulosdev.mcpclient.client.screens;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
 import dev.wrrulosdev.mcpclient.client.cheats.*;
-import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
 import dev.wrrulosdev.mcpclient.client.constants.TextureConstants;
 import dev.wrrulosdev.mcpclient.client.screens.gui.*;
 import net.minecraft.client.Minecraft;
@@ -59,8 +58,18 @@ public class CheatsScreen extends BaseAnimatedScreen {
             "Allows you to fly freely through the air.",
             () -> openModuleSettings("Fly", "Fly settings...", getFlySettings())
         );
-        addCard(FakeCreative.INSTANCE, "Fake Gamemode", "Spoofs creative mode client-side.", null);
-        addCard(Jesus.INSTANCE, "Jesus", "Allows you to walk on water.", null);
+        addCard(
+            FakeCreative.INSTANCE,
+            "Fake Creative",
+            "Spoofs creative mode client-side.",
+            () -> openModuleSettings("FakeCreative", "FakeCreative settings...", getFakeCreativeSettings())
+        );
+        addCard(
+            Jesus.INSTANCE,
+            "Jesus",
+            "Allows you to walk on water.",
+            () -> openModuleSettings("Jesus", "Jesus settings...", getJesusSettings())
+        );
         addCard(Spider.INSTANCE, "Spider", "Climb walls as if you were a spider.", null);
         addCard(NoFall.INSTANCE, "NoFall", "Prevents or reduces fall damage.", null);
     }
@@ -512,7 +521,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
                 "Fly Speed",
                 0.05f,
                 1.0f,
-                0.05f,
+                MCPClient.getSettingsManager().getCheatsSettings().getFlySpeed(),
                 "x",
                 val -> MCPClient.getSettingsManager().getCheatsSettings().setFlySpeed(val)
             )
@@ -521,10 +530,10 @@ public class CheatsScreen extends BaseAnimatedScreen {
         settings.add(
             new KeybindSetting(
                 "Assign a key bind to the fly",
-                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind("fly"),
+                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(Fly.INSTANCE.getIdentifier()),
                 val -> {
-                    MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind("fly", val);
-                    MCPClient.getKeyBindManager().updateKey("fly", val);
+                    MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(Fly.INSTANCE.getIdentifier(), val);
+                    MCPClient.getKeyBindManager().updateKey(Fly.INSTANCE.getIdentifier(), val);
                 }
             )
         );
@@ -533,22 +542,61 @@ public class CheatsScreen extends BaseAnimatedScreen {
     }
 
     /**
-     * Creates the settings collection used by the Fly module.
+     * Creates the settings collection used by the Fake Creative module.
      *
-     * @return A list containing all Fly configuration components.
+     * @return A list containing all Fake Creative configuration components.
      */
-    private List<AbstractSettingComponent> getFakeGmSettings() {
+    private List<AbstractSettingComponent> getFakeCreativeSettings() {
         List<AbstractSettingComponent> settings =
             new ArrayList<>();
 
         settings.add(
-            new SliderSetting(
-                "Fly Speed",
-                0.05f,
-                1.0f,
-                0.05f,
-                "x",
-                val -> MCPClient.getSettingsManager().getCheatsSettings().setFlySpeed(val)
+            new KeybindSetting(
+                "Assign a key bind to the Fake Creative",
+                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(FakeCreative.INSTANCE.getIdentifier()),
+                val -> {
+                    MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(FakeCreative.INSTANCE.getIdentifier(), val);
+                    MCPClient.getKeyBindManager().updateKey(FakeCreative.INSTANCE.getIdentifier(), val);
+                }
+            )
+        );
+
+        return settings;
+    }
+
+    /**
+     * Creates the settings collection used by the Jesus module.
+     *
+     * @return A list containing all Jesus configuration components.
+     */
+    private List<AbstractSettingComponent> getJesusSettings() {
+        List<AbstractSettingComponent> settings =
+            new ArrayList<>();
+
+        settings.add(
+            new ToggleSetting(
+                "Walking on water",
+                MCPClient.getSettingsManager().getCheatsSettings().isJesusWaterEnabled(),
+                MCPClient.getSettingsManager().getCheatsSettings()::setJesusWaterEnabled
+            )
+        );
+
+        settings.add(
+            new ToggleSetting(
+                "Walking on lava",
+                MCPClient.getSettingsManager().getCheatsSettings().isJesusLavaEnabled(),
+                MCPClient.getSettingsManager().getCheatsSettings()::setJesusLavaEnabled
+            )
+        );
+
+        settings.add(
+            new KeybindSetting(
+                "Assign a key bind to the Jesus",
+                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(Jesus.INSTANCE.getIdentifier()),
+                val -> {
+                    MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(Jesus.INSTANCE.getIdentifier(), val);
+                    MCPClient.getKeyBindManager().updateKey(Jesus.INSTANCE.getIdentifier(), val);
+                }
             )
         );
 

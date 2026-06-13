@@ -1,6 +1,8 @@
 package dev.wrrulosdev.mcpclient.client.settings;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +14,11 @@ public class CheatsSettings {
     private float flySpeed = 0.5f;
 
     private boolean fakeGmEnabled = false;
+
     private boolean jesusEnabled = false;
+    private boolean jesusWaterEnabled = true;
+    private boolean jesusLavaEnabled = true;
+
     private boolean spiderEnabled = false;
     private boolean wallhackEnabled = false;
     private boolean antikbEnabled = false;
@@ -27,7 +33,7 @@ public class CheatsSettings {
     }
 
     public int getKeyForKeyBind(String id) {
-        return keyBinds.getOrDefault(id, 0);
+        return keyBinds.getOrDefault(id, ClientConstants.DEFAULT_INVALID_KEYBIND);
     }
 
     public void setKeyForKeyBind(String id, int keyCode) {
@@ -46,6 +52,24 @@ public class CheatsSettings {
 
     public boolean isJesusEnabled() { return jesusEnabled; }
     public void setJesusEnabled(boolean jesusEnabled) { this.jesusEnabled = jesusEnabled; save(); }
+
+    public boolean isJesusWaterEnabled() {
+        return jesusWaterEnabled;
+    }
+
+    public void setJesusWaterEnabled(boolean jesusWater) {
+        this.jesusWaterEnabled = jesusWater;
+        save();
+    }
+
+    public boolean isJesusLavaEnabled() {
+        return jesusLavaEnabled;
+    }
+
+    public void setJesusLavaEnabled(boolean jesusLava) {
+        this.jesusLavaEnabled = jesusLava;
+        save();
+    }
 
     public boolean isWallhackEnabled() { return wallhackEnabled; }
     public void setWallhackEnabled(boolean wallhackEnabled) { this.wallhackEnabled = wallhackEnabled; save(); }
@@ -70,4 +94,5 @@ public class CheatsSettings {
 
     public boolean isBlockTrackerEnabled() { return blockTrackerEnabled; }
     public void setBlockTrackerEnabled(boolean blockTrackerEnabled) { this.blockTrackerEnabled = blockTrackerEnabled; save(); }
+
 }

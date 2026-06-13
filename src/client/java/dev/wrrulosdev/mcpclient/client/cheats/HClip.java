@@ -49,7 +49,7 @@ public class HClip extends CheatBase {
      */
     @Override
     public boolean isEnabled() {
-        return getSettings().isFlyEnabled();
+        return getSettings().isHClipEnabled();
     }
 
     /**

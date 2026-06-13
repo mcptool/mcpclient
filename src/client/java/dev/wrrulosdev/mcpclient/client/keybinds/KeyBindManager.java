@@ -35,6 +35,7 @@ public class KeyBindManager {
      */
     public KeyBindManager() {
         register(Fly.INSTANCE);
+        register(FakeCreative.INSTANCE);
         register(Jesus.INSTANCE);
         register(Spider.INSTANCE);
         register(NoFall.INSTANCE);

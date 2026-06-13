@@ -6,6 +6,7 @@ import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.world.level.material.FluidState;
 
 public class Jesus extends CheatBase {
 
@@ -75,17 +76,17 @@ public class Jesus extends CheatBase {
         }
 
         BlockPos pos = player.blockPosition().below();
+        FluidState fluidState = player.level().getFluidState(pos);
 
-        boolean isFluidBelow =
-            player.level().getFluidState(pos).is(FluidTags.WATER)
-                || player.level().getFluidState(pos).is(FluidTags.LAVA);
+        boolean canWalkOnFluid =
+            (getSettings().isJesusWaterEnabled() && fluidState.is(FluidTags.WATER))
+                || (getSettings().isJesusLavaEnabled() && fluidState.is(FluidTags.LAVA));
 
-        if (!isFluidBelow || player.isJumping()) {
+        if (!canWalkOnFluid || player.isJumping()) {
             return;
         }
 
         player.setOnGround(true);
-
         player.setDeltaMovement(
             player.getDeltaMovement().x,
             0.0D,

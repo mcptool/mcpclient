@@ -125,7 +125,7 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
         var font = this.minecraft.font;
         int contentX = x1 + 25;
         int contentWidth = (x2 - x1) - 50;
-        int titleY = y1 + 60;
+        int titleY = y1 + 55;
         graphics.text(
             font,
             Component.literal(this.moduleName.toUpperCase()),
@@ -151,8 +151,7 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
         );
         pose.popMatrix();
 
-        int sepY = descY + 10;
-
+        int sepY = descY + 15;
         graphics.fill(
             contentX,
             sepY,
@@ -161,7 +160,7 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
             getAlphaColor(0x333333, progress)
         );
 
-        int startY = sepY + 15;
+        int startY = sepY + 10;
         int endY = y2 - 45;
         int visibleHeight = endY - startY;
         int currentY = (int) (startY - this.scrollOffset);
@@ -203,7 +202,6 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
                 - this.backButton.getWidth() / 2;
 
             int btnY = y2 - 32;
-
             this.backButton.setX(btnX);
             this.backButton.setY(btnY);
 
@@ -255,7 +253,6 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
     ) {
         int targetWidth = Math.min(this.width - 60, this.maxWidth);
         int targetHeight = Math.min(this.height - 60, this.maxHeight);
-
         int x1 = (this.width / 2) - (targetWidth / 2);
         int x2 = (this.width / 2) + (targetWidth / 2);
         int y1 = (this.height / 2) - (targetHeight / 2);

@@ -159,10 +159,8 @@ public abstract class BaseAnimatedScreen extends Screen {
         int headerHeight = 35;
         int headerY1 = y1 + 10;
         int headerY2 = headerY1 + headerHeight;
-
         int alpha = (int) (220 * progress);
         int textAlpha = (int) (255 * progress);
-
         int textColor = 0xFFFFFF | (textAlpha << 24);
         int versionColor = 0x888888 | (textAlpha << 24);
 
