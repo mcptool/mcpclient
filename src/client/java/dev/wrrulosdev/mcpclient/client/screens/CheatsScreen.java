@@ -70,7 +70,10 @@ public class CheatsScreen extends BaseAnimatedScreen {
             "Allows you to walk on water.",
             () -> openModuleSettings("Jesus", "Jesus settings...", getJesusSettings())
         );
-        addCard(Spider.INSTANCE, "Spider", "Climb walls as if you were a spider.", null);
+        addCard(
+            Spider.INSTANCE,
+            "Spider",
+            "Climb walls as if you were a spider.", null);
         addCard(NoFall.INSTANCE, "NoFall", "Prevents or reduces fall damage.", null);
     }
 
@@ -572,6 +575,17 @@ public class CheatsScreen extends BaseAnimatedScreen {
     private List<AbstractSettingComponent> getJesusSettings() {
         List<AbstractSettingComponent> settings =
             new ArrayList<>();
+
+        settings.add(
+            new SliderSetting(
+                "Jesus Speed",
+                1.0f,
+                1.50f,
+                (float) MCPClient.getSettingsManager().getCheatsSettings().getJesusSpeed(),
+                "x",
+                val -> MCPClient.getSettingsManager().getCheatsSettings().setJesusSpeed(val)
+            )
+        );
 
         settings.add(
             new ToggleSetting(

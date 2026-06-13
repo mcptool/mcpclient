@@ -18,6 +18,7 @@ public class CheatsSettings {
     private boolean jesusEnabled = false;
     private boolean jesusWaterEnabled = true;
     private boolean jesusLavaEnabled = true;
+    private double jesusSpeed = 1.0D;
 
     private boolean spiderEnabled = false;
     private boolean wallhackEnabled = false;
@@ -71,6 +72,15 @@ public class CheatsSettings {
         save();
     }
 
+    public double getJesusSpeed() {
+        return jesusSpeed;
+    }
+
+    public void setJesusSpeed(double jesusSpeed) {
+        this.jesusSpeed = jesusSpeed;
+        save();
+    }
+
     public boolean isWallhackEnabled() { return wallhackEnabled; }
     public void setWallhackEnabled(boolean wallhackEnabled) { this.wallhackEnabled = wallhackEnabled; save(); }
 
@@ -94,5 +104,4 @@ public class CheatsSettings {
 
     public boolean isBlockTrackerEnabled() { return blockTrackerEnabled; }
     public void setBlockTrackerEnabled(boolean blockTrackerEnabled) { this.blockTrackerEnabled = blockTrackerEnabled; save(); }
-
 }

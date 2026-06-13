@@ -87,10 +87,12 @@ public class Jesus extends CheatBase {
         }
 
         player.setOnGround(true);
+        double multiplier = this.getSettings().getJesusSpeed();
+
         player.setDeltaMovement(
-            player.getDeltaMovement().x,
+            player.getDeltaMovement().x * multiplier,
             0.0D,
-            player.getDeltaMovement().z
+            player.getDeltaMovement().z * multiplier
         );
     }
 }
