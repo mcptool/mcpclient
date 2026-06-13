@@ -256,6 +256,7 @@ public class CustomButton extends AbstractWidget {
         return create(message, pressAction, x, y, width, height, null, true);
     }
 
+
     /**
      * Complete customized factory generator to structure widgets detailing hover details directly.
      * @param message     The descriptive textual payload component wrapper.
@@ -572,6 +573,24 @@ public class CustomButton extends AbstractWidget {
             this.textureHeight = height;
             return this;
         }
+    }
+
+    /**
+     * Extracts and submits the current widget render state information for the rendering pipeline.
+     * Acts as the primary entry point for visual widget drawing operations each frame.
+     *
+     * @param graphics The graphical rendering extraction context.
+     * @param mouseX   The current horizontal mouse cursor position.
+     * @param mouseY   The current vertical mouse cursor position.
+     * @param delta    The frame interpolation delta time value.
+     */
+    public void render(
+        GuiGraphicsExtractor graphics,
+        int mouseX,
+        int mouseY,
+        float delta
+    ) {
+        this.extractWidgetRenderState(graphics, mouseX, mouseY, delta);
     }
 
     @FunctionalInterface

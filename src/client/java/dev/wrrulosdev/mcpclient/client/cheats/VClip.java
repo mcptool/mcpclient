@@ -1,24 +1,79 @@
 package dev.wrrulosdev.mcpclient.client.cheats;
 
+import dev.wrrulosdev.mcpclient.client.MCPClient;
 import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationManager;
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationType;
+import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import dev.wrrulosdev.mcpclient.client.utilities.messages.Msg;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 
-public class VClip {
+public class VClip extends CheatBase {
+
+    public static final VClip INSTANCE = new VClip();
 
     /**
-     * Teleports the local player vertically by the specified distance,
-     * displays a formatted chat message, and shows a success notification
-     * indicating the direction and amount of movement performed.
+     * Retrieves the cheat configuration container.
      *
-     * @param distance The vertical offset applied to the player's current position.
-     *                 Positive values move upward while negative values move downward.
+     * @return The cheat settings instance.
      */
-    public static void execute(double distance) {
-        LocalPlayer player = Minecraft.getInstance().player;
+    private CheatsSettings getSettings() {
+        return MCPClient.getSettingsManager().getCheatsSettings();
+    }
+
+    /**
+     * Returns the internal identifier used for command registration,
+     * configuration storage and cheat lookup.
+     *
+     * @return The VClip cheat identifier.
+     */
+    @Override
+    public String getIdentifier() {
+        return "vclip";
+    }
+
+    /**
+     * Returns the default keyboard key assigned to this module.
+     *
+     * @return The default keybind identifier.
+     */
+    @Override
+    public int getDefaultKey() {
+        return ClientConstants.DEFAULT_INVALID_KEYBIND;
+    }
+
+    /**
+     * Determines whether the cheat is currently enabled.
+     *
+     * @return True if VClip is enabled.
+     */
+    @Override
+    public boolean isEnabled() {
+        return getSettings().isVClipEnabled();
+    }
+
+    /**
+     * Updates the enabled state of the cheat.
+     *
+     * @param enabled The new enabled state.
+     */
+    @Override
+    public void setEnabled(boolean enabled) {
+        getSettings().setVClipEnabled(enabled);
+    }
+
+    /**
+     * Performs a vertical teleport by instantly moving the player up or down
+     * by the specified distance. Positive values move upward while negative
+     * values move downward.
+     *
+     * @param player The local player instance.
+     * @param args Additional execution arguments where the first value
+     *             represents the vertical clipping distance.
+     */
+    @Override
+    protected void onExecute(LocalPlayer player, Object... args) {
+        double distance = (double) args[0];
 
         if (player == null) {
             return;
@@ -30,17 +85,24 @@ public class VClip {
             player.getZ()
         );
 
-        String direction = distance >= 0 ? "up" : "down";
+        String direction = distance >= 0
+            ? "up"
+            : "down";
 
         Msg.sendFormattedMessage(
             ClientConstants.PREFIX +
-                "&aTeleported &d" + Math.abs(distance) +
-                " &ablocks &d" + direction
+                "&aTeleported &d" +
+                Math.abs(distance) +
+                " &ablocks &d" +
+                direction
         );
 
         NotificationManager.show(
             "VClip",
-            "Teleported " + Math.abs(distance) + " blocks " + direction,
+            "Teleported " +
+                Math.abs(distance) +
+                " blocks " +
+                direction,
             NotificationType.SUCCESS
         );
     }

@@ -54,7 +54,7 @@ public class HClipCommand implements Command {
      */
     private int executeHClip(CommandContext<FabricClientCommandSource> context) {
         double distance = DoubleArgumentType.getDouble(context, COMMAND_ARGS.getFirst());
-        HClip.execute(distance);
+        HClip.INSTANCE.run(distance);
         return 1;
     }
 }

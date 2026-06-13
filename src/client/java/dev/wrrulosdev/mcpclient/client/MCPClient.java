@@ -2,6 +2,7 @@ package dev.wrrulosdev.mcpclient.client;
 
 import dev.wrrulosdev.mcpclient.client.commands.CommandManager;
 import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
+import dev.wrrulosdev.mcpclient.client.keybinds.KeyBindManager;
 import dev.wrrulosdev.mcpclient.client.mixins.accessor.SessionAccessor;
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationManager;
 import dev.wrrulosdev.mcpclient.client.payloads.*;
@@ -25,18 +26,21 @@ import org.lwjgl.glfw.GLFW;
 import java.io.IOException;
 
 public class MCPClient implements ClientModInitializer {
+
 	private static PluginChannelStorage pluginChannelStorage;
 	private static SettingsManager settingsManager;
+	private static KeyBindManager keyBindManager;
 
     @Override
 	public void onInitializeClient() {
-		start();
-
 		try {
+			settingsManager = new SettingsManager();
 			settingsManager.load();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		start();
 
 		// Debug
 		User user = Minecraft.getInstance().getUser();
@@ -65,6 +69,10 @@ public class MCPClient implements ClientModInitializer {
 					client.setScreen(new MenuScreen());
 				}
 			}
+
+			if (MCPClient.getKeyBindManager() != null) {
+				MCPClient.getKeyBindManager().tick();
+			}
 		});
 
 		HudElementRegistry.attachElementBefore(
@@ -76,7 +84,7 @@ public class MCPClient implements ClientModInitializer {
 
 	private void start() {
 		pluginChannelStorage = new PluginChannelStorage();
-		settingsManager = new SettingsManager();
+		keyBindManager = new KeyBindManager();
 	}
 
 	public static void saveSettings() {
@@ -93,5 +101,9 @@ public class MCPClient implements ClientModInitializer {
 
 	public static SettingsManager getSettingsManager() {
 		return settingsManager;
+	}
+
+	public static KeyBindManager getKeyBindManager() {
+		return keyBindManager;
 	}
 }

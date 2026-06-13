@@ -1,6 +1,8 @@
 package dev.wrrulosdev.mcpclient.client.cheats;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
+import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
@@ -10,23 +12,80 @@ public class Jesus extends CheatBase {
     public static final Jesus INSTANCE = new Jesus();
 
     /**
-     * Simulates water and lava walking behavior by forcing the local player
-     * to remain grounded while standing above fluid blocks.
-     * Vertical movement is neutralized to prevent sinking into the liquid.
+     * Retrieves the cheat settings instance used by this module.
      *
-     * @param player The local player instance being processed by the cheat system.
+     * @return The current cheats settings configuration.
+     */
+    private CheatsSettings getSettings() {
+        return MCPClient.getSettingsManager().getCheatsSettings();
+    }
+
+    /**
+     * Returns the unique identifier used to reference this cheat.
+     *
+     * @return The cheat identifier.
      */
     @Override
-    protected void onExecute(LocalPlayer player) {
+    public String getIdentifier() {
+        return "jesus";
+    }
+
+    /**
+     * Returns the default keyboard key assigned to this module.
+     *
+     * @return The default keybind identifier.
+     */
+    @Override
+    public int getDefaultKey() {
+        return ClientConstants.DEFAULT_INVALID_KEYBIND;
+    }
+
+    /**
+     * Determines whether the Jesus module is currently enabled.
+     *
+     * @return True if the module is enabled.
+     */
+    @Override
+    public boolean isEnabled() {
+        return getSettings().isJesusEnabled();
+    }
+
+    /**
+     * Updates the enabled state of the Jesus module.
+     *
+     * @param enabled The new module state.
+     */
+    @Override
+    public void setEnabled(boolean enabled) {
+        getSettings().setJesusEnabled(enabled);
+    }
+
+    /**
+     * Allows the player to stand and walk on water or lava by forcing a
+     * grounded state whenever a fluid block is detected directly below.
+     * Normal movement is preserved while jumping.
+     *
+     * @param player The local player instance.
+     * @param args Optional execution arguments. Not used by this cheat.
+     */
+    @Override
+    protected void onExecute(LocalPlayer player, Object... args) {
+        if (!isEnabled()) {
+            return;
+        }
+
         BlockPos pos = player.blockPosition().below();
-        boolean isFluidBelow = player.level().getFluidState(pos).is(FluidTags.WATER)
-            || player.level().getFluidState(pos).is(FluidTags.LAVA);
+
+        boolean isFluidBelow =
+            player.level().getFluidState(pos).is(FluidTags.WATER)
+                || player.level().getFluidState(pos).is(FluidTags.LAVA);
 
         if (!isFluidBelow || player.isJumping()) {
             return;
         }
 
         player.setOnGround(true);
+
         player.setDeltaMovement(
             player.getDeltaMovement().x,
             0.0D,

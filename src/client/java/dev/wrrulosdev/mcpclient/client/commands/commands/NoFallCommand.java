@@ -2,10 +2,9 @@ package dev.wrrulosdev.mcpclient.client.commands.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.cheats.NoFall;
 import dev.wrrulosdev.mcpclient.client.commands.Command;
 import dev.wrrulosdev.mcpclient.client.commands.CommandManager;
-import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
@@ -32,9 +31,9 @@ public class NoFallCommand implements Command {
      * @return Command result status
      */
     private int executeRoot(CommandContext<FabricClientCommandSource> context) {
-        CheatsSettings settings = MCPClient.getSettingsManager().getCheatsSettings();
-        settings.setNoFallEnabled(!settings.isNoFallEnabled());
-        CommandManager.sendStatus(COMMAND_NAME, settings.isNoFallEnabled());
+        NoFall.INSTANCE.toggle();
+        NoFall.INSTANCE.run();
+        CommandManager.sendStatus(COMMAND_NAME, NoFall.INSTANCE.isEnabled());
         return 1;
     }
 }

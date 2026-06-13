@@ -1,13 +1,10 @@
 package dev.wrrulosdev.mcpclient.client.screens;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
-import dev.wrrulosdev.mcpclient.client.cheats.FakeCreative;
-import dev.wrrulosdev.mcpclient.client.cheats.Fly;
+import dev.wrrulosdev.mcpclient.client.cheats.*;
+import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
 import dev.wrrulosdev.mcpclient.client.constants.TextureConstants;
-import dev.wrrulosdev.mcpclient.client.notifications.NotificationManager;
-import dev.wrrulosdev.mcpclient.client.notifications.NotificationType;
-import dev.wrrulosdev.mcpclient.client.screens.gui.SwitchOptionCard;
-import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
+import dev.wrrulosdev.mcpclient.client.screens.gui.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
@@ -18,33 +15,34 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class CheatsScreen extends BaseAnimatedScreen {
 
     private static final int CARD_HEIGHT = 65;
     private static final int GAP = 15;
     private static final int SIDE_MARGIN = 20;
+
     private final Screen parentScreen;
     private final List<SwitchOptionCard> allCards = new ArrayList<>();
+
     private double scrollOffset = 0;
     private double maxScrollOffset = 0;
 
     /**
-     * Constructs the cheats screen with a reference to the parent screen
+     * Creates a new cheats screen instance.
      *
-     * @param parentScreen Screen to return to when exiting this view
+     * @param parentScreen The screen that should be restored when exiting.
      */
     public CheatsScreen(Screen parentScreen) {
         super(Component.empty());
+
         this.parentScreen = parentScreen;
         this.maxWidth = 650;
         this.maxHeight = 400;
     }
 
     /**
-     * Initializes the screen and loads all available cheat modules
+     * Initializes the screen and loads all available module cards.
      */
     @Override
     protected void init() {
@@ -52,13 +50,31 @@ public class CheatsScreen extends BaseAnimatedScreen {
         loadCards();
     }
 
-    /**
-     * Creates and registers all cheat module cards displayed in the UI
-     */
     private void loadCards() {
         this.allCards.clear();
 
-        CheatsSettings settings = MCPClient.getSettingsManager().getCheatsSettings();
+        addCard(
+            Fly.INSTANCE,
+            "Fly",
+            "Allows you to fly freely through the air.",
+            () -> openModuleSettings("Fly", "Fly settings...", getFlySettings())
+        );
+        addCard(FakeCreative.INSTANCE, "Fake Gamemode", "Spoofs creative mode client-side.", null);
+        addCard(Jesus.INSTANCE, "Jesus", "Allows you to walk on water.", null);
+        addCard(Spider.INSTANCE, "Spider", "Climb walls as if you were a spider.", null);
+        addCard(NoFall.INSTANCE, "NoFall", "Prevents or reduces fall damage.", null);
+    }
+
+    /**
+     * Builds the complete cheat module card collection and associates each
+     * module with its toggle and settings actions.
+
+    private void loadCards() {
+        this.allCards.clear();
+
+        CheatsSettings settings =
+            MCPClient.getSettingsManager().getCheatsSettings();
+
         addCard(
             "Fly",
             "Allows you to fly freely through the air.",
@@ -66,8 +82,14 @@ public class CheatsScreen extends BaseAnimatedScreen {
             newState -> {
                 settings.setFlyEnabled(newState);
                 Fly.INSTANCE.run();
-            }
+            },
+            () -> openModuleSettings(
+                "Fly",
+                "Permite volar...",
+                getFlySettings()
+            )
         );
+
         addCard(
             "Fake Gamemode",
             "Spoofs creative mode client-side.",
@@ -77,75 +99,141 @@ public class CheatsScreen extends BaseAnimatedScreen {
                 FakeCreative.INSTANCE.run();
             }
         );
+
         addCard(
             "Jesus",
             "Allows you to walk on water and other liquids.",
             settings::isJesusEnabled,
-            settings::setJesusEnabled
+            settings::setJesusEnabled,
+            () -> openModuleSettings(
+                "Fly",
+                "Permite volar...",
+                getFlySettings()
+            )
         );
+
         addCard(
             "Spider",
             "Climb walls as if you were a spider.",
             settings::isSpiderEnabled,
-            settings::setSpiderEnabled
+            settings::setSpiderEnabled,
+            () -> openModuleSettings(
+                "Fly",
+                "Permite volar...",
+                getFlySettings()
+            )
         );
+
         addCard(
             "WallHack",
             "Shows players through walls.",
             settings::isWallhackEnabled,
-            settings::setWallhackEnabled
+            settings::setWallhackEnabled,
+            () -> openModuleSettings(
+                "Fly",
+                "Permite volar...",
+                getFlySettings()
+            )
         );
+
         addCard(
             "AntiKB",
             "Reduces or prevents knockback from attacks.",
             settings::isAntikbEnabled,
-            settings::setAntikbEnabled
+            settings::setAntikbEnabled,
+            () -> openModuleSettings(
+                "Fly",
+                "Permite volar...",
+                getFlySettings()
+            )
         );
+
         addCard(
             "HClip",
             "Teleports you horizontally through blocks.",
             settings::isHClipEnabled,
-            settings::setHClipEnabled
+            settings::setHClipEnabled,
+            () -> openModuleSettings(
+                "Fly",
+                "Permite volar...",
+                getFlySettings()
+            )
         );
+
         addCard(
             "VClip",
             "Teleports you vertically up or down.",
             settings::isVClipEnabled,
-            settings::setVClipEnabled
+            settings::setVClipEnabled,
+            () -> openModuleSettings(
+                "Fly",
+                "Permite volar...",
+                getFlySettings()
+            )
         );
+
         addCard(
             "Fullbright",
             "Removes darkness and maximizes visibility.",
             settings::isFullBrightEnabled,
-            settings::setFullBrightEnabled
+            settings::setFullBrightEnabled,
+            () -> openModuleSettings(
+                "Fly",
+                "Permite volar...",
+                getFlySettings()
+            )
         );
+
         addCard(
             "NoFall",
             "Prevents or reduces fall damage.",
             settings::isNoFallEnabled,
-            settings::setNoFallEnabled
+            settings::setNoFallEnabled,
+            () -> openModuleSettings(
+                "Fly",
+                "Permite volar...",
+                getFlySettings()
+            )
         );
+
         addCard(
             "Block tracker",
             "Shows blocks through walls.",
             settings::isBlockTrackerEnabled,
-            settings::setBlockTrackerEnabled
+            settings::setBlockTrackerEnabled,
+            () -> openModuleSettings(
+                "Fly",
+                "Permite volar...",
+                getFlySettings()
+            )
         );
+    }    */
 
-        /*addCard("AutoEat", "Automatically eats food when your hunger is low.", newState -> MCPClient.getSettingsManager().getCheatsSettings().setFlyEnabled(newState));*/
-    }
 
-    private void addCard(String title, String desc, Supplier<Boolean> stateSupplier, Consumer<Boolean> onToggle) {
+    /**
+     * Creates and registers a new cheat card linked to a cheat implementation.
+     *
+     * @param cheat The cheat instance controlled by this card.
+     * @param title The display name shown in the card header.
+     * @param desc The descriptive text displayed below the title.
+     * @param onSettingsClick The action executed when the settings icon is clicked.
+     */
+    private void addCard(
+        CheatBase cheat,
+        String title,
+        String desc,
+        Runnable onSettingsClick
+    ) {
         SwitchOptionCard card = new SwitchOptionCard(
             title,
             desc,
-            stateSupplier,
+            cheat::isEnabled,
             TextureConstants.SIMPLE_SWITCH_ON,
             TextureConstants.SIMPLE_SWITCH_OFF,
             TextureConstants.SIMPLE_SETTINGS_ICON,
             TextureConstants.SIMPLE_RED_SETTINGS_ICON,
-            onToggle,
-            () -> System.out.println(title + " settings")
+            (_) -> cheat.toggle(),
+            onSettingsClick
         );
 
         card.setHeight(CARD_HEIGHT);
@@ -153,9 +241,9 @@ public class CheatsScreen extends BaseAnimatedScreen {
     }
 
     /**
-     * Returns the title displayed in the window header
+     * Returns the title displayed in the window header.
      *
-     * @return Screen title string
+     * @return The cheats screen title.
      */
     @Override
     protected String getWindowTitle() {
@@ -163,41 +251,66 @@ public class CheatsScreen extends BaseAnimatedScreen {
     }
 
     /**
-     * Renders the scrollable grid of cheat modules
+     * Renders the module grid and manages clipping and scrolling boundaries.
      *
-     * @param graphics Rendering context used for UI drawing
-     * @param x1 Left boundary of content area
-     * @param x2 Right boundary of content area
-     * @param y1 Top boundary of content area
-     * @param y2 Bottom boundary of content area
-     * @param mouseX Current mouse X position
-     * @param mouseY Current mouse Y position
-     * @param progress Animation interpolation value
+     * @param graphics The graphical rendering extraction context.
+     * @param x1 The left window boundary.
+     * @param x2 The right window boundary.
+     * @param y1 The top window boundary.
+     * @param y2 The bottom window boundary.
+     * @param mouseX The current mouse X coordinate.
+     * @param mouseY The current mouse Y coordinate.
+     * @param progress The animation progress factor.
      */
     @Override
-    protected void renderWindowContent(GuiGraphicsExtractor graphics, int x1, int x2, int y1, int y2, int mouseX, int mouseY, float progress) {
+    protected void renderWindowContent(
+        GuiGraphicsExtractor graphics,
+        int x1,
+        int x2,
+        int y1,
+        int y2,
+        int mouseX,
+        int mouseY,
+        float progress
+    ) {
         int listY1 = y1 + 55;
         int listY2 = y2 - 10;
-        int viewableHeight = listY2 - listY1;
         int columns = 3;
+        int colWidth = calculateColWidth(x1, x2, columns);
         int numRows = (int) Math.ceil(allCards.size() / (double) columns);
-        int totalHeight = (numRows * CARD_HEIGHT) + ((numRows - 1) * GAP);
-        this.maxScrollOffset = Math.max(0, totalHeight - viewableHeight);
+        this.maxScrollOffset = Math.max(
+            0,
+            (numRows * CARD_HEIGHT)
+                + ((numRows - 1) * GAP)
+                - (listY2 - listY1)
+        );
 
         graphics.enableScissor(x1, listY1, x2, listY2);
 
-        int totalHorizontalSpace = (SIDE_MARGIN * 2) + ((columns - 1) * GAP);
-        int colWidth = ((x2 - x1) - totalHorizontalSpace) / columns;
-
         for (int i = 0; i < allCards.size(); i++) {
-            int row = i / columns;
-            int col = i % columns;
+            int[] pos =
+                calculateCardPosition(
+                    i,
+                    x1,
+                    listY1,
+                    colWidth,
+                    columns
+                );
 
-            int cardX = x1 + SIDE_MARGIN + (col * (colWidth + GAP));
-            int cardY = listY1 + (row * (CARD_HEIGHT + GAP)) - (int) scrollOffset;
-
-            if (cardY + CARD_HEIGHT >= listY1 && cardY <= listY2) {
-                allCards.get(i).render(graphics, this.font, cardX, cardY, colWidth, progress, mouseX, mouseY);
+            if (
+                pos[1] + CARD_HEIGHT >= listY1
+                    && pos[1] <= listY2
+            ) {
+                allCards.get(i).render(
+                    graphics,
+                    this.font,
+                    pos[0],
+                    pos[1],
+                    colWidth,
+                    mouseX,
+                    mouseY,
+                    progress
+                );
             }
         }
 
@@ -205,17 +318,34 @@ public class CheatsScreen extends BaseAnimatedScreen {
     }
 
     /**
-     * Updates cursor state based on hover interaction with module cards
+     * Updates the mouse cursor when hovering interactive module cards.
      *
-     * @param mouseX Current mouse X position
-     * @param mouseY Current mouse Y position
+     * @param mouseX The current mouse X coordinate.
+     * @param mouseY The current mouse Y coordinate.
      */
     @Override
     public void mouseMoved(double mouseX, double mouseY) {
         super.mouseMoved(mouseX, mouseY);
 
-        boolean hovered = allCards.stream()
-            .anyMatch(card -> card.isMouseOver((int) mouseX, (int) mouseY));
+        int targetWidth = Math.min(this.width - 60, this.maxWidth);
+        int targetHeight = Math.min(this.height - 60, this.maxHeight);
+        int x1 = (this.width / 2) - (targetWidth / 2);
+        int x2 = (this.width / 2) + (targetWidth / 2);
+        int y1 = (this.height / 2) - (targetHeight / 2);
+        int listY1 = y1 + 55;
+        int columns = 3;
+        int colWidth = calculateColWidth(x1, x2, columns);
+        boolean hovered = false;
+
+        for (int i = 0; i < allCards.size(); i++) {
+            int[] pos = calculateCardPosition(i, x1, listY1, colWidth, columns);
+
+            if (mouseX >= pos[0] && mouseX <= pos[0] + colWidth &&
+                mouseY >= pos[1] && mouseY <= pos[1] + CARD_HEIGHT) {
+                hovered = true;
+                break;
+            }
+        }
 
         GLFW.glfwSetCursor(
             Minecraft.getInstance().getWindow().handle(),
@@ -224,50 +354,117 @@ public class CheatsScreen extends BaseAnimatedScreen {
     }
 
     /**
-     * Handles mouse clicks on module cards and triggers a test notification
+     * Forwards mouse click events to the appropriate module card.
      *
-     * @param event Mouse input event containing position and button data
-     * @param doubleClick Whether the click is a double click action
-     * @return true if a card handled the click, otherwise delegates to parent handling
+     * @param event The mouse button event.
+     * @param doubleClick Indicates whether the click is a double click.
+     * @return True if a module card consumed the click event.
      */
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-        NotificationManager.show(
-            "KillAura",
-            "Module enabled successfully.",
-            NotificationType.SUCCESS
-        );
+        int targetWidth = Math.min(this.width - 60, this.maxWidth);
+        int targetHeight = Math.min(this.height - 60, this.maxHeight);
+        int x1 = (this.width / 2) - (targetWidth / 2);
+        int x2 = (this.width / 2) + (targetWidth / 2);
+        int y1 = (this.height / 2) - (targetHeight / 2);
+        int listY1 = y1 + 55;
+        int columns = 3;
+        int colWidth = calculateColWidth(x1, x2, columns);
 
-        return allCards.stream()
-            .anyMatch(card -> card.mouseClicked(event.x(), event.y(), event.button()))
-            || super.mouseClicked(event, doubleClick);
+        for (int i = 0; i < allCards.size(); i++) {
+            int[] pos = calculateCardPosition(i, x1, listY1, colWidth, columns);
+
+            if (allCards.get(i).mouseClicked(event.x(), event.y(), event.button(), pos[0], pos[1], colWidth)) {
+                return true;
+            }
+        }
+
+        return super.mouseClicked(event, doubleClick);
     }
 
     /**
-     * Handles scroll input and updates vertical scroll offset
+     * Calculates the width available for each column based on the
+     * current layout dimensions and spacing rules.
      *
-     * @param mouseX Mouse X position
-     * @param mouseY Mouse Y position
-     * @param scrollX Horizontal scroll delta
-     * @param scrollY Vertical scroll delta
-     * @return true if scroll input was processed
+     * @param x1 The left boundary.
+     * @param x2 The right boundary.
+     * @param columns The total column count.
+     * @return The calculated column width.
+     */
+    private int calculateColWidth(
+        int x1,
+        int x2,
+        int columns
+    ) {
+        return (
+            (x2 - x1)
+                - (SIDE_MARGIN * 2)
+                - ((columns - 1) * GAP)
+        ) / columns;
+    }
+
+    /**
+     * Calculates the screen position of a module card based on its
+     * index, row, column and current scroll offset.
+     *
+     * @param i The module index.
+     * @param x1 The left boundary.
+     * @param listY1 The content starting Y coordinate.
+     * @param colWidth The width of each column.
+     * @param columns The number of columns.
+     * @return An array containing the calculated X and Y coordinates.
+     */
+    private int[] calculateCardPosition(
+        int i,
+        int x1,
+        int listY1,
+        int colWidth,
+        int columns
+    ) {
+        int row = i / columns;
+        int col = i % columns;
+        int cardX = x1 + SIDE_MARGIN + (col * (colWidth + GAP));
+        int cardY = listY1 + (row * (CARD_HEIGHT + GAP)) - (int) scrollOffset;
+        return new int[]{cardX, cardY};
+    }
+
+    /**
+     * Updates the vertical scroll position while keeping it inside
+     * the valid content bounds.
+     *
+     * @param mouseX The current mouse X coordinate.
+     * @param mouseY The current mouse Y coordinate.
+     * @param scrollX The horizontal scroll amount.
+     * @param scrollY The vertical scroll amount.
+     * @return The result of the parent scroll handler.
      */
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+    public boolean mouseScrolled(
+        double mouseX,
+        double mouseY,
+        double scrollX,
+        double scrollY
+    ) {
         this.scrollOffset = Math.clamp(
             this.scrollOffset - scrollY * 20,
             0,
             this.maxScrollOffset
         );
 
-        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+        return super.mouseScrolled(
+            mouseX,
+            mouseY,
+            scrollX,
+            scrollY
+        );
     }
 
     /**
-     * Handles keyboard input events for navigation and screen control
+     * Handles keyboard interactions and returns to the parent screen
+     * when the escape key is pressed.
      *
-     * @param event Key input event containing key code information
-     * @return true if the event was consumed, otherwise false
+     * @param event The keyboard input event.
+     * @return True if the event was consumed.
      */
     @Override
     public boolean keyPressed(KeyEvent event) {
@@ -277,5 +474,84 @@ public class CheatsScreen extends BaseAnimatedScreen {
         }
 
         return super.keyPressed(event);
+    }
+
+    /**
+     * Opens the module configuration screen for a specific cheat module.
+     *
+     * @param moduleName The module display name.
+     * @param desc The module description.
+     * @param settings The collection of configurable settings.
+     */
+    private void openModuleSettings(
+        String moduleName,
+        String desc,
+        List<AbstractSettingComponent> settings
+    ) {
+        Minecraft.getInstance().setScreen(
+            new ModuleSettingsScreen(
+                this,
+                moduleName,
+                desc,
+                settings
+            )
+        );
+    }
+
+    /**
+     * Creates the settings collection used by the Fly module.
+     *
+     * @return A list containing all Fly configuration components.
+     */
+    private List<AbstractSettingComponent> getFlySettings() {
+        List<AbstractSettingComponent> settings =
+            new ArrayList<>();
+
+        settings.add(
+            new SliderSetting(
+                "Fly Speed",
+                0.05f,
+                1.0f,
+                0.05f,
+                "x",
+                val -> MCPClient.getSettingsManager().getCheatsSettings().setFlySpeed(val)
+            )
+        );
+
+        settings.add(
+            new KeybindSetting(
+                "Assign a key bind to the fly",
+                ClientConstants.DEFAULT_INVALID_KEYBIND,
+                val -> {
+                    MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind("fly", val);
+                    MCPClient.getKeyBindManager().updateKey("fly", val);
+                }
+            )
+        );
+
+        return settings;
+    }
+
+    /**
+     * Creates the settings collection used by the Fly module.
+     *
+     * @return A list containing all Fly configuration components.
+     */
+    private List<AbstractSettingComponent> getFakeGmSettings() {
+        List<AbstractSettingComponent> settings =
+            new ArrayList<>();
+
+        settings.add(
+            new SliderSetting(
+                "Fly Speed",
+                0.05f,
+                1.0f,
+                0.05f,
+                "x",
+                val -> MCPClient.getSettingsManager().getCheatsSettings().setFlySpeed(val)
+            )
+        );
+
+        return settings;
     }
 }

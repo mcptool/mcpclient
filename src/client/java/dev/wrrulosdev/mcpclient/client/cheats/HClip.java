@@ -4,21 +4,76 @@ import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationManager;
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationType;
 import dev.wrrulosdev.mcpclient.client.utilities.messages.Msg;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 
-public class HClip {
+import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
+
+public class HClip extends CheatBase {
+
+    public static final HClip INSTANCE = new HClip();
 
     /**
-     * Teleports the local player horizontally relative to their current direction.
-     * A positive distance moves in one horizontal direction while a negative
-     * distance moves in the opposite direction. After teleporting, a chat
-     * message and notification are displayed to the user.
+     * Retrieves the cheat settings instance used by this module.
      *
-     * @param distance Number of blocks to move horizontally
+     * @return The current cheats settings configuration.
      */
-    public static void execute(double distance) {
-        LocalPlayer player = Minecraft.getInstance().player;
+    private CheatsSettings getSettings() {
+        return MCPClient.getSettingsManager().getCheatsSettings();
+    }
+
+    /**
+     * Returns the unique identifier used to reference this cheat.
+     *
+     * @return The cheat identifier.
+     */
+    @Override
+    public String getIdentifier() {
+        return "hclip";
+    }
+
+    /**
+     * Returns the default keyboard key assigned to this module.
+     *
+     * @return The GLFW key code used as the default keybind.
+     */
+    @Override
+    public int getDefaultKey() {
+        return ClientConstants.DEFAULT_INVALID_KEYBIND;
+    }
+
+    /**
+     * Determines whether the HClip module is currently enabled.
+     *
+     * @return True if HClip is enabled.
+     */
+    @Override
+    public boolean isEnabled() {
+        return getSettings().isFlyEnabled();
+    }
+
+    /**
+     * Updates the enabled state of the HClip module.
+     *
+     * @param enabled The new HClip state.
+     */
+    @Override
+    public void setEnabled(boolean enabled) {
+        getSettings().setHClipEnabled(enabled);
+    }
+
+    /**
+     * Executes a horizontal clip by moving the player sideways relative to
+     * their current viewing direction. Positive values move to the right
+     * while negative values move to the left.
+     *
+     * @param player The local player instance.
+     * @param args Additional execution arguments where the first value
+     *             represents the clipping distance.
+     */
+    @Override
+    protected void onExecute(LocalPlayer player, Object... args) {
+        double distance = (double) args[0];
 
         if (player == null) {
             System.out.println("..");

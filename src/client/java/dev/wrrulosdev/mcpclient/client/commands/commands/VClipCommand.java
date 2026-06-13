@@ -58,7 +58,7 @@ public class VClipCommand implements Command {
      */
     private int executeHClip(CommandContext<FabricClientCommandSource> context) {
         double distance = DoubleArgumentType.getDouble(context, COMMAND_ARGS.getFirst());
-        VClip.execute(distance);
+        VClip.INSTANCE.run(distance);
         return 1;
     }
 }
