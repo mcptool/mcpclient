@@ -521,7 +521,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
         settings.add(
             new KeybindSetting(
                 "Assign a key bind to the fly",
-                ClientConstants.DEFAULT_INVALID_KEYBIND,
+                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind("fly"),
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind("fly", val);
                     MCPClient.getKeyBindManager().updateKey("fly", val);

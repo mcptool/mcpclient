@@ -92,14 +92,7 @@ public class KeybindSetting extends AbstractSettingComponent {
 
         String keyName = this.listening
             ? "[...]"
-            : GLFW.glfwGetKeyName(this.key, 0);
-
-        if (keyName == null || keyName.isEmpty()) {
-            keyName = this.key == GLFW.GLFW_KEY_UNKNOWN
-                ? "NONE"
-                : "KEY " + this.key;
-        }
-
+            : getKeyName(this.key);
         keyName = keyName.toUpperCase();
 
         int boxW = font.width(keyName) + 14;
@@ -192,6 +185,107 @@ public class KeybindSetting extends AbstractSettingComponent {
         }
 
         return true;
+    }
+
+    /**
+     * Converts a GLFW key code into a user-friendly display name.
+     *
+     * @param key The GLFW key code.
+     * @return A readable name for the specified key.
+     */
+    private static String getKeyName(int key) {
+        String name = GLFW.glfwGetKeyName(key, GLFW.glfwGetKeyScancode(key));
+
+        if (name != null && !name.isEmpty()) {
+            return name.toUpperCase();
+        }
+
+        return switch (key) {
+            case GLFW.GLFW_KEY_UNKNOWN -> "NONE";
+            case GLFW.GLFW_KEY_LEFT_SHIFT -> "LSHIFT";
+            case GLFW.GLFW_KEY_RIGHT_SHIFT -> "RSHIFT";
+            case GLFW.GLFW_KEY_LEFT_CONTROL -> "LCTRL";
+            case GLFW.GLFW_KEY_RIGHT_CONTROL -> "RCTRL";
+            case GLFW.GLFW_KEY_LEFT_ALT -> "LALT";
+            case GLFW.GLFW_KEY_RIGHT_ALT -> "RALT";
+            case GLFW.GLFW_KEY_LEFT_SUPER -> "LWIN";
+            case GLFW.GLFW_KEY_RIGHT_SUPER -> "RWIN";
+            case GLFW.GLFW_KEY_MENU -> "MENU";
+            case GLFW.GLFW_KEY_TAB -> "TAB";
+            case GLFW.GLFW_KEY_ENTER -> "ENTER";
+            case GLFW.GLFW_KEY_ESCAPE -> "ESC";
+            case GLFW.GLFW_KEY_BACKSPACE -> "BACKSPACE";
+            case GLFW.GLFW_KEY_INSERT -> "INS";
+            case GLFW.GLFW_KEY_DELETE -> "DEL";
+            case GLFW.GLFW_KEY_HOME -> "HOME";
+            case GLFW.GLFW_KEY_END -> "END";
+            case GLFW.GLFW_KEY_PAGE_UP -> "PGUP";
+            case GLFW.GLFW_KEY_PAGE_DOWN -> "PGDN";
+            case GLFW.GLFW_KEY_UP -> "UP";
+            case GLFW.GLFW_KEY_DOWN -> "DOWN";
+            case GLFW.GLFW_KEY_LEFT -> "LEFT";
+            case GLFW.GLFW_KEY_RIGHT -> "RIGHT";
+            case GLFW.GLFW_KEY_CAPS_LOCK -> "CAPS";
+            case GLFW.GLFW_KEY_SCROLL_LOCK -> "SCROLL";
+            case GLFW.GLFW_KEY_NUM_LOCK -> "NUMLOCK";
+            case GLFW.GLFW_KEY_PRINT_SCREEN -> "PRTSC";
+            case GLFW.GLFW_KEY_PAUSE -> "PAUSE";
+            case GLFW.GLFW_KEY_F1 -> "F1";
+            case GLFW.GLFW_KEY_F2 -> "F2";
+            case GLFW.GLFW_KEY_F3 -> "F3";
+            case GLFW.GLFW_KEY_F4 -> "F4";
+            case GLFW.GLFW_KEY_F5 -> "F5";
+            case GLFW.GLFW_KEY_F6 -> "F6";
+            case GLFW.GLFW_KEY_F7 -> "F7";
+            case GLFW.GLFW_KEY_F8 -> "F8";
+            case GLFW.GLFW_KEY_F9 -> "F9";
+            case GLFW.GLFW_KEY_F10 -> "F10";
+            case GLFW.GLFW_KEY_F11 -> "F11";
+            case GLFW.GLFW_KEY_F12 -> "F12";
+            case GLFW.GLFW_KEY_F13 -> "F13";
+            case GLFW.GLFW_KEY_F14 -> "F14";
+            case GLFW.GLFW_KEY_F15 -> "F15";
+            case GLFW.GLFW_KEY_F16 -> "F16";
+            case GLFW.GLFW_KEY_F17 -> "F17";
+            case GLFW.GLFW_KEY_F18 -> "F18";
+            case GLFW.GLFW_KEY_F19 -> "F19";
+            case GLFW.GLFW_KEY_F20 -> "F20";
+            case GLFW.GLFW_KEY_F21 -> "F21";
+            case GLFW.GLFW_KEY_F22 -> "F22";
+            case GLFW.GLFW_KEY_F23 -> "F23";
+            case GLFW.GLFW_KEY_F24 -> "F24";
+            case GLFW.GLFW_KEY_F25 -> "F25";
+            case GLFW.GLFW_KEY_KP_0 -> "NUM0";
+            case GLFW.GLFW_KEY_KP_1 -> "NUM1";
+            case GLFW.GLFW_KEY_KP_2 -> "NUM2";
+            case GLFW.GLFW_KEY_KP_3 -> "NUM3";
+            case GLFW.GLFW_KEY_KP_4 -> "NUM4";
+            case GLFW.GLFW_KEY_KP_5 -> "NUM5";
+            case GLFW.GLFW_KEY_KP_6 -> "NUM6";
+            case GLFW.GLFW_KEY_KP_7 -> "NUM7";
+            case GLFW.GLFW_KEY_KP_8 -> "NUM8";
+            case GLFW.GLFW_KEY_KP_9 -> "NUM9";
+            case GLFW.GLFW_KEY_KP_DECIMAL -> "NUM.";
+            case GLFW.GLFW_KEY_KP_DIVIDE -> "NUM/";
+            case GLFW.GLFW_KEY_KP_MULTIPLY -> "NUM*";
+            case GLFW.GLFW_KEY_KP_SUBTRACT -> "NUM-";
+            case GLFW.GLFW_KEY_KP_ADD -> "NUM+";
+            case GLFW.GLFW_KEY_KP_ENTER -> "NUMENTER";
+            case GLFW.GLFW_KEY_KP_EQUAL -> "NUM=";
+            case GLFW.GLFW_KEY_SPACE -> "SPACE";
+            case GLFW.GLFW_KEY_MINUS -> "-";
+            case GLFW.GLFW_KEY_EQUAL -> "=";
+            case GLFW.GLFW_KEY_LEFT_BRACKET -> "[";
+            case GLFW.GLFW_KEY_RIGHT_BRACKET -> "]";
+            case GLFW.GLFW_KEY_BACKSLASH -> "\\";
+            case GLFW.GLFW_KEY_SEMICOLON -> ";";
+            case GLFW.GLFW_KEY_APOSTROPHE -> "'";
+            case GLFW.GLFW_KEY_GRAVE_ACCENT -> "`";
+            case GLFW.GLFW_KEY_COMMA -> ",";
+            case GLFW.GLFW_KEY_PERIOD -> ".";
+            case GLFW.GLFW_KEY_SLASH -> "/";
+            default -> "KEY " + key;
+        };
     }
 
     /**

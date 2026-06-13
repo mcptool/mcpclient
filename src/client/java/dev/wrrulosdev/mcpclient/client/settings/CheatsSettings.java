@@ -35,14 +35,6 @@ public class CheatsSettings {
         save();
     }
 
-    public int getFlyKeyBind() {
-        return getKeyForKeyBind("fly");
-    }
-
-    public void setFlyKeyBind(int flyKeyBind) {
-        setKeyForKeyBind("fly", flyKeyBind);
-    }
-
     public boolean isFlyEnabled() { return flyEnabled; }
     public void setFlyEnabled(boolean flyEnabled) { this.flyEnabled = flyEnabled; save(); }
 
