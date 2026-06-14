@@ -2,9 +2,8 @@ package dev.wrrulosdev.mcpclient.client.mixins.render;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.wrrulosdev.mcpclient.client.MCPClient;
-import dev.wrrulosdev.mcpclient.client.cheats.WallHackRenderer;
+import dev.wrrulosdev.mcpclient.client.cheats.WallHack;
 import dev.wrrulosdev.mcpclient.client.cheats.esp.BlockScanner;
 import dev.wrrulosdev.mcpclient.client.cheats.esp.EspRenderer;
 import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
@@ -60,9 +59,8 @@ public class LevelRendererMixin {
     ) {
         CheatsSettings cheatsSettings = MCPClient.getSettingsManager().getCheatsSettings();
 
-        if (cheatsSettings.isWallhackEnabled()) {
-            WallHackRenderer.renderBoxes();
-            WallHackRenderer.renderStickMan();
+        if (WallHack.INSTANCE.isEnabled()) {
+            WallHack.INSTANCE.run();
         }
 
         if (cheatsSettings.isBlockTrackerEnabled()) {

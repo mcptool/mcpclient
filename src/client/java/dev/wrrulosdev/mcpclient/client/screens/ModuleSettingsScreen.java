@@ -54,7 +54,6 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
 
         int btnWidth = 100;
         int btnHeight = 22;
-
         int btnX = this.width / 2 - btnWidth / 2;
         int btnY = (this.height / 2)
             + (this.maxHeight / 2)
@@ -204,13 +203,11 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
             int btnY = y2 - 32;
             this.backButton.setX(btnX);
             this.backButton.setY(btnY);
-
             isButtonHovered =
                 mouseX >= btnX
                     && mouseX <= btnX + this.backButton.getWidth()
                     && mouseY >= btnY
                     && mouseY <= btnY + this.backButton.getHeight();
-
             this.backButton.render(
                 graphics,
                 mouseX,

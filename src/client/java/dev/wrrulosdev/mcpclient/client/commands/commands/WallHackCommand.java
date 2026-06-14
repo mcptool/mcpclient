@@ -3,6 +3,8 @@ package dev.wrrulosdev.mcpclient.client.commands.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.cheats.Spider;
+import dev.wrrulosdev.mcpclient.client.cheats.WallHack;
 import dev.wrrulosdev.mcpclient.client.commands.Command;
 import dev.wrrulosdev.mcpclient.client.commands.CommandManager;
 import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
@@ -32,9 +34,8 @@ public class WallHackCommand implements Command {
      * @return Command result status
      */
     private int executeRoot(CommandContext<FabricClientCommandSource> context) {
-        CheatsSettings settings = MCPClient.getSettingsManager().getCheatsSettings();
-        settings.setWallhackEnabled(!settings.isWallhackEnabled());
-        CommandManager.sendStatus(COMMAND_NAME, settings.isWallhackEnabled());
+        WallHack.INSTANCE.toggle();
+        WallHack.INSTANCE.run();
         return 1;
     }
 }

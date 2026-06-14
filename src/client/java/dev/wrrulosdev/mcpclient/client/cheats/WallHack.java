@@ -1,6 +1,10 @@
 package dev.wrrulosdev.mcpclient.client.cheats;
 
+import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
+import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -8,13 +12,88 @@ import net.minecraft.gizmos.Gizmos;
 import net.minecraft.gizmos.GizmoStyle;
 import net.minecraft.world.phys.Vec3;
 
-public class WallHackRenderer {
+public class WallHack extends CheatBase {
 
+    public static final WallHack INSTANCE = new WallHack();
     private static final GizmoStyle BOX_STROKE = GizmoStyle.stroke(0xFFFF0000, 2.0F);
     private static final GizmoStyle BOX_FILL = GizmoStyle.fill(0x50FF0000);
     private static final int STICK_COLOR = 0xFFFFFFFF;
     private static final float STICK_WIDTH = 2.0F;
     private static final GizmoStyle STICK_STYLE = GizmoStyle.stroke(STICK_COLOR, STICK_WIDTH);
+
+    /**
+     * Retrieves the cheat configuration container.
+     *
+     * @return The cheat settings instance.
+     */
+    private CheatsSettings getSettings() {
+        return MCPClient.getSettingsManager().getCheatsSettings();
+    }
+
+    /**
+     * Returns the unique identifier used to register and
+     * persist this cheat within the client configuration.
+     *
+     * @return The wallhack module identifier.
+     */
+    @Override
+    public String getIdentifier() {
+        return "wallhack";
+    }
+
+    /**
+     * Returns the default key binding assigned to this module.
+     * <p>
+     * WallHack does not have a default key bind and must be
+     * configured manually by the user if desired.
+     *
+     * @return The default key code for this module.
+     */
+    @Override
+    public int getDefaultKey() {
+        return ClientConstants.DEFAULT_INVALID_KEYBIND;
+    }
+
+    /**
+     * Determines whether the WallHack module is currently enabled.
+     *
+     * @return {@code true} if WallHack is enabled; otherwise {@code false}.
+     */
+    @Override
+    public boolean isEnabled() {
+        return getSettings().isWallhackEnabled();
+    }
+
+    /**
+     * Updates the enabled state of the WallHack module.
+     *
+     * @param enabled The new enabled state.
+     */
+    @Override
+    public void setEnabled(boolean enabled) {
+        getSettings().setWallhackEnabled(enabled);
+    }
+
+    /**
+     * Executes the WallHack rendering logic.
+     * <p>
+     * When enabled, this method renders additional visual overlays
+     * for nearby entities, including bounding boxes and stickman
+     * skeleton representations.
+     *
+     * @param player The local player instance.
+     * @param args   Optional execution arguments.
+     */
+    @Override
+    protected void onExecute(LocalPlayer player, Object... args) {
+        if (this.getSettings().isWallHackBoxesEnabled()) {
+            renderBoxes();
+        }
+
+        if (this.getSettings().isWallHackStickManEnabled()) {
+            renderStickMan();
+        }
+    }
 
     /**
      * Renders ESP boxes around all visible player entities in the world,

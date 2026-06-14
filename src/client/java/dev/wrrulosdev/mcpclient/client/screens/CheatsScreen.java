@@ -82,6 +82,12 @@ public class CheatsScreen extends BaseAnimatedScreen {
             "Prevents or reduces fall damage.",
             () -> openModuleSettings("NoFall", "NoFall settings...", getNoFallSettings())
         );
+        addCard(
+            WallHack.INSTANCE,
+            "WallHack",
+            "Shows players through walls.",
+            () -> openModuleSettings("WallHack", "WallHack settings...", getWallHackSettings())
+        );
     }
 
     /**
@@ -674,6 +680,45 @@ public class CheatsScreen extends BaseAnimatedScreen {
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(NoFall.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(NoFall.INSTANCE.getIdentifier(), val);
+                }
+            )
+        );
+
+        return settings;
+    }
+
+    /**
+     * Creates the settings collection used by the WallHack module.
+     *
+     * @return A list containing all WallHack configuration components.
+     */
+    private List<AbstractSettingComponent> getWallHackSettings() {
+        List<AbstractSettingComponent> settings =
+            new ArrayList<>();
+
+        settings.add(
+            new ToggleSetting(
+                "Showing borders through the players",
+                MCPClient.getSettingsManager().getCheatsSettings().isWallHackBoxesEnabled(),
+                MCPClient.getSettingsManager().getCheatsSettings()::setWallHackBoxesEnabled
+            )
+        );
+
+        settings.add(
+            new ToggleSetting(
+                "Show stick mans of the players",
+                MCPClient.getSettingsManager().getCheatsSettings().isWallHackStickManEnabled(),
+                MCPClient.getSettingsManager().getCheatsSettings()::setWallHackStickManEnabled
+            )
+        );
+
+        settings.add(
+            new KeybindSetting(
+                "Assign a key bind to the WallHack",
+                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(WallHack.INSTANCE.getIdentifier()),
+                val -> {
+                    MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(WallHack.INSTANCE.getIdentifier(), val);
+                    MCPClient.getKeyBindManager().updateKey(WallHack.INSTANCE.getIdentifier(), val);
                 }
             )
         );

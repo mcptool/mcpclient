@@ -39,6 +39,7 @@ public class KeyBindManager {
         register(Jesus.INSTANCE);
         register(Spider.INSTANCE);
         register(NoFall.INSTANCE);
+        register(WallHack.INSTANCE);
     }
 
     /**

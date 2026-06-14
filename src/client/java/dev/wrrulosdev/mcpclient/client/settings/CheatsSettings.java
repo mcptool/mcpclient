@@ -24,6 +24,9 @@ public class CheatsSettings {
     private double spiderSpeed = 0.2D;
 
     private boolean wallhackEnabled = false;
+    private boolean wallHackBoxesEnabled = false;
+    private boolean wallHackStickManEnabled = false;
+
     private boolean antikbEnabled = false;
     private boolean hClipEnabled = false;
     private boolean vClipEnabled = false;
@@ -86,6 +89,22 @@ public class CheatsSettings {
     public boolean isWallhackEnabled() { return wallhackEnabled; }
     public void setWallhackEnabled(boolean wallhackEnabled) { this.wallhackEnabled = wallhackEnabled; save(); }
 
+    public boolean isWallHackStickManEnabled() {
+        return wallHackStickManEnabled;
+    }
+
+    public void setWallHackStickManEnabled(boolean wallHackStickManEnabled) {
+        this.wallHackStickManEnabled = wallHackStickManEnabled;
+    }
+
+    public boolean isWallHackBoxesEnabled() {
+        return wallHackBoxesEnabled;
+    }
+
+    public void setWallHackBoxesEnabled(boolean wallHackBoxesEnabled) {
+        this.wallHackBoxesEnabled = wallHackBoxesEnabled;
+    }
+
     public boolean isSpiderEnabled() { return spiderEnabled; }
     public void setSpiderEnabled(boolean spiderEnabled) { this.spiderEnabled = spiderEnabled; save(); }
 
@@ -114,4 +133,5 @@ public class CheatsSettings {
 
     public boolean isBlockTrackerEnabled() { return blockTrackerEnabled; }
     public void setBlockTrackerEnabled(boolean blockTrackerEnabled) { this.blockTrackerEnabled = blockTrackerEnabled; save(); }
+
 }
