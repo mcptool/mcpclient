@@ -1,5 +1,8 @@
 package dev.wrrulosdev.mcpclient.client.cheats;
 
+import dev.wrrulosdev.mcpclient.client.notifications.NotificationManager;
+import dev.wrrulosdev.mcpclient.client.notifications.NotificationType;
+import dev.wrrulosdev.mcpclient.client.utilities.messages.TextUtilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 
@@ -50,8 +53,14 @@ public abstract class CheatBase {
      */
     public final void toggle() {
         boolean newState = !isEnabled();
+        String cheatName = TextUtilities.capitalize(getIdentifier());
 
         setEnabled(newState);
+        NotificationManager.show(
+            cheatName,
+            cheatName + " was " + (isEnabled() ? "activated" : "deactivated"),
+            isEnabled() ? NotificationType.SUCCESS : NotificationType.WARNING
+        );
         run();
     }
 
