@@ -55,7 +55,8 @@ public class CheatsSettings {
     private boolean blockTrackerStorageEnabled = false;
     private boolean blockTrackerUtilityEnabled = false;
     private boolean blockTrackerRedstoneEnabled = false;
-    private int blockTrackerScanRadius = 32;
+    private float blockTrackerScanRadius = 32.0f;
+    private float blockTrackerScanDelay = 2.0f;
 
     private void save() {
         MCPClient.saveSettings();
@@ -254,12 +255,21 @@ public class CheatsSettings {
         save();
     }
 
-    public int getBlockTrackerScanRadius() {
+    public float getBlockTrackerScanRadius() {
         return blockTrackerScanRadius;
     }
 
-    public void setBlockTrackerScanRadius(int blockTrackerScanRadius) {
-        this.blockTrackerScanRadius = blockTrackerScanRadius;
+    public void setBlockTrackerScanRadius(float blockTrackerScanRadius) {
+        this.blockTrackerScanRadius =  blockTrackerScanRadius;
+        save();
+    }
+
+    public float getBlockTrackerScanDelay() {
+        return blockTrackerScanDelay;
+    }
+
+    public void setBlockTrackerScanDelay(float blockTrackerScanDelay) {
+        this.blockTrackerScanDelay = blockTrackerScanDelay;
         save();
     }
 }

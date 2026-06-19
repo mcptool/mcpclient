@@ -58,10 +58,6 @@ public class BlockScanner {
     private static final EnumSet<TargetCategory> ENABLED_CATEGORIES =
         EnumSet.allOf(TargetCategory.class);
 
-    /**
-     * Minimum delay between scans in milliseconds.
-     */
-    private static final long SCAN_INTERVAL_MS = 2000L;
 
     /**
      * Time of the last scan request.
@@ -248,8 +244,11 @@ public class BlockScanner {
      */
     public static void update(BlockPos playerPos) {
         long currentTime = System.currentTimeMillis();
+        long scanDelay = (long) (MCPClient.getSettingsManager()
+                    .getCheatsSettings()
+                    .getBlockTrackerScanDelay() * 1000L);
 
-        if (currentTime - lastScanTime < SCAN_INTERVAL_MS || !SCANNING.compareAndSet(false, true)) {
+        if (currentTime - lastScanTime < scanDelay || !SCANNING.compareAndSet(false, true)) {
             return;
         }
 
@@ -285,7 +284,7 @@ public class BlockScanner {
         int centerZ,
         EnumSet<TargetCategory> enabledCategories
     ) {
-        int scanRadius = MCPClient.getSettingsManager().getCheatsSettings().getBlockTrackerScanRadius();
+        int scanRadius = (int) MCPClient.getSettingsManager().getCheatsSettings().getBlockTrackerScanRadius();
 
         try {
             List<ScannedBlock> foundBlocks = new ArrayList<>();

@@ -949,14 +949,26 @@ public class CheatsScreen extends BaseAnimatedScreen {
             new ArrayList<>();
 
         CheatsSettings cs = MCPClient.getSettingsManager().getCheatsSettings();
+
         settings.add(
             new SliderSetting(
-                "Tracker distance",
-                1.0f,
-                1.50f,
-                (float) cs.getJesusSpeed(),
-                "x",
-                cs::setJesusSpeed
+                "Block scanner radius",
+                5.0f,
+                128.0f,
+                cs.getBlockTrackerScanRadius(),
+                "blocks",
+                cs::setBlockTrackerScanRadius
+            )
+        );
+
+        settings.add(
+            new SliderSetting(
+                "Block scanner delay",
+                0.1f,
+                10.0f,
+                cs.getBlockTrackerScanDelay(),
+                "seconds",
+                cs::setBlockTrackerScanDelay
             )
         );
 
@@ -1037,16 +1049,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
             cs.isBlockTrackerUtilityEnabled(),
             cs::setBlockTrackerUtilityEnabled
         ));
-        settings.add(
-            new SliderSetting(
-                "Jesus Speed",
-                1.0f,
-                1.50f,
-                (float) MCPClient.getSettingsManager().getCheatsSettings().getJesusSpeed(),
-                "x",
-                val -> MCPClient.getSettingsManager().getCheatsSettings().setJesusSpeed(val)
-            )
-        );
+
         settings.add(new ToggleSetting(
             "View redstone",
             cs.isBlockTrackerRedstoneEnabled(),
