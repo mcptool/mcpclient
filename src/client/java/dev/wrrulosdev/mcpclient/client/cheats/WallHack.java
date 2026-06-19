@@ -42,6 +42,14 @@ public class WallHack extends CheatBase {
     }
 
     /**
+     * Returns the display name of this cheat.
+     */
+    @Override
+    public String getName() {
+        return "WallHack";
+    }
+
+    /**
      * Returns the default key binding assigned to this module.
      * <p>
      * WallHack does not have a default key bind and must be

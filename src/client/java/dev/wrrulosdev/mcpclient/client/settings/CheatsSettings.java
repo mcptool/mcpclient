@@ -33,6 +33,8 @@ public class CheatsSettings {
     private double hClipDistance = 0.0D;
 
     private boolean vClipEnabled = false;
+    private double vClipDistance = 0.0D;
+
     private boolean fullBrightEnabled = false;
     private boolean noFallEnabled = false;
     private boolean blockTrackerEnabled = false;
@@ -136,6 +138,15 @@ public class CheatsSettings {
     public boolean isVClipEnabled() { return vClipEnabled; }
     public void setVClipEnabled(boolean vClipEnabled) { this.vClipEnabled = vClipEnabled; save(); }
 
+
+    public double getvClipDistance() {
+        return vClipDistance;
+    }
+
+    public void setvClipDistance(double vClipDistance) {
+        this.vClipDistance = vClipDistance;
+    }
+
     public boolean isFullBrightEnabled() { return fullBrightEnabled; }
     public void setFullBrightEnabled(boolean fullBrightEnabled) { this.fullBrightEnabled = fullBrightEnabled; save(); }
 
@@ -144,4 +155,5 @@ public class CheatsSettings {
 
     public boolean isBlockTrackerEnabled() { return blockTrackerEnabled; }
     public void setBlockTrackerEnabled(boolean blockTrackerEnabled) { this.blockTrackerEnabled = blockTrackerEnabled; save(); }
+
 }

@@ -32,6 +32,14 @@ public class Jesus extends CheatBase {
     }
 
     /**
+     * Returns the display name of this cheat.
+     */
+    @Override
+    public String getName() {
+        return "Jesus";
+    }
+
+    /**
      * Returns the default keyboard key assigned to this module.
      *
      * @return The default keybind identifier.

@@ -33,6 +33,14 @@ public class VClip extends CheatBase {
     }
 
     /**
+     * Returns the display name of this cheat.
+     */
+    @Override
+    public String getName() {
+        return "VClip";
+    }
+
+    /**
      * Returns the default keyboard key assigned to this module.
      *
      * @return The default keybind identifier.
@@ -63,6 +71,15 @@ public class VClip extends CheatBase {
     }
 
     /**
+     * Determine whether the trick should be executed when it is
+     * disabled using the toggle function.
+     */
+    @Override
+    public boolean runOnToggle() {
+        return false;
+    }
+
+    /**
      * Performs a vertical teleport by instantly moving the player up or down
      * by the specified distance. Positive values move upward while negative
      * values move downward.
@@ -73,7 +90,7 @@ public class VClip extends CheatBase {
      */
     @Override
     protected void onExecute(LocalPlayer player, Object... args) {
-        double distance = (double) args[0];
+        int distance = (int) ((args.length != 0) ? ((Number) args[0]).doubleValue() : this.getSettings().getvClipDistance());
 
         if (player == null) {
             return;
@@ -88,21 +105,16 @@ public class VClip extends CheatBase {
         String direction = distance >= 0
             ? "up"
             : "down";
-
         Msg.sendFormattedMessage(
             ClientConstants.PREFIX +
-                "&aTeleported &d" +
+                "&cTeleported &f" +
                 Math.abs(distance) +
-                " &ablocks &d" +
+                " &cblocks &fto " +
                 direction
         );
-
         NotificationManager.show(
-            "VClip",
-            "Teleported " +
-                Math.abs(distance) +
-                " blocks " +
-                direction,
+            "HClip",
+            "Teleported " + Math.abs(distance) + " blocks to " + direction,
             NotificationType.SUCCESS
         );
     }

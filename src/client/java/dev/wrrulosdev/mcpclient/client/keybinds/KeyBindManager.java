@@ -41,6 +41,7 @@ public class KeyBindManager {
         register(NoFall.INSTANCE);
         register(WallHack.INSTANCE);
         register(HClip.INSTANCE);
+        register(VClip.INSTANCE);
     }
 
     /**
@@ -98,7 +99,11 @@ public class KeyBindManager {
     public void tick() {
         for (KeyBindEntry entry : registry) {
             if (entry.mapping().consumeClick()) {
-                entry.cheat().toggle();
+                if (entry.cheat().runOnToggle()) {
+                    entry.cheat().toggle();
+                } else {
+                    entry.cheat().run();
+                }
             }
         }
     }

@@ -31,6 +31,14 @@ public class Spider extends CheatBase {
     }
 
     /**
+     * Returns the display name of this cheat.
+     */
+    @Override
+    public String getName() {
+        return "Spider";
+    }
+
+    /**
      * Returns the default key assigned to this cheat.
      * Spider is disabled by default and does not have a keybind.
      *

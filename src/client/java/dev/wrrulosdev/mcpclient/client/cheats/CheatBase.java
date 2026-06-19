@@ -17,6 +17,15 @@ public abstract class CheatBase {
     public abstract String getIdentifier();
 
     /**
+     * Returns the user-friendly display name of the cheat.
+     * <p>
+     * Unlike the identifier, this value is intended for
+     * graphical interfaces, notifications, menus, and other
+     * user-facing elements.
+     */
+    public abstract String getName();
+
+    /**
      * Returns the default keyboard key assigned to this cheat.
      *
      * @return The GLFW key identifier.
@@ -38,10 +47,10 @@ public abstract class CheatBase {
     public abstract void setEnabled(boolean enabled);
 
     /**
-     * Determines whether the client should automatically display
-     * a notification when this module is enabled or disabled.
+     * Determine whether the trick should be executed when it is
+     * disabled using the toggle function.
      */
-    public boolean shouldNotifyToggle() {
+    public boolean runOnToggle() {
         return true;
     }
 
@@ -61,17 +70,15 @@ public abstract class CheatBase {
      */
     public final void toggle() {
         boolean newState = !isEnabled();
-        String cheatName = TextUtilities.capitalize(getIdentifier());
+        String cheatName = getName();
         setEnabled(newState);
+        NotificationManager.show(
+            cheatName,
+            cheatName + " was " + (isEnabled() ? "activated" : "deactivated"),
+            isEnabled() ? NotificationType.SUCCESS : NotificationType.WARNING
+        );
 
-        if (shouldNotifyToggle()) {
-            NotificationManager.show(
-                cheatName,
-                cheatName + " was " + (isEnabled() ? "activated" : "deactivated"),
-                isEnabled() ? NotificationType.SUCCESS : NotificationType.WARNING
-            );
-        }
-
+        if (!runOnToggle()) return;
         run();
     }
 
@@ -82,6 +89,7 @@ public abstract class CheatBase {
      * @param args Optional execution arguments.
      */
     public final void run(Object... args) {
+        if (!isEnabled()) return;
         LocalPlayer player = Minecraft.getInstance().player;
 
         if (player == null) {

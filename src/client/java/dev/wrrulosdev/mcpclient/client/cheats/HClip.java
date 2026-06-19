@@ -33,6 +33,14 @@ public class HClip extends CheatBase {
     }
 
     /**
+     * Returns the display name of this cheat.
+     */
+    @Override
+    public String getName() {
+        return "HClip";
+    }
+
+    /**
      * Returns the default keyboard key assigned to this module.
      *
      * @return The GLFW key code used as the default keybind.
@@ -63,11 +71,11 @@ public class HClip extends CheatBase {
     }
 
     /**
-     * Determines whether the client should automatically display
-     * a notification when this module is enabled or disabled.
+     * Determine whether the trick should be executed when it is
+     * disabled using the toggle function.
      */
     @Override
-    public boolean shouldNotifyToggle() {
+    public boolean runOnToggle() {
         return false;
     }
 
@@ -103,12 +111,12 @@ public class HClip extends CheatBase {
             ClientConstants.PREFIX +
                 "&cTeleported &f" +
                 Math.abs(distance) +
-                " &cblocks &fto" +
+                " &cblocks &fto " +
                 direction
         );
         NotificationManager.show(
             "HClip",
-            "Teleported " + Math.abs(distance) + " blocks to" + direction,
+            "Teleported " + Math.abs(distance) + " blocks to " + direction,
             NotificationType.SUCCESS
         );
     }

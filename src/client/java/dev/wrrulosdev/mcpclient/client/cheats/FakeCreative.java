@@ -31,6 +31,14 @@ public class FakeCreative extends CheatBase {
     }
 
     /**
+     * Returns the display name of this cheat.
+     */
+    @Override
+    public String getName() {
+        return "FakeCreative";
+    }
+
+    /**
      * Returns the default keyboard key assigned to this module.
      *
      * @return The GLFW key code used as the default keybind.

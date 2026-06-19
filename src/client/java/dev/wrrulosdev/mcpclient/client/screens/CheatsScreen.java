@@ -94,6 +94,12 @@ public class CheatsScreen extends BaseAnimatedScreen {
             "Teleports you horizontally through blocks.",
             () -> openModuleSettings("HClip", "HClip settings...",  getHClipSettings())
         );
+        addCard(
+            VClip.INSTANCE,
+            "VClip",
+            "Teleports you vertically up or down.",
+            () -> openModuleSettings("VClip", "VClip settings...",  getVClipSettings())
+        );
     }
 
     /**
@@ -759,6 +765,40 @@ public class CheatsScreen extends BaseAnimatedScreen {
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(HClip.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(HClip.INSTANCE.getIdentifier(), val);
+                }
+            )
+        );
+
+        return settings;
+    }
+
+    /**
+     * Creates the settings collection used by the HClip module.
+     *
+     * @return A list containing all HClip configuration components.
+     */
+    private List<AbstractSettingComponent> getVClipSettings() {
+        List<AbstractSettingComponent> settings =
+            new ArrayList<>();
+
+        settings.add(
+            new SliderSetting(
+                "Teleportation distance",
+                1.0f,
+                100.0f,
+                (float) MCPClient.getSettingsManager().getCheatsSettings().getvClipDistance(),
+                "x",
+                val -> MCPClient.getSettingsManager().getCheatsSettings().setvClipDistance(val)
+            )
+        );
+
+        settings.add(
+            new KeybindSetting(
+                "Assign a key bind to the VClip",
+                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(VClip.INSTANCE.getIdentifier()),
+                val -> {
+                    MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(VClip.INSTANCE.getIdentifier(), val);
+                    MCPClient.getKeyBindManager().updateKey(VClip.INSTANCE.getIdentifier(), val);
                 }
             )
         );
