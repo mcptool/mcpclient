@@ -2,15 +2,19 @@ package dev.wrrulosdev.mcpclient.client.cheats.esp;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BlockScanner {
 
@@ -31,15 +35,58 @@ public class BlockScanner {
         REDSTONE
     }
 
+    /**
+     * Associates a block with its ESP color and category.
+     */
     private record Target(Block block, int color, TargetCategory category) { }
 
-    public static final List<ScannedBlock> scannedBlocks = new CopyOnWriteArrayList<>();
-    private static final List<Target> TARGETS = new ArrayList<>();
+    /**
+     * Immutable snapshot of the most recent scan results.
+     */
+    public static volatile List<ScannedBlock> scannedBlocks = List.of();
+
+    /**
+     * Targets indexed by block for constant-time access.
+     * A single block may belong to multiple categories.
+     */
+    private static final Map<Block, List<Target>> TARGETS = new HashMap<>();
+
+    /**
+     * Enabled target categories.
+     */
     private static final EnumSet<TargetCategory> ENABLED_CATEGORIES =
         EnumSet.allOf(TargetCategory.class);
 
-    private static long lastScanTime = 0;
-    private static boolean isScanning = false;
+    /**
+     * Minimum delay between scans in milliseconds.
+     */
+    private static final long SCAN_INTERVAL_MS = 2000L;
+
+    /**
+     * Scan radius around the player.
+     * Lower values provide better performance.
+     */
+    private static final int SCAN_RADIUS = 64;
+
+    /**
+     * Time of the last scan request.
+     */
+    private static long lastScanTime = 0L;
+
+    /**
+     * Prevents overlapping scans.
+     */
+    private static final AtomicBoolean SCANNING = new AtomicBoolean(false);
+
+    /**
+     * Single worker thread used for block scanning.
+     */
+    private static final ExecutorService SCAN_EXECUTOR =
+        Executors.newSingleThreadExecutor(r -> {
+            Thread thread = new Thread(r, "BlockScanner");
+            thread.setDaemon(true);
+            return thread;
+        });
 
     static {
         // COAL_ORES
@@ -83,16 +130,12 @@ public class BlockScanner {
 
         // MINERAL_BLOCKS
         addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.COAL_BLOCK, 0xFF4D4D4D);
-
         addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.IRON_BLOCK, 0xFFD8D8D8);
         addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.RAW_IRON_BLOCK, 0xFFB0B0B0);
-
         addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.COPPER_BLOCK, 0xFFB87333);
         addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.RAW_COPPER_BLOCK, 0xFFA85E2E);
-
         addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.GOLD_BLOCK, 0xFFFFD700);
         addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.RAW_GOLD_BLOCK, 0xFFE6C200);
-
         addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.REDSTONE_BLOCK, 0xFFFF0000);
         addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.LAPIS_BLOCK, 0xFF3366FF);
         addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.DIAMOND_BLOCK, 0xFF00FFFF);
@@ -176,10 +219,24 @@ public class BlockScanner {
         addTarget(TargetCategory.REDSTONE, Blocks.TARGET, 0xFFFF6666);
     }
 
+    /**
+     * Registers a block target under the given category and color.
+     *
+     * @param category Target category.
+     * @param block Block to detect.
+     * @param color ARGB color used for rendering.
+     */
     private static void addTarget(TargetCategory category, Block block, int color) {
-        TARGETS.add(new Target(block, color, category));
+        TARGETS.computeIfAbsent(block, ignored -> new ArrayList<>())
+            .add(new Target(block, color, category));
     }
 
+    /**
+     * Enables or disables a whole scan category.
+     *
+     * @param category Target category to update.
+     * @param enabled Whether the category should be enabled.
+     */
     public static void setCategoryEnabled(TargetCategory category, boolean enabled) {
         if (enabled) {
             ENABLED_CATEGORIES.add(category);
@@ -188,50 +245,112 @@ public class BlockScanner {
         }
     }
 
+    /**
+     * Starts an asynchronous scan around the supplied player position.
+     * Scans are throttled and never overlap.
+     *
+     * @param playerPos Player position used as the scan origin.
+     */
     public static void update(BlockPos playerPos) {
         long currentTime = System.currentTimeMillis();
 
-        if (currentTime - lastScanTime < 2000 || isScanning) {
+        if (currentTime - lastScanTime < SCAN_INTERVAL_MS || !SCANNING.compareAndSet(false, true)) {
             return;
         }
 
-        var level = Minecraft.getInstance().level;
+        Level level = Minecraft.getInstance().level;
         if (level == null) {
+            SCANNING.set(false);
             return;
         }
 
         lastScanTime = currentTime;
-        isScanning = true;
 
-        CompletableFuture.runAsync(() -> {
-            try {
-                List<ScannedBlock> tempFoundBlocks = new ArrayList<>();
-                int radius = 64;
+        final int centerX = playerPos.getX();
+        final int centerY = playerPos.getY();
+        final int centerZ = playerPos.getZ();
+        final EnumSet<TargetCategory> enabledCategories = EnumSet.copyOf(ENABLED_CATEGORIES);
 
-                for (int x = -radius; x <= radius; x++) {
-                    for (int y = -radius; y <= radius; y++) {
-                        for (int z = -radius; z <= radius; z++) {
-                            BlockPos currentPos = playerPos.offset(x, y, z);
-                            BlockState state = level.getBlockState(currentPos);
-                            Block block = state.getBlock();
+        SCAN_EXECUTOR.execute(() -> scan(level, centerX, centerY, centerZ, enabledCategories));
+    }
 
-                            for (Target target : TARGETS) {
-                                if (target.block() == block && ENABLED_CATEGORIES.contains(target.category())) {
-                                    tempFoundBlocks.add(new ScannedBlock(currentPos, target.color()));
-                                    break;
-                                }
+    /**
+     * Performs the actual scan on the background worker thread.
+     *
+     * @param level World level to inspect.
+     * @param centerX Scan origin X.
+     * @param centerY Scan origin Y.
+     * @param centerZ Scan origin Z.
+     * @param enabledCategories Snapshot of the enabled categories.
+     */
+    private static void scan(
+        Level level,
+        int centerX,
+        int centerY,
+        int centerZ,
+        EnumSet<TargetCategory> enabledCategories
+    ) {
+        try {
+            List<ScannedBlock> foundBlocks = new ArrayList<>();
+
+            BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+
+            for (int x = -SCAN_RADIUS; x <= SCAN_RADIUS; x++) {
+                for (int y = -SCAN_RADIUS; y <= SCAN_RADIUS; y++) {
+                    for (int z = -SCAN_RADIUS; z <= SCAN_RADIUS; z++) {
+                        mutablePos.set(
+                            centerX + x,
+                            centerY + y,
+                            centerZ + z
+                        );
+
+                        int chunkX = x >> 4;
+                        int chunkZ = z >> 4;
+
+                        if (!level.hasChunk(chunkX, chunkZ)) {
+                            continue;
+                        }
+
+                        BlockState state = level.getBlockState(mutablePos);
+                        List<Target> targets = TARGETS.get(state.getBlock());
+
+                        if (targets == null) {
+                            continue;
+                        }
+
+                        Target matchedTarget = null;
+
+                        for (Target target : targets) {
+                            if (enabledCategories.contains(target.category())) {
+                                matchedTarget = target;
+                                break;
                             }
+                        }
+
+                        if (matchedTarget != null) {
+                            foundBlocks.add(new ScannedBlock(
+                                mutablePos.immutable(),
+                                matchedTarget.color()
+                            ));
                         }
                     }
                 }
-
-                scannedBlocks.clear();
-                scannedBlocks.addAll(tempFoundBlocks);
-            } finally {
-                isScanning = false;
             }
-        });
+
+            scannedBlocks = foundBlocks.isEmpty()
+                ? List.of()
+                : List.copyOf(foundBlocks);
+        } finally {
+            SCANNING.set(false);
+        }
     }
 
-    public record ScannedBlock(BlockPos pos, int color) { }
+    /**
+     * Represents a detected block and its ESP color.
+     *
+     * @param pos Block position.
+     * @param color ARGB render color.
+     */
+    public record ScannedBlock(BlockPos pos, int color) {
+    }
 }
