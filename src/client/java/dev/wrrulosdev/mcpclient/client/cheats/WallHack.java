@@ -177,7 +177,7 @@ public class WallHack extends CheatBase {
 
         Vec3 headCenter = player.getEyePosition().add(0, 0.1, 0).subtract(0, sneakOffset, 0);
         Vec3 neck = player.getEyePosition().subtract(0, 0.2, 0).subtract(0, sneakOffset, 0);
-        Vec3 pelvis = pos.add(0, height * 0.45, 0).subtract(0, sneakOffset * 0.5, 0); // La pelvis baja menos que la cabeza
+        Vec3 pelvis = pos.add(0, height * 0.45, 0).subtract(0, sneakOffset * 0.5, 0);
         Vec3 leftShoulder = neck.subtract(right);
         Vec3 rightShoulder = neck.add(right);
         Vec3 leftHip = pelvis.subtract(narrowRight);

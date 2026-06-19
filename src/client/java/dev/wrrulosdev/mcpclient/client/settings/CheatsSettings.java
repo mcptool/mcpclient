@@ -39,7 +39,22 @@ public class CheatsSettings {
     private double fullBrightAmount = 100.0D;
 
     private boolean noFallEnabled = false;
+
     private boolean blockTrackerEnabled = false;
+    private boolean blockTrackerCoalOresEnabled = false;
+    private boolean blockTrackerIronOresEnabled = true;
+    private boolean blockTrackerCopperOresEnabled = false;
+    private boolean blockTrackerGoldOresEnabled = true;
+    private boolean blockTrackerRedstoneOresEnabled = false;
+    private boolean blockTrackerLapisOresEnabled = false;
+    private boolean blockTrackerDiamondOresEnabled = true;
+    private boolean blockTrackerEmeraldOresEnabled = false;
+    private boolean blockTrackerNetherOresEnabled = false;
+    private boolean blockTrackerAncientDebrisEnabled = false;
+    private boolean blockTrackerMineralBlocksEnabled = false;
+    private boolean blockTrackerStorageEnabled = false;
+    private boolean blockTrackerUtilityEnabled = false;
+    private boolean blockTrackerRedstoneEnabled = false;
 
     private void save() {
         MCPClient.saveSettings();
@@ -165,4 +180,66 @@ public class CheatsSettings {
 
     public boolean isBlockTrackerEnabled() { return blockTrackerEnabled; }
     public void setBlockTrackerEnabled(boolean blockTrackerEnabled) { this.blockTrackerEnabled = blockTrackerEnabled; save(); }
+
+    public boolean isBlockTrackerCoalOresEnabled() { return blockTrackerCoalOresEnabled; }
+    public void setBlockTrackerCoalOresEnabled(boolean value) { this.blockTrackerCoalOresEnabled = value; save(); }
+
+    public boolean isBlockTrackerIronOresEnabled() { return blockTrackerIronOresEnabled; }
+    public void setBlockTrackerIronOresEnabled(boolean value) { this.blockTrackerIronOresEnabled = value; save(); }
+
+    public boolean isBlockTrackerCopperOresEnabled() { return blockTrackerCopperOresEnabled; }
+    public void setBlockTrackerCopperOresEnabled(boolean value) { this.blockTrackerCopperOresEnabled = value; save(); }
+
+    public boolean isBlockTrackerGoldOresEnabled() { return blockTrackerGoldOresEnabled; }
+    public void setBlockTrackerGoldOresEnabled(boolean value) { this.blockTrackerGoldOresEnabled = value; save(); }
+
+    public boolean isBlockTrackerRedstoneOresEnabled() { return blockTrackerRedstoneOresEnabled; }
+    public void setBlockTrackerRedstoneOresEnabled(boolean value) { this.blockTrackerRedstoneOresEnabled = value; save(); }
+
+    public boolean isBlockTrackerLapisOresEnabled() { return blockTrackerLapisOresEnabled; }
+    public void setBlockTrackerLapisOresEnabled(boolean value) { this.blockTrackerLapisOresEnabled = value; save(); }
+
+    public boolean isBlockTrackerDiamondOresEnabled() { return blockTrackerDiamondOresEnabled; }
+    public void setBlockTrackerDiamondOresEnabled(boolean value) { this.blockTrackerDiamondOresEnabled = value; save(); }
+
+    public boolean isBlockTrackerEmeraldOresEnabled() { return blockTrackerEmeraldOresEnabled; }
+    public void setBlockTrackerEmeraldOresEnabled(boolean value) { this.blockTrackerEmeraldOresEnabled = value; save(); }
+
+    public boolean isBlockTrackerNetherOresEnabled() { return blockTrackerNetherOresEnabled; }
+    public void setBlockTrackerNetherOresEnabled(boolean value) { this.blockTrackerNetherOresEnabled = value; save(); }
+
+    public boolean isBlockTrackerAncientDebrisEnabled() { return blockTrackerAncientDebrisEnabled; }
+    public void setBlockTrackerAncientDebrisEnabled(boolean value) { this.blockTrackerAncientDebrisEnabled = value; save(); }
+
+    public boolean isBlockTrackerMineralBlocksEnabled() {
+        return blockTrackerMineralBlocksEnabled;
+    }
+
+    public void setBlockTrackerMineralBlocksEnabled(boolean blockTrackerMineralBlocksEnabled) {
+        this.blockTrackerMineralBlocksEnabled = blockTrackerMineralBlocksEnabled;
+    }
+
+    public boolean isBlockTrackerStorageEnabled() {
+        return blockTrackerStorageEnabled;
+    }
+
+    public void setBlockTrackerStorageEnabled(boolean blockTrackerStorageEnabled) {
+        this.blockTrackerStorageEnabled = blockTrackerStorageEnabled;
+    }
+
+    public boolean isBlockTrackerUtilityEnabled() {
+        return blockTrackerUtilityEnabled;
+    }
+
+    public void setBlockTrackerUtilityEnabled(boolean blockTrackerUtilityEnabled) {
+        this.blockTrackerUtilityEnabled = blockTrackerUtilityEnabled;
+    }
+
+    public boolean isBlockTrackerRedstoneEnabled() {
+        return blockTrackerRedstoneEnabled;
+    }
+
+    public void setBlockTrackerRedstoneEnabled(boolean blockTrackerRedstoneEnabled) {
+        this.blockTrackerRedstoneEnabled = blockTrackerRedstoneEnabled;
+    }
 }

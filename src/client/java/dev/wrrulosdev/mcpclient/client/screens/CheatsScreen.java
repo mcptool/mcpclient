@@ -4,6 +4,7 @@ import dev.wrrulosdev.mcpclient.client.MCPClient;
 import dev.wrrulosdev.mcpclient.client.cheats.*;
 import dev.wrrulosdev.mcpclient.client.constants.TextureConstants;
 import dev.wrrulosdev.mcpclient.client.screens.gui.*;
+import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
@@ -156,151 +157,161 @@ public class CheatsScreen extends BaseAnimatedScreen {
                 getAntiKBSettings()
             )
         );
+        addCard(
+            BlockTracker.INSTANCE,
+            BlockTracker.INSTANCE.getName(),
+            "Shows blocks through walls.",
+            () -> openModuleSettings(
+                BlockTracker.INSTANCE.getName(),
+                getGenericDescription(BlockTracker.INSTANCE),
+                getBlockTrackerSettings()
+            )
+        );
     }
 
     /**
      * Builds the complete cheat module card collection and associates each
      * module with its toggle and settings actions.
 
-    private void loadCards() {
-        this.allCards.clear();
+     private void loadCards() {
+     this.allCards.clear();
 
-        CheatsSettings settings =
-            MCPClient.getSettingsManager().getCheatsSettings();
+     CheatsSettings settings =
+     MCPClient.getSettingsManager().getCheatsSettings();
 
-        addCard(
-            "Fly",
-            "Allows you to fly freely through the air.",
-            settings::isFlyEnabled,
-            newState -> {
-                settings.setFlyEnabled(newState);
-                Fly.INSTANCE.run();
-            },
-            () -> openModuleSettings(
-                "Fly",
-                "Permite volar...",
-                getFlySettings()
-            )
-        );
+     addCard(
+     "Fly",
+     "Allows you to fly freely through the air.",
+     settings::isFlyEnabled,
+     newState -> {
+     settings.setFlyEnabled(newState);
+     Fly.INSTANCE.run();
+     },
+     () -> openModuleSettings(
+     "Fly",
+     "Permite volar...",
+     getFlySettings()
+     )
+     );
 
-        addCard(
-            "Fake Gamemode",
-            "Spoofs creative mode client-side.",
-            settings::isFakeGmEnabled,
-            newState -> {
-                settings.setFakeGmEnabled(newState);
-                FakeCreative.INSTANCE.run();
-            }
-        );
+     addCard(
+     "Fake Gamemode",
+     "Spoofs creative mode client-side.",
+     settings::isFakeGmEnabled,
+     newState -> {
+     settings.setFakeGmEnabled(newState);
+     FakeCreative.INSTANCE.run();
+     }
+     );
 
-        addCard(
-            "Jesus",
-            "Allows you to walk on water and other liquids.",
-            settings::isJesusEnabled,
-            settings::setJesusEnabled,
-            () -> openModuleSettings(
-                "Fly",
-                "Permite volar...",
-                getFlySettings()
-            )
-        );
+     addCard(
+     "Jesus",
+     "Allows you to walk on water and other liquids.",
+     settings::isJesusEnabled,
+     settings::setJesusEnabled,
+     () -> openModuleSettings(
+     "Fly",
+     "Permite volar...",
+     getFlySettings()
+     )
+     );
 
-        addCard(
-            "Spider",
-            "Climb walls as if you were a spider.",
-            settings::isSpiderEnabled,
-            settings::setSpiderEnabled,
-            () -> openModuleSettings(
-                "Fly",
-                "Permite volar...",
-                getFlySettings()
-            )
-        );
+     addCard(
+     "Spider",
+     "Climb walls as if you were a spider.",
+     settings::isSpiderEnabled,
+     settings::setSpiderEnabled,
+     () -> openModuleSettings(
+     "Fly",
+     "Permite volar...",
+     getFlySettings()
+     )
+     );
 
-        addCard(
-            "WallHack",
-            "Shows players through walls.",
-            settings::isWallhackEnabled,
-            settings::setWallhackEnabled,
-            () -> openModuleSettings(
-                "Fly",
-                "Permite volar...",
-                getFlySettings()
-            )
-        );
+     addCard(
+     "WallHack",
+     "Shows players through walls.",
+     settings::isWallhackEnabled,
+     settings::setWallhackEnabled,
+     () -> openModuleSettings(
+     "Fly",
+     "Permite volar...",
+     getFlySettings()
+     )
+     );
 
-        addCard(
-            "AntiKB",
-            "Reduces or prevents knockback from attacks.",
-            settings::isAntikbEnabled,
-            settings::setAntikbEnabled,
-            () -> openModuleSettings(
-                "Fly",
-                "Permite volar...",
-                getFlySettings()
-            )
-        );
+     addCard(
+     "AntiKB",
+     "Reduces or prevents knockback from attacks.",
+     settings::isAntikbEnabled,
+     settings::setAntikbEnabled,
+     () -> openModuleSettings(
+     "Fly",
+     "Permite volar...",
+     getFlySettings()
+     )
+     );
 
-        addCard(
-            "HClip",
-            "Teleports you horizontally through blocks.",
-            settings::isHClipEnabled,
-            settings::setHClipEnabled,
-            () -> openModuleSettings(
-                "Fly",
-                "Permite volar...",
-                getFlySettings()
-            )
-        );
+     addCard(
+     "HClip",
+     "Teleports you horizontally through blocks.",
+     settings::isHClipEnabled,
+     settings::setHClipEnabled,
+     () -> openModuleSettings(
+     "Fly",
+     "Permite volar...",
+     getFlySettings()
+     )
+     );
 
-        addCard(
-            "VClip",
-            "Teleports you vertically up or down.",
-            settings::isVClipEnabled,
-            settings::setVClipEnabled,
-            () -> openModuleSettings(
-                "Fly",
-                "Permite volar...",
-                getFlySettings()
-            )
-        );
+     addCard(
+     "VClip",
+     "Teleports you vertically up or down.",
+     settings::isVClipEnabled,
+     settings::setVClipEnabled,
+     () -> openModuleSettings(
+     "Fly",
+     "Permite volar...",
+     getFlySettings()
+     )
+     );
 
-        addCard(
-            "Fullbright",
-            "Removes darkness and maximizes visibility.",
-            settings::isFullBrightEnabled,
-            settings::setFullBrightEnabled,
-            () -> openModuleSettings(
-                "Fly",
-                "Permite volar...",
-                getFlySettings()
-            )
-        );
+     addCard(
+     "Fullbright",
+     "Removes darkness and maximizes visibility.",
+     settings::isFullBrightEnabled,
+     settings::setFullBrightEnabled,
+     () -> openModuleSettings(
+     "Fly",
+     "Permite volar...",
+     getFlySettings()
+     )
+     );
 
-        addCard(
-            "NoFall",
-            "Prevents or reduces fall damage.",
-            settings::isNoFallEnabled,
-            settings::setNoFallEnabled,
-            () -> openModuleSettings(
-                "Fly",
-                "Permite volar...",
-                getFlySettings()
-            )
-        );
+     addCard(
+     "NoFall",
+     "Prevents or reduces fall damage.",
+     settings::isNoFallEnabled,
+     settings::setNoFallEnabled,
+     () -> openModuleSettings(
+     "Fly",
+     "Permite volar...",
+     getFlySettings()
+     )
+     );
 
-        addCard(
-            "Block tracker",
-            "Shows blocks through walls.",
-            settings::isBlockTrackerEnabled,
-            settings::setBlockTrackerEnabled,
-            () -> openModuleSettings(
-                "Fly",
-                "Permite volar...",
-                getFlySettings()
-            )
-        );
-    }    */
+     addCard(
+     "Block tracker",
+     "Shows blocks through walls.",
+     settings::isBlockTrackerEnabled,
+     settings::setBlockTrackerEnabled,
+     () -> openModuleSettings(
+     "Fly",
+     "Permite volar...",
+     getFlySettings()
+     )
+     );
+     }    */
 
 
     /**
@@ -425,18 +436,23 @@ public class CheatsScreen extends BaseAnimatedScreen {
         int x1 = (this.width / 2) - (targetWidth / 2);
         int x2 = (this.width / 2) + (targetWidth / 2);
         int y1 = (this.height / 2) - (targetHeight / 2);
+
         int listY1 = y1 + 55;
+        int listY2 = y1 + targetHeight - 10;
         int columns = 3;
         int colWidth = calculateColWidth(x1, x2, columns);
+
         boolean hovered = false;
 
-        for (int i = 0; i < allCards.size(); i++) {
-            int[] pos = calculateCardPosition(i, x1, listY1, colWidth, columns);
+        if (mouseY >= listY1 && mouseY <= listY2) {
+            for (int i = 0; i < allCards.size(); i++) {
+                int[] pos = calculateCardPosition(i, x1, listY1, colWidth, columns);
 
-            if (mouseX >= pos[0] && mouseX <= pos[0] + colWidth &&
-                mouseY >= pos[1] && mouseY <= pos[1] + CARD_HEIGHT) {
-                hovered = true;
-                break;
+                if (mouseX >= pos[0] && mouseX <= pos[0] + colWidth &&
+                    mouseY >= pos[1] && mouseY <= pos[1] + CARD_HEIGHT) {
+                    hovered = true;
+                    break;
+                }
             }
         }
 
@@ -460,15 +476,19 @@ public class CheatsScreen extends BaseAnimatedScreen {
         int x1 = (this.width / 2) - (targetWidth / 2);
         int x2 = (this.width / 2) + (targetWidth / 2);
         int y1 = (this.height / 2) - (targetHeight / 2);
+
         int listY1 = y1 + 55;
+        int listY2 = y1 + targetHeight - 10;
         int columns = 3;
         int colWidth = calculateColWidth(x1, x2, columns);
 
-        for (int i = 0; i < allCards.size(); i++) {
-            int[] pos = calculateCardPosition(i, x1, listY1, colWidth, columns);
+        if (event.y() >= listY1 && event.y() <= listY2) {
+            for (int i = 0; i < allCards.size(); i++) {
+                int[] pos = calculateCardPosition(i, x1, listY1, colWidth, columns);
 
-            if (allCards.get(i).mouseClicked(event.x(), event.y(), event.button(), pos[0], pos[1], colWidth)) {
-                return true;
+                if (allCards.get(i).mouseClicked(event.x(), event.y(), event.button(), pos[0], pos[1], colWidth)) {
+                    return true;
+                }
             }
         }
 
@@ -915,6 +935,132 @@ public class CheatsScreen extends BaseAnimatedScreen {
                 }
             )
         );
+
+        return settings;
+    }
+
+    /**
+     * Creates the settings collection used by the BlockTracker module.
+     *
+     * @return A list containing all BlockTracker configuration components.
+     */
+    private List<AbstractSettingComponent> getBlockTrackerSettings() {
+        List<AbstractSettingComponent> settings =
+            new ArrayList<>();
+
+        CheatsSettings cs = MCPClient.getSettingsManager().getCheatsSettings();
+        settings.add(
+            new SliderSetting(
+                "Tracker distance",
+                1.0f,
+                1.50f,
+                (float) cs.getJesusSpeed(),
+                "x",
+                cs::setJesusSpeed
+            )
+        );
+
+        settings.add(new ToggleSetting(
+            "View coal ores",
+            cs.isBlockTrackerCoalOresEnabled(),
+            cs::setBlockTrackerCoalOresEnabled
+        ));
+
+        settings.add(new ToggleSetting(
+            "View iron ores",
+            cs.isBlockTrackerIronOresEnabled(),
+            cs::setBlockTrackerIronOresEnabled
+        ));
+
+        settings.add(new ToggleSetting(
+            "View copper ores",
+            cs.isBlockTrackerCopperOresEnabled(),
+            cs::setBlockTrackerCopperOresEnabled
+        ));
+
+        settings.add(new ToggleSetting(
+            "View gold ores",
+            cs.isBlockTrackerGoldOresEnabled(),
+            cs::setBlockTrackerGoldOresEnabled
+        ));
+
+        settings.add(new ToggleSetting(
+            "View redstone ores",
+            cs.isBlockTrackerRedstoneOresEnabled(),
+            cs::setBlockTrackerRedstoneOresEnabled
+        ));
+
+        settings.add(new ToggleSetting(
+            "View lapis ores",
+            cs.isBlockTrackerLapisOresEnabled(),
+            cs::setBlockTrackerLapisOresEnabled
+        ));
+
+        settings.add(new ToggleSetting(
+            "View diamond ores",
+            cs.isBlockTrackerDiamondOresEnabled(),
+            cs::setBlockTrackerDiamondOresEnabled
+        ));
+
+        settings.add(new ToggleSetting(
+            "View emerald ores",
+            cs.isBlockTrackerEmeraldOresEnabled(),
+            cs::setBlockTrackerEmeraldOresEnabled
+        ));
+
+        settings.add(new ToggleSetting(
+            "View nether ores",
+            cs.isBlockTrackerNetherOresEnabled(),
+            cs::setBlockTrackerNetherOresEnabled
+        ));
+
+        settings.add(new ToggleSetting(
+            "View ancient debris",
+            cs.isBlockTrackerAncientDebrisEnabled(),
+            cs::setBlockTrackerAncientDebrisEnabled
+        ));
+
+        settings.add(new ToggleSetting(
+            "View mineral blocks",
+            cs.isBlockTrackerMineralBlocksEnabled(),
+            cs::setBlockTrackerMineralBlocksEnabled
+        ));
+
+        settings.add(new ToggleSetting(
+            "View storage",
+            cs.isBlockTrackerStorageEnabled(),
+            cs::setBlockTrackerStorageEnabled
+        ));
+
+        settings.add(new ToggleSetting(
+            "View utility",
+            cs.isBlockTrackerUtilityEnabled(),
+            cs::setBlockTrackerUtilityEnabled
+        ));
+        settings.add(
+            new SliderSetting(
+                "Jesus Speed",
+                1.0f,
+                1.50f,
+                (float) MCPClient.getSettingsManager().getCheatsSettings().getJesusSpeed(),
+                "x",
+                val -> MCPClient.getSettingsManager().getCheatsSettings().setJesusSpeed(val)
+            )
+        );
+        settings.add(new ToggleSetting(
+            "View redstone",
+            cs.isBlockTrackerRedstoneEnabled(),
+            cs::setBlockTrackerRedstoneEnabled
+        ));
+
+        settings.add(new KeybindSetting(
+            "Assign a key bind to the BlockTracker",
+            cs.getKeyForKeyBind(BlockTracker.INSTANCE.getIdentifier()),
+            val -> {
+                cs.setKeyForKeyBind(BlockTracker.INSTANCE.getIdentifier(), val);
+                MCPClient.getKeyBindManager().updateKey(BlockTracker.INSTANCE.getIdentifier(), val);
+            }
+        ));
 
         return settings;
     }

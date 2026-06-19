@@ -196,18 +196,22 @@ public class MenuScreen extends BaseAnimatedScreen {
         int x1 = (this.width / 2) - (targetWidth / 2);
         int x2 = (this.width / 2) + (targetWidth / 2);
         int y1 = (this.height / 2) - (targetHeight / 2);
+
         int listY1 = y1 + 50;
+        int listY2 = y1 + targetHeight - 10;
         int colWidth = ((x2 - x1) - 30) / 2;
 
         boolean hovered = false;
 
-        for (int i = 0; i < allCards.size(); i++) {
-            int[] pos = calculateCardPosition(i, x1, listY1, colWidth);
+        if (mouseY >= listY1 && mouseY <= listY2) {
+            for (int i = 0; i < allCards.size(); i++) {
+                int[] pos = calculateCardPosition(i, x1, listY1, colWidth);
 
-            if (mouseX >= pos[0] && mouseX <= pos[0] + colWidth &&
-                mouseY >= pos[1] && mouseY <= pos[1] + CARD_HEIGHT) {
-                hovered = true;
-                break;
+                if (mouseX >= pos[0] && mouseX <= pos[0] + colWidth &&
+                    mouseY >= pos[1] && mouseY <= pos[1] + CARD_HEIGHT) {
+                    hovered = true;
+                    break;
+                }
             }
         }
 
@@ -229,19 +233,21 @@ public class MenuScreen extends BaseAnimatedScreen {
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
         int targetWidth = Math.min(this.width - 60, this.maxWidth);
         int targetHeight = Math.min(this.height - 60, this.maxHeight);
-
         int x1 = (this.width / 2) - (targetWidth / 2);
         int x2 = (this.width / 2) + (targetWidth / 2);
         int y1 = (this.height / 2) - (targetHeight / 2);
 
         int listY1 = y1 + 50;
+        int listY2 = y1 + targetHeight - 10;
         int colWidth = ((x2 - x1) - 30) / 2;
 
-        for (int i = 0; i < allCards.size(); i++) {
-            int[] pos = calculateCardPosition(i, x1, listY1, colWidth);
+        if (event.y() >= listY1 && event.y() <= listY2) {
+            for (int i = 0; i < allCards.size(); i++) {
+                int[] pos = calculateCardPosition(i, x1, listY1, colWidth);
 
-            if (allCards.get(i).mouseClicked(event.x(), event.y(), event.button(), pos[0], pos[1], colWidth)) {
-                return true;
+                if (allCards.get(i).mouseClicked(event.x(), event.y(), event.button(), pos[0], pos[1], colWidth)) {
+                    return true;
+                }
             }
         }
 

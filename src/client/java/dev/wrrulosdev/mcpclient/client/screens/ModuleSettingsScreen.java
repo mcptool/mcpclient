@@ -137,7 +137,6 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
         int descY = titleY + 16;
         var pose = graphics.pose();
         pose.pushMatrix();
-
         float descScale = 0.9f;
         pose.scale(descScale, descScale);
         graphics.text(
@@ -164,43 +163,27 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
         int visibleHeight = endY - startY;
         int currentY = (int) (startY - this.scrollOffset);
         boolean anyComponentHovered = false;
+        boolean mouseInListArea = mouseY >= startY && mouseY <= endY;
+        graphics.enableScissor(x1, startY, x2, endY);
 
         for (AbstractSettingComponent setting : this.settings) {
-            if (currentY + setting.getHeight() > startY
-                && currentY < endY) {
+            if (currentY + setting.getHeight() > startY && currentY < endY) {
+                setting.render(graphics, font, contentX, currentY, contentWidth, mouseX, mouseY, progress);
 
-                setting.render(
-                    graphics,
-                    font,
-                    contentX,
-                    currentY,
-                    contentWidth,
-                    mouseX,
-                    mouseY,
-                    progress
-                );
-
-                if (setting.isMouseOver(
-                    mouseX,
-                    mouseY,
-                    contentX,
-                    currentY,
-                    contentWidth
-                )) {
+                if (mouseInListArea && setting.isMouseOver(mouseX, mouseY, contentX, currentY, contentWidth)) {
                     anyComponentHovered = true;
                 }
             }
-
             currentY += setting.getHeight() + 10;
         }
 
+        graphics.disableScissor();
         boolean isButtonHovered = false;
 
         if (this.backButton != null) {
-            int btnX = this.width / 2
-                - this.backButton.getWidth() / 2;
-
+            int btnX = this.width / 2 - this.backButton.getWidth() / 2;
             int btnY = y2 - 32;
+
             this.backButton.setX(btnX);
             this.backButton.setY(btnY);
             isButtonHovered =
@@ -208,12 +191,8 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
                     && mouseX <= btnX + this.backButton.getWidth()
                     && mouseY >= btnY
                     && mouseY <= btnY + this.backButton.getHeight();
-            this.backButton.render(
-                graphics,
-                mouseX,
-                mouseY,
-                0.0f
-            );
+
+            this.backButton.render(graphics, mouseX, mouseY, 0.0f);
         }
 
         GLFW.glfwSetCursor(
@@ -226,13 +205,9 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
         int totalContentHeight =
             this.settings.stream()
                 .mapToInt(setting -> setting.getHeight() + 10)
-                .sum()
-                - 10;
+                .sum() - 10;
 
-        this.maxScrollOffset = Math.max(
-            0,
-            totalContentHeight - visibleHeight
-        );
+        this.maxScrollOffset = Math.max(0, totalContentHeight - visibleHeight);
     }
 
     /**
@@ -244,10 +219,7 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
      * @return True if the event was consumed.
      */
     @Override
-    public boolean mouseClicked(
-        MouseButtonEvent event,
-        boolean doubleClick
-    ) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
         int targetWidth = Math.min(this.width - 60, this.maxWidth);
         int targetHeight = Math.min(this.height - 60, this.maxHeight);
         int x1 = (this.width / 2) - (targetWidth / 2);
@@ -256,7 +228,12 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
         int y2 = (this.height / 2) + (targetHeight / 2);
         int contentX = x1 + 25;
         int contentWidth = (x2 - x1) - 50;
-        int startY = y1 + 106;
+
+        int titleY = y1 + 55;
+        int descY = titleY + 16;
+        int sepY = descY + 15;
+
+        int startY = sepY + 10;
         int endY = y2 - 45;
 
         if (this.backButton != null) {
@@ -265,16 +242,8 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
             int bW = this.backButton.getWidth();
             int bH = this.backButton.getHeight();
 
-            if (event.x() >= bX
-                && event.x() <= bX + bW
-                && event.y() >= bY
-                && event.y() <= bY + bH) {
-
-                this.backButton.mouseClicked(
-                    event,
-                    doubleClick
-                );
-
+            if (event.x() >= bX && event.x() <= bX + bW && event.y() >= bY && event.y() <= bY + bH) {
+                this.backButton.mouseClicked(event, doubleClick);
                 return true;
             }
         }
@@ -286,21 +255,11 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
         int currentY = (int) (startY - this.scrollOffset);
 
         for (AbstractSettingComponent setting : this.settings) {
-            if (currentY + setting.getHeight() > startY
-                && currentY < endY) {
-
-                if (setting.mouseClicked(
-                    event.x(),
-                    event.y(),
-                    event.button(),
-                    contentX,
-                    currentY,
-                    contentWidth
-                )) {
+            if (currentY + setting.getHeight() > startY && currentY < endY) {
+                if (setting.mouseClicked(event.x(), event.y(), event.button(), contentX, currentY, contentWidth)) {
                     return true;
                 }
             }
-
             currentY += setting.getHeight() + 10;
         }
 

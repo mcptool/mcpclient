@@ -44,6 +44,7 @@ public class KeyBindManager {
         register(VClip.INSTANCE);
         register(FullBright.INSTANCE);
         register(AntiKB.INSTANCE);
+        register(BlockTracker.INSTANCE);
     }
 
     /**
