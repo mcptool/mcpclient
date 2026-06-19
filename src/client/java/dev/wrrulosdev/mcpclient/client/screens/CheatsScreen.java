@@ -88,6 +88,12 @@ public class CheatsScreen extends BaseAnimatedScreen {
             "Shows players through walls.",
             () -> openModuleSettings("WallHack", "WallHack settings...", getWallHackSettings())
         );
+        addCard(
+            HClip.INSTANCE,
+            "HClip",
+            "Teleports you horizontally through blocks.",
+            () -> openModuleSettings("HClip", "HClip settings...",  getHClipSettings())
+        );
     }
 
     /**
@@ -719,6 +725,40 @@ public class CheatsScreen extends BaseAnimatedScreen {
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(WallHack.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(WallHack.INSTANCE.getIdentifier(), val);
+                }
+            )
+        );
+
+        return settings;
+    }
+
+    /**
+     * Creates the settings collection used by the HClip module.
+     *
+     * @return A list containing all HClip configuration components.
+     */
+    private List<AbstractSettingComponent> getHClipSettings() {
+        List<AbstractSettingComponent> settings =
+            new ArrayList<>();
+
+        settings.add(
+            new SliderSetting(
+                "Teleportation distance",
+                1.0f,
+                100.0f,
+                (float) MCPClient.getSettingsManager().getCheatsSettings().gethClipDistance(),
+                "x",
+                val -> MCPClient.getSettingsManager().getCheatsSettings().sethClipDistance(val)
+            )
+        );
+
+        settings.add(
+            new KeybindSetting(
+                "Assign a key bind to the HClip",
+                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(HClip.INSTANCE.getIdentifier()),
+                val -> {
+                    MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(HClip.INSTANCE.getIdentifier(), val);
+                    MCPClient.getKeyBindManager().updateKey(HClip.INSTANCE.getIdentifier(), val);
                 }
             )
         );

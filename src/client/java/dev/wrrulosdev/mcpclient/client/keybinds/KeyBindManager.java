@@ -40,6 +40,7 @@ public class KeyBindManager {
         register(Spider.INSTANCE);
         register(NoFall.INSTANCE);
         register(WallHack.INSTANCE);
+        register(HClip.INSTANCE);
     }
 
     /**

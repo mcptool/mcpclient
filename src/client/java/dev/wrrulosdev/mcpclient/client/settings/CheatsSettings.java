@@ -28,7 +28,10 @@ public class CheatsSettings {
     private boolean wallHackStickManEnabled = false;
 
     private boolean antikbEnabled = false;
+
     private boolean hClipEnabled = false;
+    private double hClipDistance = 0.0D;
+
     private boolean vClipEnabled = false;
     private boolean fullBrightEnabled = false;
     private boolean noFallEnabled = false;
@@ -122,6 +125,14 @@ public class CheatsSettings {
     public boolean isHClipEnabled() { return hClipEnabled; }
     public void setHClipEnabled(boolean hClipEnabled) { this.hClipEnabled = hClipEnabled; save(); }
 
+    public double gethClipDistance() {
+        return hClipDistance;
+    }
+
+    public void sethClipDistance(double hClipDistance) {
+        this.hClipDistance = hClipDistance;
+    }
+
     public boolean isVClipEnabled() { return vClipEnabled; }
     public void setVClipEnabled(boolean vClipEnabled) { this.vClipEnabled = vClipEnabled; save(); }
 
@@ -133,5 +144,4 @@ public class CheatsSettings {
 
     public boolean isBlockTrackerEnabled() { return blockTrackerEnabled; }
     public void setBlockTrackerEnabled(boolean blockTrackerEnabled) { this.blockTrackerEnabled = blockTrackerEnabled; save(); }
-
 }

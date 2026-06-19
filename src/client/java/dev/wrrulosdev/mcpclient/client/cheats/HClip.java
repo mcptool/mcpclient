@@ -63,6 +63,15 @@ public class HClip extends CheatBase {
     }
 
     /**
+     * Determines whether the client should automatically display
+     * a notification when this module is enabled or disabled.
+     */
+    @Override
+    public boolean shouldNotifyToggle() {
+        return false;
+    }
+
+    /**
      * Executes a horizontal clip by moving the player sideways relative to
      * their current viewing direction. Positive values move to the right
      * while negative values move to the left.
@@ -73,10 +82,9 @@ public class HClip extends CheatBase {
      */
     @Override
     protected void onExecute(LocalPlayer player, Object... args) {
-        double distance = (double) args[0];
+        int distance = (int) ((args.length != 0) ? ((Number) args[0]).doubleValue() : this.getSettings().gethClipDistance());
 
         if (player == null) {
-            System.out.println("..");
             return;
         }
 

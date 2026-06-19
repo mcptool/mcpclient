@@ -38,6 +38,14 @@ public abstract class CheatBase {
     public abstract void setEnabled(boolean enabled);
 
     /**
+     * Determines whether the client should automatically display
+     * a notification when this module is enabled or disabled.
+     */
+    public boolean shouldNotifyToggle() {
+        return true;
+    }
+
+    /**
      * Executes the cheat-specific logic.
      * Implementations receive the current local player instance
      * together with any optional execution arguments.
@@ -54,13 +62,16 @@ public abstract class CheatBase {
     public final void toggle() {
         boolean newState = !isEnabled();
         String cheatName = TextUtilities.capitalize(getIdentifier());
-
         setEnabled(newState);
-        NotificationManager.show(
-            cheatName,
-            cheatName + " was " + (isEnabled() ? "activated" : "deactivated"),
-            isEnabled() ? NotificationType.SUCCESS : NotificationType.WARNING
-        );
+
+        if (shouldNotifyToggle()) {
+            NotificationManager.show(
+                cheatName,
+                cheatName + " was " + (isEnabled() ? "activated" : "deactivated"),
+                isEnabled() ? NotificationType.SUCCESS : NotificationType.WARNING
+            );
+        }
+
         run();
     }
 
