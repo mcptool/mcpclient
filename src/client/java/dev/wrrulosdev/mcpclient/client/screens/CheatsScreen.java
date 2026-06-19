@@ -49,62 +49,102 @@ public class CheatsScreen extends BaseAnimatedScreen {
         loadCards();
     }
 
+    private String getGenericDescription(CheatBase cheat) {
+        return cheat.getName() + " settings...";
+    }
+
     private void loadCards() {
         this.allCards.clear();
 
         addCard(
             Fly.INSTANCE,
-            "Fly",
+            Fly.INSTANCE.getName(),
             "Allows you to fly freely through the air.",
-            () -> openModuleSettings("Fly", "Fly settings...", getFlySettings())
+            () -> openModuleSettings(
+                Fly.INSTANCE.getName(),
+                getGenericDescription(Fly.INSTANCE),
+                getFlySettings()
+            )
         );
         addCard(
             FakeCreative.INSTANCE,
-            "Fake Creative",
+            FakeCreative.INSTANCE.getName(),
             "Spoofs creative mode client-side.",
-            () -> openModuleSettings("FakeCreative", "FakeCreative settings...", getFakeCreativeSettings())
+            () -> openModuleSettings(
+                FakeCreative.INSTANCE.getName(),
+                getGenericDescription(FakeCreative.INSTANCE),
+                getFakeCreativeSettings()
+            )
         );
         addCard(
             Jesus.INSTANCE,
-            "Jesus",
+            Jesus.INSTANCE.getName(),
             "Allows you to walk on water.",
-            () -> openModuleSettings("Jesus", "Jesus settings...", getJesusSettings())
+            () -> openModuleSettings(
+                Jesus.INSTANCE.getName(),
+                getGenericDescription(Jesus.INSTANCE),
+                getJesusSettings()
+            )
         );
         addCard(
             Spider.INSTANCE,
-            "Spider",
+            Spider.INSTANCE.getName(),
             "Climb walls as if you were a spider.",
-            () -> openModuleSettings("Spider", "Spider settings...", getSpiderSettings())
+            () -> openModuleSettings(
+                Spider.INSTANCE.getName(),
+                getGenericDescription(Spider.INSTANCE),
+                getSpiderSettings()
+            )
         );
         addCard(
             NoFall.INSTANCE,
-            "NoFall",
+            NoFall.INSTANCE.getName(),
             "Prevents or reduces fall damage.",
-            () -> openModuleSettings("NoFall", "NoFall settings...", getNoFallSettings())
+            () -> openModuleSettings(
+                NoFall.INSTANCE.getName(),
+                getGenericDescription(NoFall.INSTANCE),
+                getNoFallSettings()
+            )
         );
         addCard(
             WallHack.INSTANCE,
-            "WallHack",
+            WallHack.INSTANCE.getName(),
             "Shows players through walls.",
-            () -> openModuleSettings("WallHack", "WallHack settings...", getWallHackSettings())
+            () -> openModuleSettings(
+                WallHack.INSTANCE.getName(),
+                getGenericDescription(WallHack.INSTANCE),
+                getWallHackSettings()
+            )
         );
         addCard(
             HClip.INSTANCE,
-            "HClip",
+            HClip.INSTANCE.getName(),
             "Teleports you horizontally through blocks.",
-            () -> openModuleSettings("HClip", "HClip settings...",  getHClipSettings())
+            () -> openModuleSettings(
+                HClip.INSTANCE.getName(),
+                getGenericDescription(HClip.INSTANCE),
+                getHClipSettings()
+            )
         );
         addCard(
             VClip.INSTANCE,
-            "VClip",
+            VClip.INSTANCE.getName(),
             "Teleports you vertically up or down.",
-            () -> openModuleSettings("VClip", "VClip settings...",  getVClipSettings())
+            () -> openModuleSettings(
+                VClip.INSTANCE.getName(),
+                getGenericDescription(VClip.INSTANCE),
+                getVClipSettings()
+            )
         );
         addCard(
             FullBright.INSTANCE,
             FullBright.INSTANCE.getName(),
             "Removes darkness and maximizes visibility.",
-            () -> openModuleSettings(FullBright.INSTANCE.getName(),"VClip settings...",  getVClipSettings())
+            () -> openModuleSettings(
+                FullBright.INSTANCE.getName(),
+                getGenericDescription(FullBright.INSTANCE),
+                getFullBrightSettings()
+            )
         );
     }
 
@@ -779,9 +819,9 @@ public class CheatsScreen extends BaseAnimatedScreen {
     }
 
     /**
-     * Creates the settings collection used by the HClip module.
+     * Creates the settings collection used by the VClip module.
      *
-     * @return A list containing all HClip configuration components.
+     * @return A list containing all VClip configuration components.
      */
     private List<AbstractSettingComponent> getVClipSettings() {
         List<AbstractSettingComponent> settings =
@@ -805,6 +845,40 @@ public class CheatsScreen extends BaseAnimatedScreen {
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(VClip.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(VClip.INSTANCE.getIdentifier(), val);
+                }
+            )
+        );
+
+        return settings;
+    }
+
+    /**
+     * Creates the settings collection used by the FullBright module.
+     *
+     * @return A list containing all FullBright configuration components.
+     */
+    private List<AbstractSettingComponent> getFullBrightSettings() {
+        List<AbstractSettingComponent> settings =
+            new ArrayList<>();
+
+        settings.add(
+            new SliderSetting(
+                "Amount of brightness when activated",
+                2.0f,
+                100.0f,
+                (float) MCPClient.getSettingsManager().getCheatsSettings().getFullBrightAmount(),
+                "x",
+                val -> MCPClient.getSettingsManager().getCheatsSettings().setFullBrightAmount(val)
+            )
+        );
+
+        settings.add(
+            new KeybindSetting(
+                "Assign a key bind to the FullBright",
+                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(FullBright.INSTANCE.getIdentifier()),
+                val -> {
+                    MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(FullBright.INSTANCE.getIdentifier(), val);
+                    MCPClient.getKeyBindManager().updateKey(FullBright.INSTANCE.getIdentifier(), val);
                 }
             )
         );

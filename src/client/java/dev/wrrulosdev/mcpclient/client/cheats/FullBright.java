@@ -78,9 +78,7 @@ public class FullBright extends CheatBase {
     @Override
     protected void onExecute(LocalPlayer player, Object... args) {
         Options options = Minecraft.getInstance().options;
-        System.out.println(isEnabled());
-        double gammaValue = isEnabled() ? 100.0D : 1.0D;
-        System.out.println(gammaValue);
+        double gammaValue = isEnabled() ? getSettings().getFullBrightAmount() : 1.0D;
         options.gamma().set(gammaValue);
     }
 }
