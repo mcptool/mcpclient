@@ -64,6 +64,7 @@ public class LevelRendererMixin {
 
         if (BlockTracker.INSTANCE.isEnabled()) {
             BlockTracker.INSTANCE.run();
+            EspRenderer.render();
         }
     }
 }

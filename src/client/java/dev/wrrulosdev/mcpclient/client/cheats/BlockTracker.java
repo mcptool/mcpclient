@@ -88,6 +88,5 @@ public class BlockTracker extends CheatBase {
         BlockScanner.setCategoryEnabled(BlockScanner.TargetCategory.UTILITY, cs.isBlockTrackerUtilityEnabled());
         BlockScanner.setCategoryEnabled(BlockScanner.TargetCategory.REDSTONE, cs.isBlockTrackerRedstoneEnabled());
         BlockScanner.update(Minecraft.getInstance().player.blockPosition());
-        EspRenderer.render();
     }
 }
