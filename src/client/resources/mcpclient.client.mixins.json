@@ -17,7 +17,6 @@
 		"screen.LinearLayoutMixin",
 		"screen.JoinMultiplayerScreenMixin",
 		"options.UnitDoubleMixin",
-		"options.FullbrightMixin",
 		"player.LocalPlayerMixin",
 		"multiplayer.ClientPacketListenerMixin",
 		"music.MusicsMixin",

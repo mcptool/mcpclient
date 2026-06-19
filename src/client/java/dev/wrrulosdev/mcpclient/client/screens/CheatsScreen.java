@@ -100,6 +100,12 @@ public class CheatsScreen extends BaseAnimatedScreen {
             "Teleports you vertically up or down.",
             () -> openModuleSettings("VClip", "VClip settings...",  getVClipSettings())
         );
+        addCard(
+            FullBright.INSTANCE,
+            FullBright.INSTANCE.getName(),
+            "Removes darkness and maximizes visibility.",
+            () -> openModuleSettings(FullBright.INSTANCE.getName(),"VClip settings...",  getVClipSettings())
+        );
     }
 
     /**

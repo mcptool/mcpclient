@@ -89,7 +89,7 @@ public abstract class CheatBase {
      * @param args Optional execution arguments.
      */
     public final void run(Object... args) {
-        if (!isEnabled()) return;
+        if (!runOnToggle() && !isEnabled()) return;
         LocalPlayer player = Minecraft.getInstance().player;
 
         if (player == null) {
