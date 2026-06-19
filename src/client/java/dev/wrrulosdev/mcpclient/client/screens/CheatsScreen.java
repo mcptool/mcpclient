@@ -146,6 +146,16 @@ public class CheatsScreen extends BaseAnimatedScreen {
                 getFullBrightSettings()
             )
         );
+        addCard(
+            AntiKB.INSTANCE,
+            AntiKB.INSTANCE.getName(),
+            "Reduces or prevents knockback from attacks.",
+            () -> openModuleSettings(
+                AntiKB.INSTANCE.getName(),
+                getGenericDescription(AntiKB.INSTANCE),
+                getAntiKBSettings()
+            )
+        );
     }
 
     /**
@@ -879,6 +889,29 @@ public class CheatsScreen extends BaseAnimatedScreen {
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(FullBright.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(FullBright.INSTANCE.getIdentifier(), val);
+                }
+            )
+        );
+
+        return settings;
+    }
+
+    /**
+     * Creates the settings collection used by the AntiKB module.
+     *
+     * @return A list containing all AntiKB configuration components.
+     */
+    private List<AbstractSettingComponent> getAntiKBSettings() {
+        List<AbstractSettingComponent> settings =
+            new ArrayList<>();
+
+        settings.add(
+            new KeybindSetting(
+                "Assign a key bind to the AntiKB",
+                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(AntiKB.INSTANCE.getIdentifier()),
+                val -> {
+                    MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(AntiKB.INSTANCE.getIdentifier(), val);
+                    MCPClient.getKeyBindManager().updateKey(AntiKB.INSTANCE.getIdentifier(), val);
                 }
             )
         );

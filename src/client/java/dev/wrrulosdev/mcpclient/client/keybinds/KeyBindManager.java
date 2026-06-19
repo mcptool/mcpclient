@@ -42,6 +42,8 @@ public class KeyBindManager {
         register(WallHack.INSTANCE);
         register(HClip.INSTANCE);
         register(VClip.INSTANCE);
+        register(FullBright.INSTANCE);
+        register(AntiKB.INSTANCE);
     }
 
     /**

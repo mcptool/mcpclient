@@ -23,8 +23,6 @@ public abstract class LocalPlayerMixin {
      */
     @Inject(method = "tick", at = @At("HEAD"))
     private void onTick(CallbackInfo ci) {
-        LocalPlayer player = (LocalPlayer) (Object) this;
-        Minecraft mc = Minecraft.getInstance();
         CheatsSettings cheatsSettings = MCPClient.getSettingsManager().getCheatsSettings();
 
         /*if (cheatsSettings.isFlyEnabled()) {
