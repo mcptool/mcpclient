@@ -55,6 +55,7 @@ public class CheatsSettings {
     private boolean blockTrackerStorageEnabled = false;
     private boolean blockTrackerUtilityEnabled = false;
     private boolean blockTrackerRedstoneEnabled = false;
+    private int blockTrackerScanRadius = 32;
 
     private void save() {
         MCPClient.saveSettings();
@@ -117,6 +118,7 @@ public class CheatsSettings {
 
     public void setWallHackStickManEnabled(boolean wallHackStickManEnabled) {
         this.wallHackStickManEnabled = wallHackStickManEnabled;
+        save();
     }
 
     public boolean isWallHackBoxesEnabled() {
@@ -125,6 +127,7 @@ public class CheatsSettings {
 
     public void setWallHackBoxesEnabled(boolean wallHackBoxesEnabled) {
         this.wallHackBoxesEnabled = wallHackBoxesEnabled;
+        save();
     }
 
     public boolean isSpiderEnabled() { return spiderEnabled; }
@@ -136,6 +139,7 @@ public class CheatsSettings {
 
     public void setSpiderSpeed(double spiderSpeed) {
         this.spiderSpeed = spiderSpeed;
+        save();
     }
 
     public boolean isAntikbEnabled() { return antikbEnabled; }
@@ -150,6 +154,7 @@ public class CheatsSettings {
 
     public void sethClipDistance(double hClipDistance) {
         this.hClipDistance = hClipDistance;
+        save();
     }
 
     public boolean isVClipEnabled() { return vClipEnabled; }
@@ -162,6 +167,7 @@ public class CheatsSettings {
 
     public void setvClipDistance(double vClipDistance) {
         this.vClipDistance = vClipDistance;
+        save();
     }
 
     public boolean isFullBrightEnabled() { return fullBrightEnabled; }
@@ -173,6 +179,7 @@ public class CheatsSettings {
 
     public void setFullBrightAmount(double fullBrightAmount) {
         this.fullBrightAmount = fullBrightAmount;
+        save();
     }
 
     public boolean isNoFallEnabled() { return noFallEnabled; }
@@ -217,6 +224,7 @@ public class CheatsSettings {
 
     public void setBlockTrackerMineralBlocksEnabled(boolean blockTrackerMineralBlocksEnabled) {
         this.blockTrackerMineralBlocksEnabled = blockTrackerMineralBlocksEnabled;
+        save();
     }
 
     public boolean isBlockTrackerStorageEnabled() {
@@ -225,6 +233,7 @@ public class CheatsSettings {
 
     public void setBlockTrackerStorageEnabled(boolean blockTrackerStorageEnabled) {
         this.blockTrackerStorageEnabled = blockTrackerStorageEnabled;
+        save();
     }
 
     public boolean isBlockTrackerUtilityEnabled() {
@@ -233,6 +242,7 @@ public class CheatsSettings {
 
     public void setBlockTrackerUtilityEnabled(boolean blockTrackerUtilityEnabled) {
         this.blockTrackerUtilityEnabled = blockTrackerUtilityEnabled;
+        save();
     }
 
     public boolean isBlockTrackerRedstoneEnabled() {
@@ -241,5 +251,15 @@ public class CheatsSettings {
 
     public void setBlockTrackerRedstoneEnabled(boolean blockTrackerRedstoneEnabled) {
         this.blockTrackerRedstoneEnabled = blockTrackerRedstoneEnabled;
+        save();
+    }
+
+    public int getBlockTrackerScanRadius() {
+        return blockTrackerScanRadius;
+    }
+
+    public void setBlockTrackerScanRadius(int blockTrackerScanRadius) {
+        this.blockTrackerScanRadius = blockTrackerScanRadius;
+        save();
     }
 }

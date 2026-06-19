@@ -1,5 +1,6 @@
 package dev.wrrulosdev.mcpclient.client.cheats.esp;
 
+import dev.wrrulosdev.mcpclient.client.MCPClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -61,12 +62,6 @@ public class BlockScanner {
      * Minimum delay between scans in milliseconds.
      */
     private static final long SCAN_INTERVAL_MS = 2000L;
-
-    /**
-     * Scan radius around the player.
-     * Lower values provide better performance.
-     */
-    private static final int SCAN_RADIUS = 64;
 
     /**
      * Time of the last scan request.
@@ -290,14 +285,16 @@ public class BlockScanner {
         int centerZ,
         EnumSet<TargetCategory> enabledCategories
     ) {
+        int scanRadius = MCPClient.getSettingsManager().getCheatsSettings().getBlockTrackerScanRadius();
+
         try {
             List<ScannedBlock> foundBlocks = new ArrayList<>();
 
             BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 
-            for (int x = -SCAN_RADIUS; x <= SCAN_RADIUS; x++) {
-                for (int y = -SCAN_RADIUS; y <= SCAN_RADIUS; y++) {
-                    for (int z = -SCAN_RADIUS; z <= SCAN_RADIUS; z++) {
+            for (int x = -scanRadius; x <= scanRadius; x++) {
+                for (int y = -scanRadius; y <= scanRadius; y++) {
+                    for (int z = -scanRadius; z <= scanRadius; z++) {
                         mutablePos.set(
                             centerX + x,
                             centerY + y,
