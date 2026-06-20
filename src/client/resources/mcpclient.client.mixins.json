@@ -22,7 +22,8 @@
 		"music.MusicsMixin",
 		"render.LevelRendererMixin",
 		"render.EntityRendererMixin",
-		"render.AvatarRendererMixin"
+		"render.AvatarRendererMixin",
+		"render.GuiMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

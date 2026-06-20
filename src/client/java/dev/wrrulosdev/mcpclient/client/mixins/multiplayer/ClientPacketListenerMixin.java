@@ -45,6 +45,7 @@ public class ClientPacketListenerMixin {
     @Inject(method = "handleLogin", at = @At("HEAD"))
     public void handleLogin(final ClientboundLoginPacket packet, CallbackInfo ci) {
         PluginChannelStorage storage = MCPClient.getPluginChannelStorage();
+        MCPClient.updateLastServerAddress();
 
         if (!storage.canRunLoginOnce()) {
             return;
@@ -60,5 +61,16 @@ public class ClientPacketListenerMixin {
 
             storage.sendStoredPluginMessages();
         }, "PluginChannelSender").start();
+    }
+
+    /**
+     * Injects logic after the login packet has been fully processed by the client.
+     *
+     * @param packet The login packet received from the server
+     * @param ci Callback information for the injection point
+     */
+    @Inject(method = "handleLogin", at = @At("TAIL"))
+    public void handlePostLogin(ClientboundLoginPacket packet, CallbackInfo ci) {
+        MCPClient.updateLastServerAddress();
     }
 }

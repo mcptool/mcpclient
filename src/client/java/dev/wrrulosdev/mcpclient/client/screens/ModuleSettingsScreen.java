@@ -66,7 +66,7 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
             .position(btnX, btnY)
             .size(btnWidth, btnHeight)
             .onPress(button ->
-                this.minecraft.setScreen(this.parentScreen)
+                this.minecraft.setScreenAndShow(this.parentScreen)
             )
             .style(style -> style
                 .backgroundColors(
@@ -312,7 +312,7 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
         }
 
         if (event.key() == GLFW.GLFW_KEY_ESCAPE) {
-            this.minecraft.setScreen(this.parentScreen);
+            this.minecraft.setScreenAndShow(this.parentScreen);
             return true;
         }
 

@@ -61,7 +61,7 @@ public class TitleScreenMixin extends Screen {
                     )
                 )
                 .onPress(button -> {
-                    Minecraft.getInstance().setScreen(new SelectWorldScreen(this));
+                    Minecraft.getInstance().setScreenAndShow(new SelectWorldScreen(this));
                 })
                 .build()
         );
@@ -93,7 +93,7 @@ public class TitleScreenMixin extends Screen {
                     )
                 )
                 .onPress(button -> {
-                    Minecraft.getInstance().setScreen(new JoinMultiplayerScreen(this));
+                    Minecraft.getInstance().setScreenAndShow(new JoinMultiplayerScreen(this));
                 })
                 .build()
         );
@@ -155,7 +155,7 @@ public class TitleScreenMixin extends Screen {
                     )
                 )
                 .onPress(button -> {
-                    Minecraft.getInstance().setScreen(new OptionsScreen(this, Minecraft.getInstance().options, false));
+                    Minecraft.getInstance().setScreenAndShow(new OptionsScreen(this, Minecraft.getInstance().options, false));
                 })
                 .build()
         );

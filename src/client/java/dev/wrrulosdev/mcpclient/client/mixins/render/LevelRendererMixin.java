@@ -42,10 +42,12 @@ public class LevelRendererMixin {
      * @param terrainFog               GPU buffer slice containing fog rendering data.
      * @param fogColor                 Current fog color vector applied to the scene.
      * @param shouldRenderSky          Whether sky rendering is enabled for this frame.
-     * @param chunkSectionsToRender    Chunk section visibility and rendering selection data.
      * @param ci                       Callback info used to interact with the injection point.
      */
-    @Inject(method = "renderLevel", at = @At("TAIL"))
+    @Inject(
+        method = "render",
+        at = @At("TAIL")
+    )
     private void onRenderLevel(
         GraphicsResourceAllocator resourceAllocator,
         DeltaTracker deltaTracker,
@@ -55,7 +57,6 @@ public class LevelRendererMixin {
         GpuBufferSlice terrainFog,
         Vector4f fogColor,
         boolean shouldRenderSky,
-        ChunkSectionsToRender chunkSectionsToRender,
         CallbackInfo ci
     ) {
         if (WallHack.INSTANCE.isEnabled()) {

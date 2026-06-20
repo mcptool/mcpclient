@@ -9,6 +9,7 @@ import dev.wrrulosdev.mcpclient.client.payloads.*;
 import dev.wrrulosdev.mcpclient.client.pluginschannel.PluginChannelStorage;
 import dev.wrrulosdev.mcpclient.client.screens.MenuScreen;
 import dev.wrrulosdev.mcpclient.client.settings.SettingsManager;
+import dev.wrrulosdev.mcpclient.client.utilities.connection.ServerAddress;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -29,6 +30,7 @@ public class MCPClient implements ClientModInitializer {
 	private static PluginChannelStorage pluginChannelStorage;
 	private static SettingsManager settingsManager;
 	private static KeyBindManager keyBindManager;
+	private static ServerAddress lastServerAddress;
 
     @Override
 	public void onInitializeClient() {
@@ -64,8 +66,8 @@ public class MCPClient implements ClientModInitializer {
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (openMenuInGameTempKey.consumeClick()) {
-				if (client.screen == null) {
-					client.setScreen(new MenuScreen());
+				if (client.gui.screen() == null) {
+					client.setScreenAndShow(new MenuScreen());
 				}
 			}
 
@@ -100,6 +102,14 @@ public class MCPClient implements ClientModInitializer {
 
 	public static SettingsManager getSettingsManager() {
 		return settingsManager;
+	}
+
+	public static ServerAddress getLastServerAddress() {
+		return lastServerAddress;
+	}
+
+	public static void updateLastServerAddress() {
+		MCPClient.lastServerAddress = new ServerAddress(Minecraft.getInstance());
 	}
 
 	public static KeyBindManager getKeyBindManager() {

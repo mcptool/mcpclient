@@ -437,7 +437,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
     @Override
     public boolean keyPressed(KeyEvent event) {
         if (event.key() == GLFW.GLFW_KEY_ESCAPE) {
-            this.minecraft.setScreen(this.parentScreen);
+            this.minecraft.setScreenAndShow(this.parentScreen);
             return true;
         }
 
@@ -456,7 +456,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
         String desc,
         List<AbstractSettingComponent> settings
     ) {
-        Minecraft.getInstance().setScreen(
+        Minecraft.getInstance().setScreenAndShow(
             new ModuleSettingsScreen(
                 this,
                 moduleName,

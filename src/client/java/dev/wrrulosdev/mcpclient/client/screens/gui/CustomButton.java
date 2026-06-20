@@ -97,7 +97,7 @@ public class CustomButton extends AbstractWidget {
      * Evaluates the hover state to dynamically swap the native window cursor to an interactive hand configuration.
      */
     private void updateMouseCursor() {
-        var currentScreen = Minecraft.getInstance().screen;
+        var currentScreen = Minecraft.getInstance().gui.screen();
         long windowHandle = Minecraft.getInstance().getWindow().handle();
 
         if (currentScreen != lastScreen) {

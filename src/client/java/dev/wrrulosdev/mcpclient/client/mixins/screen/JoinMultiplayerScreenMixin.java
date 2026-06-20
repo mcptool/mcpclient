@@ -78,7 +78,7 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
                     acc.setEditingServer(new ServerData(current.name, current.ip, ServerData.Type.OTHER));
                     acc.getEditingServer().copyFrom(current);
 
-                    this.minecraft.setScreen(
+                    this.minecraft.setScreenAndShow(
                         new ManageServerScreen(
                             this,
                             Component.translatable("manageServer.edit.title"),
@@ -115,7 +115,7 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
                     Component yes = Component.translatable("selectServer.deleteButton");
                     Component no = CommonComponents.GUI_CANCEL;
 
-                    this.minecraft.setScreen(
+                    this.minecraft.setScreenAndShow(
                         new ConfirmScreen(acc::invokeDeleteCallback, title, warning, yes, no)
                     );
                 }
@@ -138,7 +138,7 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
                     );
                 }
 
-                this.minecraft.setScreen(
+                this.minecraft.setScreenAndShow(
                     new DirectJoinServerScreen(
                         this,
                         acc::invokeDirectJoinCallback,
@@ -165,7 +165,7 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
                 ServerData newServer = new ServerData("", "", ServerData.Type.OTHER);
                 acc.setEditingServer(newServer);
 
-                this.minecraft.setScreen(
+                this.minecraft.setScreenAndShow(
                     new ManageServerScreen(
                         this,
                         Component.translatable("manageServer.add.title"),
@@ -193,7 +193,7 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
                 )
                 .hoverImage(TextureConstants.HOME_HOVER_ICON)
             )
-            .onPress(button -> Minecraft.getInstance().setScreen(new TitleScreen()))
+            .onPress(button -> Minecraft.getInstance().setScreenAndShow(new TitleScreen()))
             .build();
 
         if (FabricLoader.getInstance().isModLoaded("viafabricplus")) {

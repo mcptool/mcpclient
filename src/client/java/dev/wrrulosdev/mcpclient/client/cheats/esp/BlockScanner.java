@@ -123,7 +123,7 @@ public class BlockScanner {
         addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.COAL_BLOCK, 0xFF4D4D4D);
         addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.IRON_BLOCK, 0xFFD8D8D8);
         addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.RAW_IRON_BLOCK, 0xFFB0B0B0);
-        addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.COPPER_BLOCK, 0xFFB87333);
+        addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.COPPER_BLOCK.asList().getFirst(), 0xFFB87333);
         addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.RAW_COPPER_BLOCK, 0xFFA85E2E);
         addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.GOLD_BLOCK, 0xFFFFD700);
         addTarget(TargetCategory.MINERAL_BLOCKS, Blocks.RAW_GOLD_BLOCK, 0xFFE6C200);
@@ -140,22 +140,6 @@ public class BlockScanner {
         addTarget(TargetCategory.STORAGE, Blocks.BARREL, 0xFFCD853F);
 
         addTarget(TargetCategory.STORAGE, Blocks.SHULKER_BOX, 0xFFB266FF);
-        addTarget(TargetCategory.STORAGE, Blocks.WHITE_SHULKER_BOX, 0xFFB266FF);
-        addTarget(TargetCategory.STORAGE, Blocks.ORANGE_SHULKER_BOX, 0xFFFFA500);
-        addTarget(TargetCategory.STORAGE, Blocks.MAGENTA_SHULKER_BOX, 0xFFFF00FF);
-        addTarget(TargetCategory.STORAGE, Blocks.LIGHT_BLUE_SHULKER_BOX, 0xFF87CEFA);
-        addTarget(TargetCategory.STORAGE, Blocks.YELLOW_SHULKER_BOX, 0xFFFFFF00);
-        addTarget(TargetCategory.STORAGE, Blocks.LIME_SHULKER_BOX, 0xFF00FF00);
-        addTarget(TargetCategory.STORAGE, Blocks.PINK_SHULKER_BOX, 0xFFFF69B4);
-        addTarget(TargetCategory.STORAGE, Blocks.GRAY_SHULKER_BOX, 0xFF808080);
-        addTarget(TargetCategory.STORAGE, Blocks.LIGHT_GRAY_SHULKER_BOX, 0xFFD3D3D3);
-        addTarget(TargetCategory.STORAGE, Blocks.CYAN_SHULKER_BOX, 0xFF00FFFF);
-        addTarget(TargetCategory.STORAGE, Blocks.PURPLE_SHULKER_BOX, 0xFFAA00FF);
-        addTarget(TargetCategory.STORAGE, Blocks.BLUE_SHULKER_BOX, 0xFF0000FF);
-        addTarget(TargetCategory.STORAGE, Blocks.BROWN_SHULKER_BOX, 0xFF8B4513);
-        addTarget(TargetCategory.STORAGE, Blocks.GREEN_SHULKER_BOX, 0xFF00AA00);
-        addTarget(TargetCategory.STORAGE, Blocks.RED_SHULKER_BOX, 0xFFFF3333);
-        addTarget(TargetCategory.STORAGE, Blocks.BLACK_SHULKER_BOX, 0xFF222222);
 
         // UTILITY
         addTarget(TargetCategory.UTILITY, Blocks.SPAWNER, 0xFFAA00FF);

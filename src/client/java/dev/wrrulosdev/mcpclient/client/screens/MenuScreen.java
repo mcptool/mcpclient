@@ -47,7 +47,7 @@ public class MenuScreen extends BaseAnimatedScreen {
                 "Cheats",
                 "Basic minecraft cheats.",
                 TextureConstants.HACKER_ICON,
-                () -> Minecraft.getInstance().setScreen(new CheatsScreen(this))
+                () -> Minecraft.getInstance().setScreenAndShow(new CheatsScreen(this))
             )
         );
 
@@ -65,7 +65,7 @@ public class MenuScreen extends BaseAnimatedScreen {
                 "Exploits",
                 "List of available exploits.",
                 TextureConstants.BOMB_ICON,
-                () -> Minecraft.getInstance().setScreen(new ExploitsScreen(this))
+                () -> Minecraft.getInstance().setScreenAndShow(new ExploitsScreen(this))
             )
         );
 

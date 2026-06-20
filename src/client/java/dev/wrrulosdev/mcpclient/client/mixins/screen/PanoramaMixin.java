@@ -19,7 +19,6 @@ public class PanoramaMixin {
      * @param graphics   The screen graphics rendering pipeline extractor context.
      * @param width      The current width boundary dimension of the application screen window viewport.
      * @param height     The current height boundary dimension of the application screen window viewport.
-     * @param shouldSpin Flag determining if the structural background environment rotation sequence applies.
      * @param ci         The mixin callback info handle controlling invocation properties.
      */
     @Inject(
@@ -31,11 +30,10 @@ public class PanoramaMixin {
         GuiGraphicsExtractor graphics,
         int width,
         int height,
-        boolean shouldSpin,
         CallbackInfo ci
     ) {
         Minecraft minecraft = Minecraft.getInstance();
-        minecraft.gameRenderer.getGameRenderState().guiRenderState.panoramaRenderState = new PanoramaRenderState(0.0F);
+        minecraft.gameRenderer.gameRenderState().guiRenderState.panoramaRenderState = new PanoramaRenderState(0.0F);
         graphics.blit(
             RenderPipelines.GUI_TEXTURED,
             TextureConstants.MENU_BACKGROUND,
