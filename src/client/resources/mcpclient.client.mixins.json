@@ -20,7 +20,9 @@
 		"player.LocalPlayerMixin",
 		"multiplayer.ClientPacketListenerMixin",
 		"music.MusicsMixin",
-		"render.LevelRendererMixin"
+		"render.LevelRendererMixin",
+		"render.EntityRendererMixin",
+		"render.AvatarRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
