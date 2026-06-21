@@ -27,7 +27,8 @@
 		"render.EntityRendererMixin",
 		"render.AvatarRendererMixin",
 		"world.PlayerTeamMixin",
-		"world.EntityMixin"
+		"world.EntityMixin",
+		"world.TextDisplayMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
