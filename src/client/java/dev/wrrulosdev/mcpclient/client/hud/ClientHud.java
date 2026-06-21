@@ -33,6 +33,8 @@ public class ClientHud {
         if (serverAddress == null) return;
         String address = serverAddress.getAddress();
         String protocol = serverAddress.getProtocol();
+        String fps = String.valueOf(Minecraft.getInstance().getFps());
+        Boolean fpsEnabled = MCPClient.getSettingsManager().getClientSettings().isClientHudFpsEnabled();
 
         graphics.nextStratum();
         Font font = client.font;
@@ -47,6 +49,9 @@ public class ClientHud {
         Component playersText = Component.literal("Players: ").withColor(0xAAAAAA)
             .append(Component.literal(players).withColor(0xFFFFFF));
 
+        Component fpsText = Component.literal("FPS: ").withColor(0xAAAAAA)
+            .append(Component.literal(fps).withColor(0xFFFFFF));
+
         Component mcpText = Component.literal("MCPTool: ").withColor(0xAAAAAA)
             .append(Component.literal(mcpConnected ? "Online" : "Offline")
                 .withColor(mcpConnected ? 0x55FF55 : 0xFF5555));
@@ -57,7 +62,7 @@ public class ClientHud {
         );
 
         int totalWidth = maxWidth + (padding * 2);
-        int totalHeight = (font.lineHeight * 4) + (padding * 2) + 6;
+        int totalHeight = (font.lineHeight * (fpsEnabled ? 5 : 4)) + (padding * 2) + 6;
         int bgColor = getAlphaColor(0x1A1A1A, 0.85f);
 
         fillRoundedRect(graphics, startX, startY, startX + totalWidth, startY + totalHeight, bgColor);
@@ -77,8 +82,12 @@ public class ClientHud {
         renderText(graphics, font, playersText, textX, currentY);
         currentY += font.lineHeight + 2;
 
-        renderText(graphics, font, mcpText, textX, currentY);
+        if (fpsEnabled) {
+            renderText(graphics, font, fpsText, textX, currentY);
+            currentY += font.lineHeight + 2;
+        }
 
+        renderText(graphics, font, mcpText, textX, currentY);
         graphics.pose().popMatrix();
     }
 

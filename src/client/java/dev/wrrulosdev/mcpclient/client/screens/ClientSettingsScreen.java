@@ -53,7 +53,7 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
             () -> openModuleSettings(
                 ClientHud.INSTANCE.getName(),
                 ClientHud.INSTANCE.getLongDescription(),
-                getAnonymousSettings()
+                getClientHudSettings()
             )
         );
         addCard(
@@ -63,7 +63,7 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
             () -> openModuleSettings(
                 Anonymous.INSTANCE.getName(),
                 Anonymous.INSTANCE.getLongDescription(),
-                getClientHudSettings()
+                getAnonymousSettings()
             )
         );
         addCard(
@@ -270,8 +270,8 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         settings.add(
             new ToggleSetting(
                 "Show FPS",
-                MCPClient.getSettingsManager().getClientSettings().isAnonymousChatEnabled(),
-                MCPClient.getSettingsManager().getClientSettings()::setAnonymousChatEnabled
+                MCPClient.getSettingsManager().getClientSettings().isClientHudFpsEnabled(),
+                MCPClient.getSettingsManager().getClientSettings()::setClientHudFpsEnabled
             )
         );
 

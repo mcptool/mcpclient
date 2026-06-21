@@ -14,6 +14,7 @@ public class ClientSettings {
     private String newAnonymousName = "***";
 
     private boolean clientHudEnabled = true;
+    private boolean clientHudFpsEnabled = true;
 
     private void save() {
         MCPClient.saveSettings();
@@ -88,6 +89,15 @@ public class ClientSettings {
 
     public void setClientHudEnabled(boolean clientHudEnabled) {
         this.clientHudEnabled = clientHudEnabled;
+        save();
+    }
+
+    public boolean isClientHudFpsEnabled() {
+        return clientHudFpsEnabled;
+    }
+
+    public void setClientHudFpsEnabled(boolean clientHudFpsEnabled) {
+        this.clientHudFpsEnabled = clientHudFpsEnabled;
         save();
     }
 }
