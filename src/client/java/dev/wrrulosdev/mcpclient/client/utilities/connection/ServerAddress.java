@@ -103,6 +103,7 @@ public class ServerAddress {
     public void defaultValue() {
         this.ip = "127.0.0.1";
         this.port = "25565";
+        this.protocol = "47";
         this.domain = "mcptool.net";
     }
 }
