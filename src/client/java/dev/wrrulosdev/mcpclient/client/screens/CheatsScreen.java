@@ -5,6 +5,7 @@ import dev.wrrulosdev.mcpclient.client.cheats.*;
 import dev.wrrulosdev.mcpclient.client.constants.TextureConstants;
 import dev.wrrulosdev.mcpclient.client.screens.gui.*;
 import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
+import dev.wrrulosdev.mcpclient.client.utilities.screens.MainMenuScreenUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
@@ -21,10 +22,8 @@ public class CheatsScreen extends BaseAnimatedScreen {
     private static final int CARD_HEIGHT = 65;
     private static final int GAP = 15;
     private static final int SIDE_MARGIN = 20;
-
     private final Screen parentScreen;
     private final List<SwitchOptionCard> allCards = new ArrayList<>();
-
     private double scrollOffset = 0;
     private double maxScrollOffset = 0;
 
@@ -209,142 +208,55 @@ public class CheatsScreen extends BaseAnimatedScreen {
         return "Cheats / Modules";
     }
 
-    /**
-     * Renders the module grid and manages clipping and scrolling boundaries.
-     *
-     * @param graphics The graphical rendering extraction context.
-     * @param x1 The left window boundary.
-     * @param x2 The right window boundary.
-     * @param y1 The top window boundary.
-     * @param y2 The bottom window boundary.
-     * @param mouseX The current mouse X coordinate.
-     * @param mouseY The current mouse Y coordinate.
-     * @param progress The animation progress factor.
-     */
     @Override
-    protected void renderWindowContent(
-        GuiGraphicsExtractor graphics,
-        int x1,
-        int x2,
-        int y1,
-        int y2,
-        int mouseX,
-        int mouseY,
-        float progress
-    ) {
-        int listY1 = y1 + 55;
-        int listY2 = y2 - 10;
-        int columns = 3;
-        int colWidth = calculateColWidth(x1, x2, columns);
-        int numRows = (int) Math.ceil(allCards.size() / (double) columns);
-        this.maxScrollOffset = Math.max(
-            0,
-            (numRows * CARD_HEIGHT)
-                + ((numRows - 1) * GAP)
-                - (listY2 - listY1)
-        );
-
-        graphics.enableScissor(x1, listY1, x2, listY2);
-
-        for (int i = 0; i < allCards.size(); i++) {
-            int[] pos =
-                calculateCardPosition(
-                    i,
-                    x1,
-                    listY1,
-                    colWidth,
-                    columns
-                );
-
-            if (
-                pos[1] + CARD_HEIGHT >= listY1
-                    && pos[1] <= listY2
-            ) {
-                allCards.get(i).render(
-                    graphics,
-                    this.font,
-                    pos[0],
-                    pos[1],
-                    colWidth,
-                    mouseX,
-                    mouseY,
-                    progress
-                );
-            }
-        }
-
-        graphics.disableScissor();
+    protected void renderWindowContent(GuiGraphicsExtractor graphics, int x1, int x2, int y1, int y2, int mouseX, int mouseY, float progress) {
+        this.maxScrollOffset = MainMenuScreenUtils.renderWindowGenericContent(graphics, x1, x2, y1, y2, mouseX, mouseY, progress, this.font, this.maxScrollOffset, this.scrollOffset, CARD_HEIGHT, SIDE_MARGIN, GAP, allCards);
     }
 
-    /**
-     * Updates the mouse cursor when hovering interactive module cards.
-     *
-     * @param mouseX The current mouse X coordinate.
-     * @param mouseY The current mouse Y coordinate.
-     */
     @Override
     public void mouseMoved(double mouseX, double mouseY) {
         super.mouseMoved(mouseX, mouseY);
 
-        int targetWidth = Math.min(this.width - 60, this.maxWidth);
-        int targetHeight = Math.min(this.height - 60, this.maxHeight);
-        int x1 = (this.width / 2) - (targetWidth / 2);
-        int x2 = (this.width / 2) + (targetWidth / 2);
-        int y1 = (this.height / 2) - (targetHeight / 2);
-
-        int listY1 = y1 + 55;
-        int listY2 = y1 + targetHeight - 10;
-        int columns = 3;
-        int colWidth = calculateColWidth(x1, x2, columns);
-
-        boolean hovered = false;
-
-        if (mouseY >= listY1 && mouseY <= listY2) {
-            for (int i = 0; i < allCards.size(); i++) {
-                int[] pos = calculateCardPosition(i, x1, listY1, colWidth, columns);
-
-                if (mouseX >= pos[0] && mouseX <= pos[0] + colWidth &&
-                    mouseY >= pos[1] && mouseY <= pos[1] + CARD_HEIGHT) {
-                    hovered = true;
-                    break;
-                }
-            }
-        }
-
+        boolean hovered = MainMenuScreenUtils.isMouseOverGrid(
+            mouseX,
+            mouseY,
+            this.width,
+            this.height,
+            this.maxWidth,
+            this.maxHeight,
+            CARD_HEIGHT,
+            this.allCards.size(),
+            3,
+            SIDE_MARGIN,
+            GAP,
+            (int) this.scrollOffset
+        );
         GLFW.glfwSetCursor(
             Minecraft.getInstance().getWindow().handle(),
             hovered ? HAND_CURSOR : ARROW_CURSOR
         );
     }
 
-    /**
-     * Forwards mouse click events to the appropriate module card.
-     *
-     * @param event The mouse button event.
-     * @param doubleClick Indicates whether the click is a double click.
-     * @return True if a module card consumed the click event.
-     */
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-        int targetWidth = Math.min(this.width - 60, this.maxWidth);
-        int targetHeight = Math.min(this.height - 60, this.maxHeight);
-        int x1 = (this.width / 2) - (targetWidth / 2);
-        int x2 = (this.width / 2) + (targetWidth / 2);
-        int y1 = (this.height / 2) - (targetHeight / 2);
+        boolean handled = MainMenuScreenUtils.handleGridClick(
+            event.x(),
+            event.y(),
+            event.button(),
+            this.allCards,
+            this.width,
+            this.height,
+            this.maxWidth,
+            this.maxHeight,
+            CARD_HEIGHT,
+            3,
+            SIDE_MARGIN,
+            GAP,
+            (int) this.scrollOffset
+        );
 
-        int listY1 = y1 + 55;
-        int listY2 = y1 + targetHeight - 10;
-        int columns = 3;
-        int colWidth = calculateColWidth(x1, x2, columns);
-
-        if (event.y() >= listY1 && event.y() <= listY2) {
-            for (int i = 0; i < allCards.size(); i++) {
-                int[] pos = calculateCardPosition(i, x1, listY1, colWidth, columns);
-
-                if (allCards.get(i).mouseClicked(event.x(), event.y(), event.button(), pos[0], pos[1], colWidth)) {
-                    return true;
-                }
-            }
+        if (handled) {
+            return true;
         }
 
         return super.mouseClicked(event, doubleClick);
@@ -371,41 +283,6 @@ public class CheatsScreen extends BaseAnimatedScreen {
         ) / columns;
     }
 
-    /**
-     * Calculates the screen position of a module card based on its
-     * index, row, column and current scroll offset.
-     *
-     * @param i The module index.
-     * @param x1 The left boundary.
-     * @param listY1 The content starting Y coordinate.
-     * @param colWidth The width of each column.
-     * @param columns The number of columns.
-     * @return An array containing the calculated X and Y coordinates.
-     */
-    private int[] calculateCardPosition(
-        int i,
-        int x1,
-        int listY1,
-        int colWidth,
-        int columns
-    ) {
-        int row = i / columns;
-        int col = i % columns;
-        int cardX = x1 + SIDE_MARGIN + (col * (colWidth + GAP));
-        int cardY = listY1 + (row * (CARD_HEIGHT + GAP)) - (int) scrollOffset;
-        return new int[]{cardX, cardY};
-    }
-
-    /**
-     * Updates the vertical scroll position while keeping it inside
-     * the valid content bounds.
-     *
-     * @param mouseX The current mouse X coordinate.
-     * @param mouseY The current mouse Y coordinate.
-     * @param scrollX The horizontal scroll amount.
-     * @param scrollY The vertical scroll amount.
-     * @return The result of the parent scroll handler.
-     */
     @Override
     public boolean mouseScrolled(
         double mouseX,
@@ -413,12 +290,11 @@ public class CheatsScreen extends BaseAnimatedScreen {
         double scrollX,
         double scrollY
     ) {
-        this.scrollOffset = Math.clamp(
-            this.scrollOffset - scrollY * 20,
-            0,
+        this.scrollOffset = MainMenuScreenUtils.calculateScrollOffset(
+            this.scrollOffset,
+            scrollY,
             this.maxScrollOffset
         );
-
         return super.mouseScrolled(
             mouseX,
             mouseY,

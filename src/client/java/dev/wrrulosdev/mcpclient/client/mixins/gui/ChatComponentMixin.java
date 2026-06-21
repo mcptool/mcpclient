@@ -1,14 +1,21 @@
 package dev.wrrulosdev.mcpclient.client.mixins.gui;
 
+import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.client.multiplayer.chat.GuiMessage;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.PlainTextContents;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ChatComponent.class)
@@ -132,5 +139,63 @@ public abstract class ChatComponentMixin {
         } else if (displayMode.foreground) {
             this.smoothOffset = 0.0;
         }
+    }
+
+    /**
+     * Intercepts incoming chat messages
+     *
+     * @param contents The original message component received
+     * @return A modified component
+     */
+    @ModifyVariable(
+        method = "addMessage",
+        at = @At("HEAD"),
+        ordinal = 0,
+        argsOnly = true
+    )
+    private Component interceptorAddMessage(Component contents) {
+        ClientSettings clientSettings = MCPClient.getSettingsManager().getClientSettings();
+        String username = Minecraft.getInstance().player.getName().getString();
+
+        if (clientSettings.isAnonymousModeEnabled() && clientSettings.isAnonymousChatEnabled()) {
+            String anonymousUsername = clientSettings.getNewAnonymousName();
+            return anonymousFilterRecursive(contents, username, anonymousUsername);
+        }
+
+        return contents;
+    }
+
+    /**
+     * Recursively traverses a component tree to find and replace instances of
+     * the player's username with an anonymous alias.
+     *
+     * @param component The current component node to process
+     * @param username The player's actual username to look for
+     * @param anonymousUsername The replacement alias
+     * @return A new component structure with anonymized text
+     */
+    private Component anonymousFilterRecursive(Component component, String username, String anonymousUsername) {
+        MutableComponent mutable = component.copy();
+
+        if (mutable.getContents() instanceof PlainTextContents.LiteralContents(String text)) {
+            if (text.contains(username)) {
+                return Component.literal(text.replace(username, anonymousUsername))
+                    .withStyle(mutable.getStyle());
+            }
+        }
+
+        if (mutable.getContents() instanceof TranslatableContents translatable) {
+            Object[] args = translatable.getArgs();
+
+            for (int i = 0; i < args.length; i++) {
+                if (args[i] instanceof Component comp) {
+                    args[i] = anonymousFilterRecursive(comp, username, anonymousUsername);
+                }
+            }
+        }
+
+        var siblings = mutable.getSiblings();
+        siblings.replaceAll(component1 -> anonymousFilterRecursive(component1, username, anonymousUsername));
+        return mutable;
     }
 }

@@ -14,6 +14,7 @@ public class SettingsManager {
     private final transient Path configPath;
     private final transient Gson gson;
     private CheatsSettings cheatsSettings;
+    private ClientSettings clientSettings;
 
     /**
      * Constructs a new SettingsManager, determining the config path based on OS
@@ -32,6 +33,7 @@ public class SettingsManager {
 
         this.gson = new GsonBuilder().setPrettyPrinting().create();
         this.cheatsSettings = new CheatsSettings();
+        this.clientSettings = new ClientSettings();
     }
 
     /**
@@ -43,6 +45,7 @@ public class SettingsManager {
             String json = Files.readString(configPath);
             SettingsManager loaded = gson.fromJson(json, SettingsManager.class);
             this.cheatsSettings = loaded.cheatsSettings;
+            this.clientSettings = loaded.clientSettings;
         }
     }
 
@@ -75,9 +78,16 @@ public class SettingsManager {
 
 
     /**
-     * @return the AutoCommandsSettings instance
+     * @return the CheatSettings instance
      */
     public CheatsSettings getCheatsSettings() {
         return cheatsSettings;
+    }
+
+    /**
+     * @return the ClientSettings instance
+     */
+    public ClientSettings getClientSettings() {
+        return clientSettings;
     }
 }

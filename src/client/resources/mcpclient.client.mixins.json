@@ -3,16 +3,18 @@
 	"package": "dev.wrrulosdev.mcpclient.client.mixins",
 	"compatibilityLevel": "JAVA_25",
 	"client": [
-		"accessor.ServerListAccessor",
 		"accessor.JoinMultiplayerScreenAccessor",
+		"accessor.ServerListAccessor",
 		"accessor.MinecraftAccessor",
 		"accessor.SessionAccessor",
 		"network.PluginChannelHandlerMixin",
 		"network.ServerListMixin",
-		"gui.LogoDrawerMixin",
 		"gui.AbstractSelectionListMixin",
+		"gui.PlayerTabOverlayMixin",
 		"gui.ChatComponentMixin",
 		"gui.WindowTitleMixin",
+		"gui.LogoDrawerMixin",
+		"gui.GuiMixin",
 		"screen.TitleScreenMixin",
 		"screen.PanoramaMixin",
 		"screen.LinearLayoutMixin",
@@ -24,7 +26,8 @@
 		"render.LevelRendererMixin",
 		"render.EntityRendererMixin",
 		"render.AvatarRendererMixin",
-		"render.GuiMixin"
+		"world.PlayerTeamMixin",
+		"world.EntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

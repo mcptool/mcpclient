@@ -1,4 +1,4 @@
-package dev.wrrulosdev.mcpclient.client.mixins.render;
+package dev.wrrulosdev.mcpclient.client.mixins.gui;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.wrrulosdev.mcpclient.client.hud.ClientHud;

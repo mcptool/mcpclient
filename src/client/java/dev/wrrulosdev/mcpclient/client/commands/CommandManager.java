@@ -41,6 +41,7 @@ public class CommandManager {
         COMMANDS.add(new T2cCommand());
         COMMANDS.add(new AtlasCommand());
         COMMANDS.add(new CommandBridgeCommand());
+        COMMANDS.add(new AnonymousCommand());
     }
 
     /**

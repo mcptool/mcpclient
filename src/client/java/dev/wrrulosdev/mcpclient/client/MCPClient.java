@@ -5,6 +5,7 @@ import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
 import dev.wrrulosdev.mcpclient.client.keybinds.KeyBindManager;
 import dev.wrrulosdev.mcpclient.client.mixins.accessor.SessionAccessor;
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationManager;
+import dev.wrrulosdev.mcpclient.client.options.Anonymous;
 import dev.wrrulosdev.mcpclient.client.payloads.*;
 import dev.wrrulosdev.mcpclient.client.pluginschannel.PluginChannelStorage;
 import dev.wrrulosdev.mcpclient.client.screens.MenuScreen;
@@ -86,6 +87,7 @@ public class MCPClient implements ClientModInitializer {
 	private void start() {
 		pluginChannelStorage = new PluginChannelStorage();
 		keyBindManager = new KeyBindManager();
+		Anonymous.init(getSettingsManager().getClientSettings());
 	}
 
 	public static void saveSettings() {

@@ -92,7 +92,7 @@ public class MenuScreen extends BaseAnimatedScreen {
                 "Client Settings",
                 "Configure client options.",
                 TextureConstants.SIMPLE_RED_SETTINGS_ICON,
-                () -> System.out.println("Legit")
+                () -> Minecraft.getInstance().setScreenAndShow(new ClientSettingsScreen(this))
             )
         );
 
