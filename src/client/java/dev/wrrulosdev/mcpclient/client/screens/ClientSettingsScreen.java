@@ -5,6 +5,7 @@ import dev.wrrulosdev.mcpclient.client.cheats.Fly;
 import dev.wrrulosdev.mcpclient.client.cheats.Jesus;
 import dev.wrrulosdev.mcpclient.client.constants.TextureConstants;
 import dev.wrrulosdev.mcpclient.client.options.Anonymous;
+import dev.wrrulosdev.mcpclient.client.options.ClientHud;
 import dev.wrrulosdev.mcpclient.client.options.OptionsBase;
 import dev.wrrulosdev.mcpclient.client.screens.gui.*;
 import dev.wrrulosdev.mcpclient.client.utilities.screens.MainMenuScreenUtils;
@@ -46,12 +47,12 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         this.allCards.clear();
 
         addCard(
-            Anonymous.INSTANCE,
+            ClientHud.INSTANCE,
             "ClientHud",
-            "Customize or hide the client's HUD.",
+            ClientHud.INSTANCE.getShortDescription(),
             () -> openModuleSettings(
-                Anonymous.INSTANCE.getName(),
-                "Settings..",
+                ClientHud.INSTANCE.getName(),
+                ClientHud.INSTANCE.getLongDescription(),
                 getAnonymousSettings()
             )
         );
@@ -62,7 +63,7 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
             () -> openModuleSettings(
                 Anonymous.INSTANCE.getName(),
                 Anonymous.INSTANCE.getLongDescription(),
-                getAnonymousSettings()
+                getClientHudSettings()
             )
         );
         addCard(
@@ -256,6 +257,21 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
                 "New Anonymous username",
                 MCPClient.getSettingsManager().getClientSettings().getNewAnonymousName(),
                 MCPClient.getSettingsManager().getClientSettings()::setNewAnonymousName
+            )
+        );
+
+        return settings;
+    }
+
+    private List<AbstractSettingComponent> getClientHudSettings() {
+        List<AbstractSettingComponent> settings =
+            new ArrayList<>();
+
+        settings.add(
+            new ToggleSetting(
+                "Show FPS",
+                MCPClient.getSettingsManager().getClientSettings().isAnonymousChatEnabled(),
+                MCPClient.getSettingsManager().getClientSettings()::setAnonymousChatEnabled
             )
         );
 

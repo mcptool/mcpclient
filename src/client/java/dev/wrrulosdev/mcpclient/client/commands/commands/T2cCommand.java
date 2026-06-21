@@ -20,9 +20,6 @@ public class T2cCommand implements Command {
 
     /**
      * Registers the T2C client command and its arguments.
-     * <p>
-     * Usage:
-     * .t2c <proxyCommand>
      *
      * @return Command builder instance
      */

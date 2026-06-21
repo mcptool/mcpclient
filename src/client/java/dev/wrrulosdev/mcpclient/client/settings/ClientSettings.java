@@ -13,6 +13,8 @@ public class ClientSettings {
     private boolean anonymousNameTagsEnabled = true;
     private String newAnonymousName = "***";
 
+    private boolean clientHudEnabled = true;
+
     private void save() {
         MCPClient.saveSettings();
     }
@@ -80,4 +82,12 @@ public class ClientSettings {
         save();
     }
 
+    public boolean isClientHudEnabled() {
+        return clientHudEnabled;
+    }
+
+    public void setClientHudEnabled(boolean clientHudEnabled) {
+        this.clientHudEnabled = clientHudEnabled;
+        save();
+    }
 }
