@@ -28,7 +28,8 @@
 		"render.AvatarRendererMixin",
 		"world.PlayerTeamMixin",
 		"world.EntityMixin",
-		"world.TextDisplayMixin"
+		"world.TextDisplayMixin",
+		"client.ClientBrandRetrieverMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
