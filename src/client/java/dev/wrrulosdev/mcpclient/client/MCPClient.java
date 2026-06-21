@@ -7,6 +7,7 @@ import dev.wrrulosdev.mcpclient.client.mixins.accessor.SessionAccessor;
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationManager;
 import dev.wrrulosdev.mcpclient.client.options.Anonymous;
 import dev.wrrulosdev.mcpclient.client.options.ClientHud;
+import dev.wrrulosdev.mcpclient.client.options.NameTag;
 import dev.wrrulosdev.mcpclient.client.payloads.*;
 import dev.wrrulosdev.mcpclient.client.pluginschannel.PluginChannelStorage;
 import dev.wrrulosdev.mcpclient.client.screens.MenuScreen;
@@ -92,6 +93,7 @@ public class MCPClient implements ClientModInitializer {
 		// Options
 		Anonymous.init(getSettingsManager().getClientSettings());
 		ClientHud.init(getSettingsManager().getClientSettings());
+		NameTag.init(getSettingsManager().getClientSettings());
 	}
 
 	public static void saveSettings() {

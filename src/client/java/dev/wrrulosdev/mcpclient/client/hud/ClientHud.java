@@ -27,7 +27,7 @@ public class ClientHud {
             return;
         }
 
-        if (!MCPClient.getSettingsManager().getClientSettings().isClientHudEnabled()) return;
+        if (!dev.wrrulosdev.mcpclient.client.options.ClientHud.INSTANCE.isEnabled()) return;
         ServerAddress serverAddress = MCPClient.getLastServerAddress();
 
         if (serverAddress == null) return;

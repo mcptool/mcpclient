@@ -1,5 +1,7 @@
 package dev.wrrulosdev.mcpclient.client.mixins.render;
 
+import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.options.NameTag;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
@@ -12,6 +14,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import static net.minecraft.world.entity.EntityAttachment.NAME_TAG;
 
 @Mixin(EntityRenderer.class)
 public abstract class EntityRendererMixin<T extends Entity, S extends EntityRenderState> {
@@ -28,20 +32,19 @@ public abstract class EntityRendererMixin<T extends Entity, S extends EntityRend
     @Inject(method = "extractRenderState", at = @At("TAIL"))
     private void appendCustomPrefix(T entity, S state, float partialTicks, CallbackInfo ci) {
         Minecraft mc = Minecraft.getInstance();
+        boolean playerNameTagEnabled = NameTag.INSTANCE.isEnabled();
 
-        /*
-         * Ensures the local player always has a visible nametag.
-         */
         if (mc.player != null && entity == mc.player) {
-            state.nameTag = mc.player.getDisplayName();
+            if (!playerNameTagEnabled) {
+                state.nameTag = null;
+                return;
+            }
 
+            state.nameTag = mc.player.getDisplayName();
             state.nameTagAttachment = mc.player.getAttachments()
-                .getNullable(net.minecraft.world.entity.EntityAttachment.NAME_TAG, 0, mc.player.getYRot(partialTicks));
+                .getNullable(NAME_TAG, 0, mc.player.getYRot(partialTicks));
         }
 
-        /*
-         * Applies a custom prefix to player nametags.
-         */
         if (entity instanceof Player && state.nameTag != null) {
             MutableComponent prefix = Component.literal("[MCP] ")
                 .setStyle(Style.EMPTY

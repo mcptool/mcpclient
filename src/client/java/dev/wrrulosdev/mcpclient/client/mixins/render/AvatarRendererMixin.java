@@ -3,6 +3,7 @@ package dev.wrrulosdev.mcpclient.client.mixins.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.wrrulosdev.mcpclient.client.constants.TextureConstants;
+import dev.wrrulosdev.mcpclient.client.options.NameTag;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
@@ -20,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class AvatarRendererMixin {
 
     private static final float DEFAULT_Y = 2.6F;
-    private static final float SELF_Y = 2.6F; // 2.2
+    private static final float SELF_Y = 2.2F;
     private static final float ICON_SIZE = 0.60F;
     private static final int FULL_BRIGHT_LIGHT = 0x00F000F0;
     private static final int WHITE = 0xFFFFFFFF;
@@ -44,8 +45,8 @@ public abstract class AvatarRendererMixin {
     ) {
         Minecraft mc = Minecraft.getInstance();
         boolean isSelf = mc.player != null && state.id == mc.player.getId();
-        float yOffset = isSelf ? SELF_Y : DEFAULT_Y;
-
+        boolean playerNameTagEnabled = NameTag.INSTANCE.isEnabled();
+        float yOffset = (isSelf && !playerNameTagEnabled) ? SELF_Y : DEFAULT_Y;
         poseStack.pushPose();
         applyTransform(poseStack, camera, yOffset);
         renderIcon(poseStack, collector);

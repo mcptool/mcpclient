@@ -6,6 +6,7 @@ import dev.wrrulosdev.mcpclient.client.cheats.Jesus;
 import dev.wrrulosdev.mcpclient.client.constants.TextureConstants;
 import dev.wrrulosdev.mcpclient.client.options.Anonymous;
 import dev.wrrulosdev.mcpclient.client.options.ClientHud;
+import dev.wrrulosdev.mcpclient.client.options.NameTag;
 import dev.wrrulosdev.mcpclient.client.options.OptionsBase;
 import dev.wrrulosdev.mcpclient.client.screens.gui.*;
 import dev.wrrulosdev.mcpclient.client.utilities.screens.MainMenuScreenUtils;
@@ -48,7 +49,7 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
 
         addCard(
             ClientHud.INSTANCE,
-            "ClientHud",
+            ClientHud.INSTANCE.getName(),
             ClientHud.INSTANCE.getShortDescription(),
             () -> openModuleSettings(
                 ClientHud.INSTANCE.getName(),
@@ -67,12 +68,12 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
             )
         );
         addCard(
-            Anonymous.INSTANCE,
-            "NameTag",
-            "Activate or deactivate your name tag.",
+            NameTag.INSTANCE,
+            NameTag.INSTANCE.getName(),
+            NameTag.INSTANCE.getShortDescription(),
             () -> openModuleSettings(
-                "Name!",
-                "Settings..",
+                NameTag.INSTANCE.getName(),
+                NameTag.INSTANCE.getLongDescription(),
                 getAnonymousSettings()
             )
         );
@@ -277,6 +278,22 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
 
         return settings;
     }
+
+    private List<AbstractSettingComponent> getNameTagSettings() {
+        List<AbstractSettingComponent> settings =
+            new ArrayList<>();
+
+        settings.add(
+            new ToggleSetting(
+                "Example",
+                MCPClient.getSettingsManager().getClientSettings().isClientHudFpsEnabled(),
+                MCPClient.getSettingsManager().getClientSettings()::setClientHudFpsEnabled
+            )
+        );
+
+        return settings;
+    }
+
 
 
     @Override

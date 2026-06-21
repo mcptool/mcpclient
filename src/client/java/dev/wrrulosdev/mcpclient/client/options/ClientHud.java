@@ -26,12 +26,12 @@ public final class ClientHud extends OptionsBase {
 
     @Override
     public String getShortDescription() {
-        return "Hide your name in the client";
+        return "Enable or disable the HUD information box";
     }
 
     @Override
     public String getLongDescription() {
-        return "It allows you to hide your name in your client.";
+        return "Enable or disable the HUD information box.";
     }
 
     @Override

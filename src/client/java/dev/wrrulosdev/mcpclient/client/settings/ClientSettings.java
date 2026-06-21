@@ -16,6 +16,8 @@ public class ClientSettings {
     private boolean clientHudEnabled = true;
     private boolean clientHudFpsEnabled = true;
 
+    private boolean nameTagEnabled = true;
+
     private void save() {
         MCPClient.saveSettings();
     }
@@ -98,6 +100,15 @@ public class ClientSettings {
 
     public void setClientHudFpsEnabled(boolean clientHudFpsEnabled) {
         this.clientHudFpsEnabled = clientHudFpsEnabled;
+        save();
+    }
+
+    public boolean isNameTagEnabled() {
+        return nameTagEnabled;
+    }
+
+    public void setNameTagEnabled(boolean nameTagEnabled) {
+        this.nameTagEnabled = nameTagEnabled;
         save();
     }
 }
