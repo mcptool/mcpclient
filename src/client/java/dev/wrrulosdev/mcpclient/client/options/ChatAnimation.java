@@ -2,9 +2,9 @@ package dev.wrrulosdev.mcpclient.client.options;
 
 import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
 
-public final class ClientHud extends OptionsBase {
+public final class ChatAnimation extends OptionsBase {
 
-    public static ClientHud INSTANCE;
+    public static ChatAnimation INSTANCE;
 
     /**
      * Initializes the static singleton instance of the Client Hud option.
@@ -12,35 +12,35 @@ public final class ClientHud extends OptionsBase {
      * @param clientSettings The global client settings object
      */
     public static void init(ClientSettings clientSettings) {
-        INSTANCE = new ClientHud(clientSettings);
+        INSTANCE = new ChatAnimation(clientSettings);
     }
 
-    private ClientHud(ClientSettings clientSettings) {
+    private ChatAnimation(ClientSettings clientSettings) {
         super(clientSettings);
     }
 
     @Override
     public String getName() {
-        return "Client Hud";
+        return "Chat Animation";
     }
 
     @Override
     public String getShortDescription() {
-        return "Enable or disable the HUD information box";
+        return "Enable or disable the chat animation";
     }
 
     @Override
     public String getLongDescription() {
-        return "Enable or disable the HUD information box.";
+        return "Enable or disable the chat animation";
     }
 
     @Override
     public boolean isEnabled() {
-        return clientSettings.isClientHudEnabled();
+        return clientSettings.isChatAnimationEnabled();
     }
 
     @Override
     public void setEnabled(boolean enabled) {
-        clientSettings.setClientHudEnabled(enabled);
+        clientSettings.setChatAnimationEnabled(enabled);
     }
 }

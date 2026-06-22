@@ -1,6 +1,7 @@
 package dev.wrrulosdev.mcpclient.client.mixins.gui;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.options.ChatAnimation;
 import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ChatComponent;
@@ -78,13 +79,15 @@ public abstract class ChatComponentMixin {
      */
     @Inject(method = "addMessageToDisplayQueue", at = @At("HEAD"))
     private void onAddMessage(GuiMessage message, CallbackInfo ci) {
-        if (!this.isRefreshing && this.minecraft.font != null) {
+        if (!ChatAnimation.INSTANCE.isEnabled()) {
+            return;
+        }
+
+        if (!this.isRefreshing) {
             int maxWidth = net.minecraft.util.Mth.floor((double) this.getWidth() / this.getScale());
             int linesAdded = message.splitLines(this.minecraft.font, maxWidth).size();
-
             double chatLineSpacing = (Double) this.minecraft.options.chatLineSpacing().get();
             int entryHeight = (int) ((double) 9.0F * (chatLineSpacing + 1.0));
-
             this.smoothOffset += (linesAdded * entryHeight);
         }
     }
@@ -115,6 +118,11 @@ public abstract class ChatComponentMixin {
         ChatComponent.DisplayMode displayMode,
         CallbackInfo ci
     ) {
+        if (!ChatAnimation.INSTANCE.isEnabled()) {
+            this.smoothOffset = 0.0;
+            return;
+        }
+
         long now = System.currentTimeMillis();
 
         if (this.lastTime == 0) {

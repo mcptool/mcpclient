@@ -1,5 +1,6 @@
 package dev.wrrulosdev.mcpclient.client.notifications;
 
+import dev.wrrulosdev.mcpclient.client.MCPClient;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -61,7 +62,7 @@ public class NotificationManager {
      * @param deltaTracker Frame timing information
      */
     public static void render(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker) {
-        if (notifications.isEmpty()) {
+        if (notifications.isEmpty() || !MCPClient.getSettingsManager().getClientSettings().isNotificationsEnabled()) {
             return;
         }
 

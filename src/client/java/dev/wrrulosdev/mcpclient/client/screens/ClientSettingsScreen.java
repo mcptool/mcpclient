@@ -4,10 +4,7 @@ import dev.wrrulosdev.mcpclient.client.MCPClient;
 import dev.wrrulosdev.mcpclient.client.cheats.Fly;
 import dev.wrrulosdev.mcpclient.client.cheats.Jesus;
 import dev.wrrulosdev.mcpclient.client.constants.TextureConstants;
-import dev.wrrulosdev.mcpclient.client.options.Anonymous;
-import dev.wrrulosdev.mcpclient.client.options.ClientHud;
-import dev.wrrulosdev.mcpclient.client.options.NameTag;
-import dev.wrrulosdev.mcpclient.client.options.OptionsBase;
+import dev.wrrulosdev.mcpclient.client.options.*;
 import dev.wrrulosdev.mcpclient.client.screens.gui.*;
 import dev.wrrulosdev.mcpclient.client.utilities.screens.MainMenuScreenUtils;
 import net.minecraft.client.Minecraft;
@@ -74,19 +71,50 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
             () -> openModuleSettings(
                 NameTag.INSTANCE.getName(),
                 NameTag.INSTANCE.getLongDescription(),
-                getAnonymousSettings()
+                getNameTagSettings()
             )
         );
         addCard(
-            Anonymous.INSTANCE,
-            "Chat Animation",
-            "Disable or modify the chat animation",
+            ChatAnimation.INSTANCE,
+            ChatAnimation.INSTANCE.getName(),
+            ChatAnimation.INSTANCE.getShortDescription(),
             () -> openModuleSettings(
-                "Name!",
-                "Settings..",
-                getAnonymousSettings()
+                ChatAnimation.INSTANCE.getName(),
+                ChatAnimation.INSTANCE.getLongDescription(),
+                getChatAnimationSettings()
             )
         );
+        addCard(
+            ChatAnimation.INSTANCE,
+            ChatAnimation.INSTANCE.getName(),
+            ChatAnimation.INSTANCE.getShortDescription(),
+            () -> openModuleSettings(
+                ChatAnimation.INSTANCE.getName(),
+                ChatAnimation.INSTANCE.getLongDescription(),
+                getChatAnimationSettings()
+            )
+        );
+        addCard(
+            Notifications.INSTANCE,
+            Notifications.INSTANCE.getName(),
+            Notifications.INSTANCE.getShortDescription(),
+            () -> openModuleSettings(
+                Notifications.INSTANCE.getName(),
+                Notifications.INSTANCE.getLongDescription(),
+                getChatAnimationSettings()
+            )
+        );
+        addCard(
+            PlayerModel.INSTANCE,
+            PlayerModel.INSTANCE.getName(),
+            PlayerModel.INSTANCE.getShortDescription(),
+            () -> openModuleSettings(
+                PlayerModel.INSTANCE.getName(),
+                PlayerModel.INSTANCE.getLongDescription(),
+                getChatAnimationSettings()
+            )
+        );
+        System.out.println(ChatAnimation.INSTANCE.isEnabled());
     }
 
     /**
@@ -294,7 +322,20 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         return settings;
     }
 
+    private List<AbstractSettingComponent> getChatAnimationSettings() {
+        List<AbstractSettingComponent> settings =
+            new ArrayList<>();
 
+        settings.add(
+            new ToggleSetting(
+                "Example",
+                MCPClient.getSettingsManager().getClientSettings().isClientHudFpsEnabled(),
+                MCPClient.getSettingsManager().getClientSettings()::setClientHudFpsEnabled
+            )
+        );
+
+        return settings;
+    }
 
     @Override
     protected String getWindowTitle() {

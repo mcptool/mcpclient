@@ -32,10 +32,17 @@ public abstract class EntityRendererMixin<T extends Entity, S extends EntityRend
     @Inject(method = "extractRenderState", at = @At("TAIL"))
     private void appendCustomPrefix(T entity, S state, float partialTicks, CallbackInfo ci) {
         Minecraft mc = Minecraft.getInstance();
+
+        // Inventory
+        if (mc.gui.screen() != null) {
+            return;
+        }
+
+        // Player NameTag
         boolean playerNameTagEnabled = NameTag.INSTANCE.isEnabled();
 
         if (mc.player != null && entity == mc.player) {
-            if (!playerNameTagEnabled) {
+            if (!playerNameTagEnabled || mc.player.isCrouching()) {
                 state.nameTag = null;
                 return;
             }
@@ -45,6 +52,7 @@ public abstract class EntityRendererMixin<T extends Entity, S extends EntityRend
                 .getNullable(NAME_TAG, 0, mc.player.getYRot(partialTicks));
         }
 
+        // Custom Prefix
         if (entity instanceof Player && state.nameTag != null) {
             MutableComponent prefix = Component.literal("[MCP] ")
                 .setStyle(Style.EMPTY

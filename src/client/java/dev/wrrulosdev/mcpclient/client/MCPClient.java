@@ -5,12 +5,11 @@ import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
 import dev.wrrulosdev.mcpclient.client.keybinds.KeyBindManager;
 import dev.wrrulosdev.mcpclient.client.mixins.accessor.SessionAccessor;
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationManager;
-import dev.wrrulosdev.mcpclient.client.options.Anonymous;
-import dev.wrrulosdev.mcpclient.client.options.ClientHud;
-import dev.wrrulosdev.mcpclient.client.options.NameTag;
+import dev.wrrulosdev.mcpclient.client.options.*;
 import dev.wrrulosdev.mcpclient.client.payloads.*;
 import dev.wrrulosdev.mcpclient.client.pluginschannel.PluginChannelStorage;
 import dev.wrrulosdev.mcpclient.client.screens.MenuScreen;
+import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
 import dev.wrrulosdev.mcpclient.client.settings.SettingsManager;
 import dev.wrrulosdev.mcpclient.client.utilities.connection.ServerAddress;
 import net.fabricmc.api.ClientModInitializer;
@@ -87,13 +86,19 @@ public class MCPClient implements ClientModInitializer {
 	}
 
 	private void start() {
+		ClientSettings cheatsSettings = getSettingsManager().getClientSettings();
+
+		// Objects
 		pluginChannelStorage = new PluginChannelStorage();
 		keyBindManager = new KeyBindManager();
 
 		// Options
-		Anonymous.init(getSettingsManager().getClientSettings());
-		ClientHud.init(getSettingsManager().getClientSettings());
-		NameTag.init(getSettingsManager().getClientSettings());
+		Anonymous.init(cheatsSettings);
+		ClientHud.init(cheatsSettings);
+		NameTag.init(cheatsSettings);
+		ChatAnimation.init(cheatsSettings);
+		Notifications.init(cheatsSettings);
+		PlayerModel.init(cheatsSettings);
 	}
 
 	public static void saveSettings() {

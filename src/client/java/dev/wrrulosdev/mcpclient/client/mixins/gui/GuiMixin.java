@@ -2,6 +2,7 @@ package dev.wrrulosdev.mcpclient.client.mixins.gui;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.wrrulosdev.mcpclient.client.hud.ClientHud;
+import dev.wrrulosdev.mcpclient.client.hud.PlayerModel;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -24,5 +25,6 @@ public class GuiMixin {
     private void onExtractRenderState(DeltaTracker deltaTracker, boolean shouldRenderLevel, boolean resourcesLoaded, CallbackInfo ci,
                                       @Local(ordinal = 0) GuiGraphicsExtractor graphics) {
         ClientHud.render(graphics, deltaTracker.getGameTimeDeltaPartialTick(false));
+        PlayerModel.renderPlayerModel(graphics);
     }
 }

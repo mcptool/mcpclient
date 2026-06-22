@@ -22,8 +22,7 @@ public class ClientHud {
     public static void render(GuiGraphicsExtractor graphics, float tickDelta) {
         Minecraft client = Minecraft.getInstance();
 
-        if (client.level == null || client.gui.screen() != null ||
-            client.options.keyToggleGui.isDown() || client.getDebugOverlay().showDebugScreen()) {
+        if (client.level == null || client.gui.screen() != null || client.getDebugOverlay().showDebugScreen()) {
             return;
         }
 
@@ -34,8 +33,7 @@ public class ClientHud {
         String address = serverAddress.getAddress();
         String protocol = serverAddress.getProtocol();
         String fps = String.valueOf(Minecraft.getInstance().getFps());
-        Boolean fpsEnabled = MCPClient.getSettingsManager().getClientSettings().isClientHudFpsEnabled();
-
+        boolean fpsEnabled = MCPClient.getSettingsManager().getClientSettings().isClientHudFpsEnabled();
         graphics.nextStratum();
         Font font = client.font;
         int startX = 10, startY = 10, padding = 8;

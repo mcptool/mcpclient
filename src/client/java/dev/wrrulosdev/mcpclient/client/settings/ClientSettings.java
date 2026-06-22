@@ -18,6 +18,12 @@ public class ClientSettings {
 
     private boolean nameTagEnabled = true;
 
+    private boolean chatAnimationEnabled = true;
+
+    private boolean notificationsEnabled = true;
+
+    private boolean playerModelEnabled = true;
+
     private void save() {
         MCPClient.saveSettings();
     }
@@ -109,6 +115,33 @@ public class ClientSettings {
 
     public void setNameTagEnabled(boolean nameTagEnabled) {
         this.nameTagEnabled = nameTagEnabled;
+        save();
+    }
+
+    public boolean isChatAnimationEnabled() {
+        return chatAnimationEnabled;
+    }
+
+    public void setChatAnimationEnabled(boolean chatAnimationEnabled) {
+        this.chatAnimationEnabled = chatAnimationEnabled;
+        save();
+    }
+
+    public boolean isNotificationsEnabled() {
+        return notificationsEnabled;
+    }
+
+    public void setNotificationsEnabled(boolean notificationsEnabled) {
+        this.notificationsEnabled = notificationsEnabled;
+        save();
+    }
+
+    public boolean isPlayerModelEnabled() {
+        return playerModelEnabled;
+    }
+
+    public void setPlayerModelEnabled(boolean playerModelEnabled) {
+        this.playerModelEnabled = playerModelEnabled;
         save();
     }
 }

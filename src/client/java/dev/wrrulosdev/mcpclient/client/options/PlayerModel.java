@@ -2,45 +2,45 @@ package dev.wrrulosdev.mcpclient.client.options;
 
 import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
 
-public final class ClientHud extends OptionsBase {
+public final class PlayerModel extends OptionsBase {
 
-    public static ClientHud INSTANCE;
+    public static PlayerModel INSTANCE;
 
     /**
-     * Initializes the static singleton instance of the Client Hud option.
+     * Initializes the static singleton instance of the Player Model option.
      *
      * @param clientSettings The global client settings object
      */
     public static void init(ClientSettings clientSettings) {
-        INSTANCE = new ClientHud(clientSettings);
+        INSTANCE = new PlayerModel(clientSettings);
     }
 
-    private ClientHud(ClientSettings clientSettings) {
+    private PlayerModel(ClientSettings clientSettings) {
         super(clientSettings);
     }
 
     @Override
     public String getName() {
-        return "Client Hud";
+        return "Player Model";
     }
 
     @Override
     public String getShortDescription() {
-        return "Enable or disable the HUD information box";
+        return "Enable or disable the player model";
     }
 
     @Override
     public String getLongDescription() {
-        return "Enable or disable the HUD information box.";
+        return "Enable or disable the player model.";
     }
 
     @Override
     public boolean isEnabled() {
-        return clientSettings.isClientHudEnabled();
+        return clientSettings.isPlayerModelEnabled();
     }
 
     @Override
     public void setEnabled(boolean enabled) {
-        clientSettings.setClientHudEnabled(enabled);
+        clientSettings.setPlayerModelEnabled(enabled);
     }
 }

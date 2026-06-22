@@ -44,9 +44,16 @@ public abstract class AvatarRendererMixin {
         CallbackInfo ci
     ) {
         Minecraft mc = Minecraft.getInstance();
-        boolean isSelf = mc.player != null && state.id == mc.player.getId();
+        if (mc.player == null) return;
+
+        boolean isSelf = state.id == mc.player.getId();
         boolean playerNameTagEnabled = NameTag.INSTANCE.isEnabled();
         float yOffset = (isSelf && !playerNameTagEnabled) ? SELF_Y : DEFAULT_Y;
+
+        if (isSelf && mc.player.isCrouching()) {
+            yOffset -= playerNameTagEnabled ? 0.6F : 0.2F;
+        }
+
         poseStack.pushPose();
         applyTransform(poseStack, camera, yOffset);
         renderIcon(poseStack, collector);

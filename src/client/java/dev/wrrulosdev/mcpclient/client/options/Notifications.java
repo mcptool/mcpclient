@@ -2,45 +2,45 @@ package dev.wrrulosdev.mcpclient.client.options;
 
 import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
 
-public final class ClientHud extends OptionsBase {
+public final class Notifications extends OptionsBase {
 
-    public static ClientHud INSTANCE;
+    public static Notifications INSTANCE;
 
     /**
-     * Initializes the static singleton instance of the Client Hud option.
+     * Initializes the static singleton instance of the Notifications option.
      *
      * @param clientSettings The global client settings object
      */
     public static void init(ClientSettings clientSettings) {
-        INSTANCE = new ClientHud(clientSettings);
+        INSTANCE = new Notifications(clientSettings);
     }
 
-    private ClientHud(ClientSettings clientSettings) {
+    private Notifications(ClientSettings clientSettings) {
         super(clientSettings);
     }
 
     @Override
     public String getName() {
-        return "Client Hud";
+        return "Notifications";
     }
 
     @Override
     public String getShortDescription() {
-        return "Enable or disable the HUD information box";
+        return "Turn notifications on or off";
     }
 
     @Override
     public String getLongDescription() {
-        return "Enable or disable the HUD information box.";
+        return "Enable or disable MCPClient notifications";
     }
 
     @Override
     public boolean isEnabled() {
-        return clientSettings.isClientHudEnabled();
+        return clientSettings.isNotificationsEnabled();
     }
 
     @Override
     public void setEnabled(boolean enabled) {
-        clientSettings.setClientHudEnabled(enabled);
+        clientSettings.setNotificationsEnabled(enabled);
     }
 }
