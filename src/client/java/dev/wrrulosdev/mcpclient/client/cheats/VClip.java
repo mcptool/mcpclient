@@ -111,7 +111,7 @@ public class VClip extends CheatBase {
                 direction
         );
         NotificationManager.show(
-            "HClip",
+            getName(),
             "Teleported " + Math.abs(distance) + " blocks to " + direction,
             NotificationType.SUCCESS
         );

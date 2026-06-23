@@ -114,7 +114,7 @@ public class HClip extends CheatBase {
                 direction
         );
         NotificationManager.show(
-            "HClip",
+            getName(),
             "Teleported " + Math.abs(distance) + " blocks to " + direction,
             NotificationType.SUCCESS
         );
