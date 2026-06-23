@@ -1,5 +1,6 @@
 package dev.wrrulosdev.mcpclient.client;
 
+import dev.wrrulosdev.mcpclient.client.cheats.*;
 import dev.wrrulosdev.mcpclient.client.commands.CommandManager;
 import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
 import dev.wrrulosdev.mcpclient.client.keybinds.KeyBindManager;
@@ -9,6 +10,7 @@ import dev.wrrulosdev.mcpclient.client.options.*;
 import dev.wrrulosdev.mcpclient.client.payloads.*;
 import dev.wrrulosdev.mcpclient.client.pluginschannel.PluginChannelStorage;
 import dev.wrrulosdev.mcpclient.client.screens.MenuScreen;
+import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
 import dev.wrrulosdev.mcpclient.client.settings.SettingsManager;
 import dev.wrrulosdev.mcpclient.client.utilities.connection.ServerAddress;
@@ -86,19 +88,33 @@ public class MCPClient implements ClientModInitializer {
 	}
 
 	private void start() {
-		ClientSettings cheatsSettings = getSettingsManager().getClientSettings();
+		CheatsSettings cheatsSettings = getSettingsManager().getCheatsSettings();
+		ClientSettings clientSettings = getSettingsManager().getClientSettings();
+
+		// Cheats
+		AntiKB.init(cheatsSettings);
+		BlockTracker.init(cheatsSettings);
+		FakeCreative.init(cheatsSettings);
+		Fly.init(cheatsSettings);
+		FullBright.init(cheatsSettings);
+		HClip.init(cheatsSettings);
+		VClip.init(cheatsSettings);
+		Jesus.init(cheatsSettings);
+		NoFall.init(cheatsSettings);
+		Spider.init(cheatsSettings);
+		WallHack.init(cheatsSettings);
+
+		// Options
+		Anonymous.init(clientSettings);
+		ClientHud.init(clientSettings);
+		NameTag.init(clientSettings);
+		ChatAnimation.init(clientSettings);
+		Notifications.init(clientSettings);
+		PlayerModel.init(clientSettings);
 
 		// Objects
 		pluginChannelStorage = new PluginChannelStorage();
 		keyBindManager = new KeyBindManager();
-
-		// Options
-		Anonymous.init(cheatsSettings);
-		ClientHud.init(cheatsSettings);
-		NameTag.init(cheatsSettings);
-		ChatAnimation.init(cheatsSettings);
-		Notifications.init(cheatsSettings);
-		PlayerModel.init(cheatsSettings);
 	}
 
 	public static void saveSettings() {

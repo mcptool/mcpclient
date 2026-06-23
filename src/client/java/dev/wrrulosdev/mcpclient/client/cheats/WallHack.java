@@ -1,6 +1,5 @@
 package dev.wrrulosdev.mcpclient.client.cheats;
 
-import dev.wrrulosdev.mcpclient.client.MCPClient;
 import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
 import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import net.minecraft.client.Minecraft;
@@ -14,22 +13,21 @@ import net.minecraft.world.phys.Vec3;
 
 public class WallHack extends CheatBase {
 
-    public static final WallHack INSTANCE = new WallHack();
+    public static WallHack INSTANCE;
     private static final GizmoStyle BOX_STROKE = GizmoStyle.stroke(0xFFFF0000, 2.0F);
     private static final GizmoStyle BOX_FILL = GizmoStyle.fill(0x50FF0000);
     private static final int STICK_COLOR = 0xFFFFFFFF;
     private static final float STICK_WIDTH = 2.0F;
     private static final GizmoStyle STICK_STYLE = GizmoStyle.stroke(STICK_COLOR, STICK_WIDTH);
 
-    /**
-     * Retrieves the cheat configuration container.
-     *
-     * @return The cheat settings instance.
-     */
-    private CheatsSettings getSettings() {
-        return MCPClient.getSettingsManager().getCheatsSettings();
+    protected WallHack(CheatsSettings cheatsSettings) {
+        super(cheatsSettings);
     }
 
+    public static void init(CheatsSettings cheatsSettings) {
+        INSTANCE = new WallHack(cheatsSettings);
+    }
+    
     /**
      * Returns the unique identifier used to register and
      * persist this cheat within the client configuration.
@@ -69,7 +67,7 @@ public class WallHack extends CheatBase {
      */
     @Override
     public boolean isEnabled() {
-        return getSettings().isWallhackEnabled();
+        return this.cheatsSettings.isWallhackEnabled();
     }
 
     /**
@@ -79,7 +77,7 @@ public class WallHack extends CheatBase {
      */
     @Override
     public void setEnabled(boolean enabled) {
-        getSettings().setWallhackEnabled(enabled);
+        this.cheatsSettings.setWallhackEnabled(enabled);
     }
 
     /**
@@ -94,11 +92,11 @@ public class WallHack extends CheatBase {
      */
     @Override
     protected void onExecute(LocalPlayer player, Object... args) {
-        if (this.getSettings().isWallHackBoxesEnabled()) {
+        if (this.cheatsSettings.isWallHackBoxesEnabled()) {
             renderBoxes();
         }
 
-        if (this.getSettings().isWallHackStickManEnabled()) {
+        if (this.cheatsSettings.isWallHackStickManEnabled()) {
             renderStickMan();
         }
     }

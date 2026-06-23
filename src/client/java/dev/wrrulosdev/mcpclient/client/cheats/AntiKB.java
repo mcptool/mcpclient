@@ -2,21 +2,23 @@ package dev.wrrulosdev.mcpclient.client.cheats;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
 import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
+import dev.wrrulosdev.mcpclient.client.options.ClientHud;
 import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
+import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
 import net.minecraft.client.player.LocalPlayer;
 
 public class AntiKB extends CheatBase {
 
-    public static final AntiKB INSTANCE = new AntiKB();
+    public static AntiKB INSTANCE;
 
-    /**
-     * Retrieves the cheat settings instance used by this module.
-     *
-     * @return The current cheats settings configuration.
-     */
-    private CheatsSettings getSettings() {
-        return MCPClient.getSettingsManager().getCheatsSettings();
+    protected AntiKB(CheatsSettings cheatsSettings) {
+        super(cheatsSettings);
     }
+
+    public static void init(CheatsSettings cheatsSettings) {
+        INSTANCE = new AntiKB(cheatsSettings);
+    }
+
 
     /**
      * Returns the unique identifier used to reference this cheat.
@@ -53,7 +55,7 @@ public class AntiKB extends CheatBase {
      */
     @Override
     public boolean isEnabled() {
-        return getSettings().isAntikbEnabled();
+        return this.cheatsSettings.isAntikbEnabled();
     }
 
     /**
@@ -63,7 +65,7 @@ public class AntiKB extends CheatBase {
      */
     @Override
     public void setEnabled(boolean enabled) {
-        getSettings().setAntikbEnabled(enabled);
+        this.cheatsSettings.setAntikbEnabled(enabled);
     }
 
     /**

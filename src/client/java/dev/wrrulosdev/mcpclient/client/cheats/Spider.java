@@ -1,6 +1,5 @@
 package dev.wrrulosdev.mcpclient.client.cheats;
 
-import dev.wrrulosdev.mcpclient.client.MCPClient;
 import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
 import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import net.minecraft.client.Minecraft;
@@ -8,15 +7,14 @@ import net.minecraft.client.player.LocalPlayer;
 
 public class Spider extends CheatBase {
 
-    public static final Spider INSTANCE = new Spider();
+    public static Spider INSTANCE;
 
-    /**
-     * Retrieves the cheat configuration container.
-     *
-     * @return The cheat settings instance.
-     */
-    private CheatsSettings getSettings() {
-        return MCPClient.getSettingsManager().getCheatsSettings();
+    protected Spider(CheatsSettings cheatsSettings) {
+        super(cheatsSettings);
+    }
+
+    public static void init(CheatsSettings cheatsSettings) {
+        INSTANCE = new Spider(cheatsSettings);
     }
 
     /**
@@ -56,7 +54,7 @@ public class Spider extends CheatBase {
      */
     @Override
     public boolean isEnabled() {
-        return getSettings().isSpiderEnabled();
+        return this.cheatsSettings.isSpiderEnabled();
     }
 
     /**
@@ -66,7 +64,7 @@ public class Spider extends CheatBase {
      */
     @Override
     public void setEnabled(boolean enabled) {
-        getSettings().setSpiderEnabled(enabled);
+        this.cheatsSettings.setSpiderEnabled(enabled);
     }
 
     /**
@@ -98,7 +96,7 @@ public class Spider extends CheatBase {
         if (player.getDeltaMovement().y < 0.2D) {
             player.setDeltaMovement(
                 player.getDeltaMovement().x,
-                this.getSettings().getSpiderSpeed(),
+                this.cheatsSettings.getSpiderSpeed(),
                 player.getDeltaMovement().z
             );
         }

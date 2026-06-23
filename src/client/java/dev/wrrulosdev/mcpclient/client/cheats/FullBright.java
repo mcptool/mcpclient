@@ -9,15 +9,14 @@ import net.minecraft.client.player.LocalPlayer;
 
 public class FullBright extends CheatBase {
 
-    public static final FullBright INSTANCE = new FullBright();
+    public static FullBright INSTANCE;
 
-    /**
-     * Retrieves the cheat settings instance used by this module.
-     *
-     * @return The current cheats settings configuration.
-     */
-    private CheatsSettings getSettings() {
-        return MCPClient.getSettingsManager().getCheatsSettings();
+    protected FullBright(CheatsSettings cheatsSettings) {
+        super(cheatsSettings);
+    }
+
+    public static void init(CheatsSettings cheatsSettings) {
+        INSTANCE = new FullBright(cheatsSettings);
     }
 
     /**
@@ -55,7 +54,7 @@ public class FullBright extends CheatBase {
      */
     @Override
     public boolean isEnabled() {
-        return getSettings().isFullBrightEnabled();
+        return this.cheatsSettings.isFullBrightEnabled();
     }
 
     /**
@@ -65,7 +64,7 @@ public class FullBright extends CheatBase {
      */
     @Override
     public void setEnabled(boolean enabled) {
-        getSettings().setFullBrightEnabled(enabled);
+        this.cheatsSettings.setFullBrightEnabled(enabled);
     }
 
     /**
@@ -78,7 +77,7 @@ public class FullBright extends CheatBase {
     @Override
     protected void onExecute(LocalPlayer player, Object... args) {
         Options options = Minecraft.getInstance().options;
-        double gammaValue = isEnabled() ? getSettings().getFullBrightAmount() : 1.0D;
+        double gammaValue = isEnabled() ? this.cheatsSettings.getFullBrightAmount() : 1.0D;
         options.gamma().set(gammaValue);
     }
 }

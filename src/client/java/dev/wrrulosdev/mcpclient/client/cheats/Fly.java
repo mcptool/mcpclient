@@ -7,15 +7,14 @@ import net.minecraft.client.player.LocalPlayer;
 
 public class Fly extends CheatBase {
 
-    public static final Fly INSTANCE = new Fly();
+    public static Fly INSTANCE;
 
-    /**
-     * Retrieves the cheat settings instance used by this module.
-     *
-     * @return The current cheats settings configuration.
-     */
-    private CheatsSettings getSettings() {
-        return MCPClient.getSettingsManager().getCheatsSettings();
+    protected Fly(CheatsSettings cheatsSettings) {
+        super(cheatsSettings);
+    }
+
+    public static void init(CheatsSettings cheatsSettings) {
+        INSTANCE = new Fly(cheatsSettings);
     }
 
     /**
@@ -53,7 +52,7 @@ public class Fly extends CheatBase {
      */
     @Override
     public boolean isEnabled() {
-        return getSettings().isFlyEnabled();
+        return this.cheatsSettings.isFlyEnabled();
     }
 
     /**
@@ -63,7 +62,7 @@ public class Fly extends CheatBase {
      */
     @Override
     public void setEnabled(boolean enabled) {
-        getSettings().setFlyEnabled(enabled);
+        this.cheatsSettings.setFlyEnabled(enabled);
     }
 
     /**
@@ -77,7 +76,7 @@ public class Fly extends CheatBase {
     @Override
     protected void onExecute(LocalPlayer player, Object... args) {
         boolean enabled = isEnabled();
-        float flySpeed = getSettings().getFlySpeed();
+        float flySpeed = this.cheatsSettings.getFlySpeed();
 
         player.getAbilities().flying = enabled;
         player.getAbilities().mayfly = enabled;

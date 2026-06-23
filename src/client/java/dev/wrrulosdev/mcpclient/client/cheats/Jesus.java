@@ -10,15 +10,14 @@ import net.minecraft.world.level.material.FluidState;
 
 public class Jesus extends CheatBase {
 
-    public static final Jesus INSTANCE = new Jesus();
+    public static Jesus INSTANCE;
 
-    /**
-     * Retrieves the cheat settings instance used by this module.
-     *
-     * @return The current cheats settings configuration.
-     */
-    private CheatsSettings getSettings() {
-        return MCPClient.getSettingsManager().getCheatsSettings();
+    protected Jesus(CheatsSettings cheatsSettings) {
+        super(cheatsSettings);
+    }
+
+    public static void init(CheatsSettings cheatsSettings) {
+        INSTANCE = new Jesus(cheatsSettings);
     }
 
     /**
@@ -56,7 +55,7 @@ public class Jesus extends CheatBase {
      */
     @Override
     public boolean isEnabled() {
-        return getSettings().isJesusEnabled();
+        return this.cheatsSettings.isJesusEnabled();
     }
 
     /**
@@ -66,7 +65,7 @@ public class Jesus extends CheatBase {
      */
     @Override
     public void setEnabled(boolean enabled) {
-        getSettings().setJesusEnabled(enabled);
+        this.cheatsSettings.setJesusEnabled(enabled);
     }
 
     /**
@@ -87,15 +86,15 @@ public class Jesus extends CheatBase {
         FluidState fluidState = player.level().getFluidState(pos);
 
         boolean canWalkOnFluid =
-            (getSettings().isJesusWaterEnabled() && fluidState.is(FluidTags.WATER))
-                || (getSettings().isJesusLavaEnabled() && fluidState.is(FluidTags.LAVA));
+            (this.cheatsSettings.isJesusWaterEnabled() && fluidState.is(FluidTags.WATER))
+                || (this.cheatsSettings.isJesusLavaEnabled() && fluidState.is(FluidTags.LAVA));
 
         if (!canWalkOnFluid || player.isJumping()) {
             return;
         }
 
         player.setOnGround(true);
-        double multiplier = this.getSettings().getJesusSpeed();
+        double multiplier = this.cheatsSettings.getJesusSpeed();
 
         player.setDeltaMovement(
             player.getDeltaMovement().x * multiplier,

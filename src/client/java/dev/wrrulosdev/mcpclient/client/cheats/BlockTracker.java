@@ -10,15 +10,14 @@ import net.minecraft.client.player.LocalPlayer;
 
 public class BlockTracker extends CheatBase {
 
-    public static final BlockTracker INSTANCE = new BlockTracker();
+    public static BlockTracker INSTANCE;
 
-    /**
-     * Retrieves the cheat settings instance used by this module.
-     *
-     * @return The current cheats settings configuration.
-     */
-    private CheatsSettings getSettings() {
-        return MCPClient.getSettingsManager().getCheatsSettings();
+    protected BlockTracker(CheatsSettings cheatsSettings) {
+        super(cheatsSettings);
+    }
+
+    public static void init(CheatsSettings cheatsSettings) {
+        INSTANCE = new BlockTracker(cheatsSettings);
     }
 
     /**
@@ -56,7 +55,7 @@ public class BlockTracker extends CheatBase {
      */
     @Override
     public boolean isEnabled() {
-        return getSettings().isBlockTrackerEnabled();
+        return this.cheatsSettings.isBlockTrackerEnabled();
     }
 
     /**
@@ -66,12 +65,12 @@ public class BlockTracker extends CheatBase {
      */
     @Override
     public void setEnabled(boolean enabled) {
-        getSettings().setBlockTrackerEnabled(enabled);
+        this.cheatsSettings.setBlockTrackerEnabled(enabled);
     }
 
     @Override
     protected void onExecute(LocalPlayer player, Object... args) {
-        CheatsSettings cs = getSettings();
+        CheatsSettings cs = this.cheatsSettings;
 
         BlockScanner.setCategoryEnabled(BlockScanner.TargetCategory.COAL_ORES, cs.isBlockTrackerCoalOresEnabled());
         BlockScanner.setCategoryEnabled(BlockScanner.TargetCategory.IRON_ORES, cs.isBlockTrackerIronOresEnabled());

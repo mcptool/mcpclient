@@ -1,6 +1,5 @@
 package dev.wrrulosdev.mcpclient.client.cheats;
 
-import dev.wrrulosdev.mcpclient.client.MCPClient;
 import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationManager;
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationType;
@@ -10,15 +9,14 @@ import net.minecraft.client.player.LocalPlayer;
 
 public class VClip extends CheatBase {
 
-    public static final VClip INSTANCE = new VClip();
+    public static VClip INSTANCE;
 
-    /**
-     * Retrieves the cheat configuration container.
-     *
-     * @return The cheat settings instance.
-     */
-    private CheatsSettings getSettings() {
-        return MCPClient.getSettingsManager().getCheatsSettings();
+    protected VClip(CheatsSettings cheatsSettings) {
+        super(cheatsSettings);
+    }
+
+    public static void init(CheatsSettings cheatsSettings) {
+        INSTANCE = new VClip(cheatsSettings);
     }
 
     /**
@@ -57,7 +55,7 @@ public class VClip extends CheatBase {
      */
     @Override
     public boolean isEnabled() {
-        return getSettings().isVClipEnabled();
+        return this.cheatsSettings.isVClipEnabled();
     }
 
     /**
@@ -67,7 +65,7 @@ public class VClip extends CheatBase {
      */
     @Override
     public void setEnabled(boolean enabled) {
-        getSettings().setVClipEnabled(enabled);
+        this.cheatsSettings.setVClipEnabled(enabled);
     }
 
     /**
@@ -90,7 +88,7 @@ public class VClip extends CheatBase {
      */
     @Override
     protected void onExecute(LocalPlayer player, Object... args) {
-        int distance = (int) ((args.length != 0) ? ((Number) args[0]).doubleValue() : this.getSettings().getvClipDistance());
+        int distance = (int) ((args.length != 0) ? ((Number) args[0]).doubleValue() : this.cheatsSettings.getvClipDistance());
 
         if (player == null) {
             return;

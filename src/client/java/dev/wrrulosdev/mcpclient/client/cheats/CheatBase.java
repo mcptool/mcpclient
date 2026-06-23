@@ -2,11 +2,20 @@ package dev.wrrulosdev.mcpclient.client.cheats;
 
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationManager;
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationType;
+import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
+import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
 import dev.wrrulosdev.mcpclient.client.utilities.messages.TextUtilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 
 public abstract class CheatBase {
+
+
+    protected final CheatsSettings cheatsSettings;
+
+    protected CheatBase(CheatsSettings cheatsSettings) {
+        this.cheatsSettings = cheatsSettings;
+    }
 
     /**
      * Returns the unique identifier used to reference this cheat

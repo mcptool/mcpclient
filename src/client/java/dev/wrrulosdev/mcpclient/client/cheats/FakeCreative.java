@@ -9,15 +9,14 @@ import net.minecraft.world.level.GameType;
 
 public class FakeCreative extends CheatBase {
 
-    public static final FakeCreative INSTANCE = new FakeCreative();
+    public static FakeCreative INSTANCE;
 
-    /**
-     * Retrieves the cheat settings instance used by this module.
-     *
-     * @return The current cheats settings configuration.
-     */
-    private CheatsSettings getSettings() {
-        return MCPClient.getSettingsManager().getCheatsSettings();
+    protected FakeCreative(CheatsSettings cheatsSettings) {
+        super(cheatsSettings);
+    }
+
+    public static void init(CheatsSettings cheatsSettings) {
+        INSTANCE = new FakeCreative(cheatsSettings);
     }
 
     /**
@@ -55,7 +54,7 @@ public class FakeCreative extends CheatBase {
      */
     @Override
     public boolean isEnabled() {
-        return getSettings().isFakeGmEnabled();
+        return this.cheatsSettings.isFakeGmEnabled();
     }
 
     /**
@@ -65,7 +64,7 @@ public class FakeCreative extends CheatBase {
      */
     @Override
     public void setEnabled(boolean enabled) {
-        getSettings().setFakeGmEnabled(enabled);
+        this.cheatsSettings.setFakeGmEnabled(enabled);
     }
 
     /**

@@ -11,15 +11,14 @@ import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 
 public class HClip extends CheatBase {
 
-    public static final HClip INSTANCE = new HClip();
+    public static HClip INSTANCE;
 
-    /**
-     * Retrieves the cheat settings instance used by this module.
-     *
-     * @return The current cheats settings configuration.
-     */
-    private CheatsSettings getSettings() {
-        return MCPClient.getSettingsManager().getCheatsSettings();
+    protected HClip(CheatsSettings cheatsSettings) {
+        super(cheatsSettings);
+    }
+
+    public static void init(CheatsSettings cheatsSettings) {
+        INSTANCE = new HClip(cheatsSettings);
     }
 
     /**
@@ -57,7 +56,7 @@ public class HClip extends CheatBase {
      */
     @Override
     public boolean isEnabled() {
-        return getSettings().isHClipEnabled();
+        return cheatsSettings.isHClipEnabled();
     }
 
     /**
@@ -67,7 +66,7 @@ public class HClip extends CheatBase {
      */
     @Override
     public void setEnabled(boolean enabled) {
-        getSettings().setHClipEnabled(enabled);
+        cheatsSettings.setHClipEnabled(enabled);
     }
 
     /**
@@ -90,7 +89,7 @@ public class HClip extends CheatBase {
      */
     @Override
     protected void onExecute(LocalPlayer player, Object... args) {
-        int distance = (int) ((args.length != 0) ? ((Number) args[0]).doubleValue() : this.getSettings().gethClipDistance());
+        int distance = (int) ((args.length != 0) ? ((Number) args[0]).doubleValue() : cheatsSettings.gethClipDistance());
 
         if (player == null) {
             return;

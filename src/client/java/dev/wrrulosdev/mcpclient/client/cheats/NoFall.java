@@ -8,15 +8,14 @@ import net.minecraft.world.phys.AABB;
 
 public class NoFall extends CheatBase {
 
-    public static final NoFall INSTANCE = new NoFall();
+    public static NoFall INSTANCE;
 
-    /**
-     * Retrieves the cheat settings instance used by this module.
-     *
-     * @return The current cheats settings configuration.
-     */
-    private CheatsSettings getSettings() {
-        return MCPClient.getSettingsManager().getCheatsSettings();
+    protected NoFall(CheatsSettings cheatsSettings) {
+        super(cheatsSettings);
+    }
+
+    public static void init(CheatsSettings cheatsSettings) {
+        INSTANCE = new NoFall(cheatsSettings);
     }
 
     /**
@@ -54,7 +53,7 @@ public class NoFall extends CheatBase {
      */
     @Override
     public boolean isEnabled() {
-        return getSettings().isNoFallEnabled();
+        return this.cheatsSettings.isNoFallEnabled();
     }
 
     /**
@@ -64,7 +63,7 @@ public class NoFall extends CheatBase {
      */
     @Override
     public void setEnabled(boolean enabled) {
-        getSettings().setNoFallEnabled(enabled);
+        this.cheatsSettings.setNoFallEnabled(enabled);
     }
 
     /**
