@@ -311,6 +311,12 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
                     return true;
                 }
             }
+
+            if (setting instanceof KeybindSetting keybindSetting) {
+                if (keybindSetting.keyPressed(event)) {
+                    return true;
+                }
+            }
         }
 
         if (event.key() == GLFW.GLFW_KEY_ESCAPE) {
@@ -323,22 +329,17 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
 
     @Override
     public boolean charTyped(net.minecraft.client.input.CharacterEvent event) {
-        // 1. Convertimos el int codepoint a char
         char character = (char) event.codepoint();
-
-        // 2. Si event.modifiers() no existe, intenta ver si el evento tiene
-        // otro método para modificadores o simplemente pasa 0 si no son críticos.
-        // Asumiendo que quizás no puedes acceder a los modificadores directamente:
         int modifiers = 0;
 
         for (AbstractSettingComponent setting : this.settings) {
             if (setting instanceof TextSetting textSetting) {
-                // Pasamos los valores que tu clase TextSetting espera
                 if (textSetting.charTyped(character, modifiers)) {
                     return true;
                 }
             }
         }
+
         return super.charTyped(event);
     }
 

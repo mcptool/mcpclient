@@ -85,16 +85,6 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
             )
         );
         addCard(
-            ChatAnimation.INSTANCE,
-            ChatAnimation.INSTANCE.getName(),
-            ChatAnimation.INSTANCE.getShortDescription(),
-            () -> openModuleSettings(
-                ChatAnimation.INSTANCE.getName(),
-                ChatAnimation.INSTANCE.getLongDescription(),
-                getChatAnimationSettings()
-            )
-        );
-        addCard(
             Notifications.INSTANCE,
             Notifications.INSTANCE.getName(),
             Notifications.INSTANCE.getShortDescription(),
