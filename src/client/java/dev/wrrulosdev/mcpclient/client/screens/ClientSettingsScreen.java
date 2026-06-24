@@ -303,9 +303,17 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
 
         settings.add(
             new ToggleSetting(
-                "Example",
+                "Custom color enabled",
                 MCPClient.getSettingsManager().getClientSettings().isClientHudFpsEnabled(),
                 MCPClient.getSettingsManager().getClientSettings()::setClientHudFpsEnabled
+            )
+        );
+
+        settings.add(
+            new ColorSetting(
+                "Custom color",
+                "red",
+                (val) -> {}
             )
         );
 

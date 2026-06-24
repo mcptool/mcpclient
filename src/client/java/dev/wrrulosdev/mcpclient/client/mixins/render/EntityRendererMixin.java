@@ -2,6 +2,7 @@ package dev.wrrulosdev.mcpclient.client.mixins.render;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
 import dev.wrrulosdev.mcpclient.client.options.NameTag;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
@@ -48,6 +49,7 @@ public abstract class EntityRendererMixin<T extends Entity, S extends EntityRend
             }
 
             state.nameTag = mc.player.getDisplayName();
+            state.nameTag.getStyle().applyFormat(ChatFormatting.RED);
             state.nameTagAttachment = mc.player.getAttachments()
                 .getNullable(NAME_TAG, 0, mc.player.getYRot(partialTicks));
         }

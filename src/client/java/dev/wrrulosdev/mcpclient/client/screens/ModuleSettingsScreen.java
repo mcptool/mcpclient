@@ -4,6 +4,7 @@ import dev.wrrulosdev.mcpclient.client.constants.ButtonConstants;
 import dev.wrrulosdev.mcpclient.client.screens.gui.*;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
@@ -317,6 +318,12 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
                     return true;
                 }
             }
+
+            if (setting instanceof ColorSetting colorSetting) {
+                if (colorSetting.keyPressed(event.key())) {
+                    return true;
+                }
+            }
         }
 
         if (event.key() == GLFW.GLFW_KEY_ESCAPE) {
@@ -328,13 +335,19 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
     }
 
     @Override
-    public boolean charTyped(net.minecraft.client.input.CharacterEvent event) {
+    public boolean charTyped(CharacterEvent event) {
         char character = (char) event.codepoint();
         int modifiers = 0;
 
         for (AbstractSettingComponent setting : this.settings) {
             if (setting instanceof TextSetting textSetting) {
                 if (textSetting.charTyped(character, modifiers)) {
+                    return true;
+                }
+            }
+
+            if (setting instanceof ColorSetting colorSetting) {
+                if (colorSetting.charTyped(character)) {
                     return true;
                 }
             }

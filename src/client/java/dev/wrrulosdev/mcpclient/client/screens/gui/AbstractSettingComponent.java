@@ -83,6 +83,10 @@ public abstract class AbstractSettingComponent {
         return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + getHeight();
     }
 
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        return false;
+    }
+
     /**
      * Combines an RGB color value with a floating alpha component
      * to produce a packed ARGB color integer.
