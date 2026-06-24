@@ -320,7 +320,7 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
             }
 
             if (setting instanceof ColorSetting colorSetting) {
-                if (colorSetting.keyPressed(event.key())) {
+                if (colorSetting.keyPressed(event.key(), event.scancode(), event.modifiers())) {
                     return true;
                 }
             }

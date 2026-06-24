@@ -1,7 +1,9 @@
 package dev.wrrulosdev.mcpclient.client.mixins.render;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.options.Anonymous;
 import dev.wrrulosdev.mcpclient.client.options.NameTag;
+import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -33,6 +35,7 @@ public abstract class EntityRendererMixin<T extends Entity, S extends EntityRend
     @Inject(method = "extractRenderState", at = @At("TAIL"))
     private void appendCustomPrefix(T entity, S state, float partialTicks, CallbackInfo ci) {
         Minecraft mc = Minecraft.getInstance();
+        ClientSettings clientSettings = MCPClient.getSettingsManager().getClientSettings();
 
         // Inventory
         if (mc.gui.screen() != null) {
@@ -40,16 +43,25 @@ public abstract class EntityRendererMixin<T extends Entity, S extends EntityRend
         }
 
         // Player NameTag
-        boolean playerNameTagEnabled = NameTag.INSTANCE.isEnabled();
-
         if (mc.player != null && entity == mc.player) {
+            boolean playerNameTagEnabled = NameTag.INSTANCE.isEnabled();
+            boolean anonymous = Anonymous.INSTANCE.isEnabled();
+            boolean anonymousNameTag = clientSettings.isAnonymousNameTagsEnabled();
+
             if (!playerNameTagEnabled || mc.player.isCrouching()) {
                 state.nameTag = null;
                 return;
             }
+            String name = (anonymous && anonymousNameTag)
+                ? clientSettings.getNewAnonymousName()
+                : entity.getName().getString();
 
-            state.nameTag = mc.player.getDisplayName();
-            state.nameTag.getStyle().applyFormat(ChatFormatting.RED);
+            state.nameTag = Component.literal(name).setStyle(
+                clientSettings.isNameTagColorEnabled()
+                    ? Style.EMPTY.withColor(clientSettings.getNameTagColor())
+                    : Style.EMPTY
+            );
+
             state.nameTagAttachment = mc.player.getAttachments()
                 .getNullable(NAME_TAG, 0, mc.player.getYRot(partialTicks));
         }

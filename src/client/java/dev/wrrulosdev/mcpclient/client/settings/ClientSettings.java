@@ -17,6 +17,8 @@ public class ClientSettings {
     private boolean clientHudFpsEnabled = true;
 
     private boolean nameTagEnabled = true;
+    private boolean nameTagColorEnabled = true;
+    private int nameTagColor = 0xFFFFFF;
 
     private boolean chatAnimationEnabled = true;
 
@@ -115,6 +117,24 @@ public class ClientSettings {
 
     public void setNameTagEnabled(boolean nameTagEnabled) {
         this.nameTagEnabled = nameTagEnabled;
+        save();
+    }
+
+    public int getNameTagColor() {
+        return nameTagColor;
+    }
+
+    public void setNameTagColor(int nameTagColor) {
+        this.nameTagColor = nameTagColor;
+        save();
+    }
+
+    public boolean isNameTagColorEnabled() {
+        return nameTagColorEnabled;
+    }
+
+    public void setNameTagColorEnabled(boolean nameTagColorEnabled) {
+        this.nameTagColorEnabled = nameTagColorEnabled;
         save();
     }
 

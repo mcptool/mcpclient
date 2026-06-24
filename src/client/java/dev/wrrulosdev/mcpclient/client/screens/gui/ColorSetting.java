@@ -12,20 +12,24 @@ public class ColorSetting extends AbstractSettingComponent {
 
     private final String label;
     private String text;
-    private final Consumer<String> onChanged;
+    private final Consumer<Integer> onChanged;
     private boolean isFocused;
     private boolean isPickerOpen = false;
     private boolean draggingCircle = false;
+    private int cursorIndex = 0;
+    private int selectionStart = -1;
+    private int selectionEnd = -1;
 
     public ColorSetting(
         String label,
         String defaultColor,
-        Consumer<String> onChanged
+        Consumer<Integer> onChanged
     ) {
         this.label = label;
         this.text = defaultColor;
         this.onChanged = onChanged;
         this.isFocused = false;
+        this.cursorIndex = defaultColor.length();
     }
 
     /**
@@ -90,24 +94,41 @@ public class ColorSetting extends AbstractSettingComponent {
         int boxY = y + (28 - boxHeight) / 2;
         int boxBgColor = this.isFocused ? 0x42444D : 0x2A2C33;
         graphics.fill(boxX, boxY, boxX + boxWidth, boxY + boxHeight, getAlphaColor(boxBgColor, progress));
-        String displayText = this.text;
 
-        if (this.isFocused && (System.currentTimeMillis() / 500) % 2 == 0) {
-            displayText += "_";
+        int cursorXPos = font.width(text.substring(0, cursorIndex));
+        int scrollOffset = 0;
+
+        if (cursorXPos > boxWidth - 10) {
+            scrollOffset = cursorXPos - (boxWidth - 10);
+        } else if (cursorXPos < 0) {
+            scrollOffset = cursorXPos;
         }
 
-        while (font.width(displayText) > boxWidth - 4 && !displayText.isEmpty()) {
-            displayText = displayText.substring(1);
+        graphics.enableScissor(boxX + 2, boxY + 2, boxX + boxWidth - 2, boxY + boxHeight - 2);
+
+        if (selectionStart != -1 && selectionEnd != -1) {
+            int start = Math.min(selectionStart, selectionEnd);
+            int end = Math.max(selectionStart, selectionEnd);
+            int selX = boxX + 4 + font.width(text.substring(0, start)) - scrollOffset;
+            int selW = font.width(text.substring(start, end));
+            graphics.fill(selX, boxY + 2, selX + selW, boxY + boxHeight - 2, 0x800078D7);
         }
 
         graphics.text(
             font,
-            Component.literal(displayText),
-            boxX + 4,
+            Component.literal(this.text),
+            boxX + 4 - scrollOffset,
             boxY + (boxHeight - font.lineHeight) / 2,
             getAlphaColor(0xFFFFFF, progress),
             false
         );
+
+        if (this.isFocused && (System.currentTimeMillis() / 500) % 2 == 0) {
+            int cursorX = boxX + 4 + cursorXPos - scrollOffset;
+            graphics.fill(cursorX, boxY + 2, cursorX + 1, boxY + boxHeight - 2, 0xFFFFFFFF);
+        }
+
+        graphics.disableScissor();
 
         if (isPickerOpen) {
             int red = (currentColor >> 16) & 0xFF;
@@ -166,8 +187,8 @@ public class ColorSetting extends AbstractSettingComponent {
             double currentDist = currentSat * r;
             int ix = (int) (cx + Math.cos(currentAngle) * currentDist);
             int iy = (int) (cy + Math.sin(currentAngle) * currentDist);
-            graphics.fill(ix - 2, iy - 2, ix + 2, iy + 2, 0xFFFFFFFF); // Borde blanco de la mira
-            graphics.fill(ix - 1, iy - 1, ix + 1, iy + 1, 0xFF000000); // Centro de contraste negro
+            graphics.fill(ix - 2, iy - 2, ix + 2, iy + 2, 0xFFFFFFFF);
+            graphics.fill(ix - 1, iy - 1, ix + 1, iy + 1, 0xFF000000);
         }
     }
 
@@ -203,6 +224,8 @@ public class ColorSetting extends AbstractSettingComponent {
 
         if (mouseX >= boxX && mouseX <= boxX + boxWidth && mouseY >= boxY && mouseY <= boxY + 14) {
             this.isFocused = true;
+            this.selectionStart = -1;
+            this.selectionEnd = -1;
             return true;
         } else {
             this.isFocused = false;
@@ -256,24 +279,73 @@ public class ColorSetting extends AbstractSettingComponent {
     private void updateHexColor(float h, float s, float b) {
         int rgb = hsbToRgb(h, s, b);
         this.text = String.format("#%02X%02X%02X", (rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF);
+        this.cursorIndex = this.text.length();
 
         if (this.onChanged != null) {
-            this.onChanged.accept(this.text);
+            this.onChanged.accept(rgb);
         }
     }
 
     /**
-     * Processes key press events for text input when the field is focused.
-     *
-     * @param keyCode The key code pressed
-     * @return True if the key was processed, false otherwise
+     * Processes keyboard input for navigation, text selection, and clipboard operations.
      */
-    public boolean keyPressed(int keyCode) {
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (!this.isFocused) return false;
 
-        if (keyCode == GLFW.GLFW_KEY_BACKSPACE && !this.text.isEmpty()) {
-            this.text = this.text.substring(0, this.text.length() - 1);
-            if (this.onChanged != null) this.onChanged.accept(this.text);
+        if (keyCode == GLFW.GLFW_KEY_LEFT || keyCode == GLFW.GLFW_KEY_RIGHT) {
+            selectionStart = -1; selectionEnd = -1;
+        }
+
+        if (keyCode == GLFW.GLFW_KEY_LEFT) {
+            cursorIndex = Math.max(0, cursorIndex - 1);
+            return true;
+        }
+
+        if (keyCode == GLFW.GLFW_KEY_RIGHT) {
+            cursorIndex = Math.min(text.length(), cursorIndex + 1);
+            return true;
+        }
+
+        if (keyCode == GLFW.GLFW_KEY_A && (modifiers & GLFW.GLFW_MOD_CONTROL) != 0) {
+            selectionStart = 0;
+            selectionEnd = text.length();
+            cursorIndex = text.length();
+            return true;
+        }
+
+        if (keyCode == GLFW.GLFW_KEY_C && (modifiers & GLFW.GLFW_MOD_CONTROL) != 0) {
+            if (selectionStart != -1) Minecraft.getInstance().keyboardHandler.setClipboard(text.substring(Math.min(selectionStart, selectionEnd), Math.max(selectionStart, selectionEnd)));
+            else Minecraft.getInstance().keyboardHandler.setClipboard(text);
+            return true;
+        }
+
+        if (keyCode == GLFW.GLFW_KEY_V && (modifiers & GLFW.GLFW_MOD_CONTROL) != 0) {
+            insertText(Minecraft.getInstance().keyboardHandler.getClipboard());
+            return true;
+        }
+
+        if (keyCode == GLFW.GLFW_KEY_X && (modifiers & GLFW.GLFW_MOD_CONTROL) != 0) {
+            if (selectionStart != -1) {
+                Minecraft.getInstance().keyboardHandler.setClipboard(text.substring(Math.min(selectionStart, selectionEnd), Math.max(selectionStart, selectionEnd)));
+                insertText("");
+            } else {
+                Minecraft.getInstance().keyboardHandler.setClipboard(text);
+                this.text = "";
+                cursorIndex = 0;
+                notifyChange();
+            }
+            return true;
+        }
+
+        if (keyCode == GLFW.GLFW_KEY_BACKSPACE) {
+            if (selectionStart != -1) {
+                insertText("");
+                selectionStart = -1; selectionEnd = -1;
+            } else if (cursorIndex > 0) {
+                text = text.substring(0, cursorIndex - 1) + text.substring(cursorIndex);
+                cursorIndex--;
+                notifyChange();
+            }
             return true;
         }
 
@@ -282,20 +354,55 @@ public class ColorSetting extends AbstractSettingComponent {
 
     /**
      * Processes typed characters for input into the text field.
-     *
-     * @param codePoint The character typed
-     * @return True if the character was processed, false otherwise
      */
     public boolean charTyped(char codePoint) {
         if (!this.isFocused) return false;
 
-        if (StringUtil.isAllowedChatCharacter(codePoint) && this.text.length() < 7) {
-            this.text += codePoint;
-            if (this.onChanged != null) this.onChanged.accept(this.text);
+        if (StringUtil.isAllowedChatCharacter(codePoint)) {
+            insertText(String.valueOf(codePoint));
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Internal helper to insert text at the cursor position or replace a selection.
+     * Prevents exceeding 7 characters (the max limit for hex codes like #FFFFFF).
+     *
+     * @param str The string to insert
+     */
+    private void insertText(String str) {
+        int currentSelectionLen = 0;
+        if (selectionStart != -1) {
+            currentSelectionLen = Math.abs(selectionEnd - selectionStart);
+        }
+
+        if (this.text.length() - currentSelectionLen + str.length() > 7) {
+            return;
+        }
+
+        if (selectionStart != -1) {
+            int start = Math.min(selectionStart, selectionEnd);
+            int end = Math.max(selectionStart, selectionEnd);
+            text = text.substring(0, start) + str + text.substring(end);
+            cursorIndex = start + str.length();
+            selectionStart = -1; selectionEnd = -1;
+        } else {
+            text = text.substring(0, cursorIndex) + str + text.substring(cursorIndex);
+            cursorIndex += str.length();
+        }
+
+        notifyChange();
+    }
+
+    /**
+     * Triggers the onChanged callback, parsing the string into an integer color.
+     */
+    private void notifyChange() {
+        if (this.onChanged != null) {
+            this.onChanged.accept(parseColor(this.text));
+        }
     }
 
     /**

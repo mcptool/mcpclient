@@ -283,8 +283,7 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
     }
 
     private List<AbstractSettingComponent> getClientHudSettings() {
-        List<AbstractSettingComponent> settings =
-            new ArrayList<>();
+        List<AbstractSettingComponent> settings = new ArrayList<>();
 
         settings.add(
             new ToggleSetting(
@@ -298,22 +297,22 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
     }
 
     private List<AbstractSettingComponent> getNameTagSettings() {
-        List<AbstractSettingComponent> settings =
-            new ArrayList<>();
+        List<AbstractSettingComponent> settings = new ArrayList<>();
+        int currentColor = MCPClient.getSettingsManager().getClientSettings().getNameTagColor();
 
         settings.add(
             new ToggleSetting(
                 "Custom color enabled",
-                MCPClient.getSettingsManager().getClientSettings().isClientHudFpsEnabled(),
-                MCPClient.getSettingsManager().getClientSettings()::setClientHudFpsEnabled
+                MCPClient.getSettingsManager().getClientSettings().isNameTagColorEnabled(),
+                MCPClient.getSettingsManager().getClientSettings()::setNameTagColorEnabled
             )
         );
 
         settings.add(
             new ColorSetting(
                 "Custom color",
-                "red",
-                (val) -> {}
+                String.format("#%06X", currentColor),
+                MCPClient.getSettingsManager().getClientSettings()::setNameTagColor
             )
         );
 
