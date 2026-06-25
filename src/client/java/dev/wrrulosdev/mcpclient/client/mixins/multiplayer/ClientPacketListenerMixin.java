@@ -1,6 +1,7 @@
 package dev.wrrulosdev.mcpclient.client.mixins.multiplayer;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.cheats.AntiKB;
 import dev.wrrulosdev.mcpclient.client.pluginschannel.PluginChannelStorage;
 import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import net.minecraft.client.Minecraft;
@@ -25,10 +26,9 @@ public class ClientPacketListenerMixin {
     @Inject(method = "handleSetEntityMotion", at = @At("HEAD"), cancellable = true)
     private void cancelKnockbackVelocity(ClientboundSetEntityMotionPacket packet, CallbackInfo ci) {
         Minecraft mc = Minecraft.getInstance();
-        CheatsSettings cheatsSettings = MCPClient.getSettingsManager().getCheatsSettings();
 
         // AntiKB
-        if (cheatsSettings.isAntikbEnabled() && (mc.player != null && packet.id() == mc.player.getId())) {
+        if (AntiKB.INSTANCE.isEnabled() && (mc.player != null && packet.id() == mc.player.getId())) {
             ci.cancel();
         }
     }

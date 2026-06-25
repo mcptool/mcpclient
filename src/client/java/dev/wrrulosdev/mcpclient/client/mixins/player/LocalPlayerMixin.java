@@ -1,6 +1,7 @@
 package dev.wrrulosdev.mcpclient.client.mixins.player;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.cheats.FullBright;
 import dev.wrrulosdev.mcpclient.client.cheats.Jesus;
 import dev.wrrulosdev.mcpclient.client.cheats.NoFall;
 import dev.wrrulosdev.mcpclient.client.cheats.Spider;
@@ -23,8 +24,6 @@ public abstract class LocalPlayerMixin {
      */
     @Inject(method = "tick", at = @At("HEAD"))
     private void onTick(CallbackInfo ci) {
-        CheatsSettings cheatsSettings = MCPClient.getSettingsManager().getCheatsSettings();
-
         /*if (cheatsSettings.isFlyEnabled()) {
             Fly.INSTANCE.run();
         }
@@ -32,18 +31,22 @@ public abstract class LocalPlayerMixin {
         if (cheatsSettings.isFakeGmEnabled()) {
             FakeCreative.INSTANCE.run();
         }*/
-        if (cheatsSettings.isJesusEnabled()) {
+        if (Jesus.INSTANCE.isEnabled()) {
             Jesus.INSTANCE.run();
         }
 
         // NoFall
-        if (cheatsSettings.isNoFallEnabled()) {
+        if (NoFall.INSTANCE.isEnabled()) {
             NoFall.INSTANCE.run();
         }
 
         // Spider
-        if (cheatsSettings.isSpiderEnabled()) {
+        if (Spider.INSTANCE.isEnabled()) {
             Spider.INSTANCE.run();
+        }
+
+        if (FullBright.INSTANCE.isEnabled()) {
+            FullBright.INSTANCE.run();
         }
     }
 }
