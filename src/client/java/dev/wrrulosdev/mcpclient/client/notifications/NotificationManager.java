@@ -39,7 +39,8 @@ public class NotificationManager {
      * @param type Notification visual style type
      */
     public static void show(String title, String message, NotificationType type) {
-        notifications.add(new Notification(title, message, type, 3000));
+        int duration = ((int) MCPClient.getSettingsManager().getClientSettings().getNotificationDuration() * 1000);
+        notifications.add(new Notification(title, message, type, duration));
     }
 
     /**

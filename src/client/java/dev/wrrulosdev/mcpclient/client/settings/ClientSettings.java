@@ -24,6 +24,7 @@ public class ClientSettings {
     private double chatAnimationDuration = 0.015;
 
     private boolean notificationsEnabled = true;
+    private double notificationDuration = 3;
 
     private boolean playerModelEnabled = true;
 
@@ -163,6 +164,15 @@ public class ClientSettings {
 
     public void setNotificationsEnabled(boolean notificationsEnabled) {
         this.notificationsEnabled = notificationsEnabled;
+        save();
+    }
+
+    public double getNotificationDuration() {
+        return notificationDuration;
+    }
+
+    public void setNotificationDuration(double notificationDuration) {
+        this.notificationDuration = notificationDuration;
         save();
     }
 

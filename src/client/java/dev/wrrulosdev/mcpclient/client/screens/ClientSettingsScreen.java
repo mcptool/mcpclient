@@ -94,7 +94,7 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
             () -> openModuleSettings(
                 Notifications.INSTANCE.getName(),
                 Notifications.INSTANCE.getLongDescription(),
-                getChatAnimationSettings()
+                getNotificationsSettings()
             )
         );
         addCard(
@@ -338,6 +338,24 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
 
         return settings;
     }
+
+    private List<AbstractSettingComponent> getNotificationsSettings() {
+        List<AbstractSettingComponent> settings = new ArrayList<>();
+
+        settings.add(
+            new SliderSetting(
+                "Notification duration",
+                1,
+                5,
+                (float) this.clientSettings.getNotificationDuration(),
+                "ms",
+                this.clientSettings::setNotificationDuration
+            )
+        );
+
+        return settings;
+    }
+
 
     @Override
     protected String getWindowTitle() {
