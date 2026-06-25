@@ -3,6 +3,7 @@ package dev.wrrulosdev.mcpclient.client.keybinds;
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.wrrulosdev.mcpclient.client.MCPClient;
 import dev.wrrulosdev.mcpclient.client.cheats.*;
+import dev.wrrulosdev.mcpclient.client.mixins.accessor.KeyMappingAccessor;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -127,5 +128,16 @@ public class KeyBindManager {
         return savedKey == 0
             ? cheat.getDefaultKey()
             : savedKey;
+    }
+
+    public int getCurrentKeyCode(String identifier) {
+        for (KeyBindEntry entry : registry) {
+            if (entry.cheat().getIdentifier().equals(identifier)) {
+                KeyMappingAccessor accessor = (KeyMappingAccessor) (Object) entry.mapping();
+                return accessor.getKey().getValue();
+            }
+        }
+        
+        return 0;
     }
 }

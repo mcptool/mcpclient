@@ -365,7 +365,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
         settings.add(
             new KeybindSetting(
                 "Assign a key bind to the fly",
-                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(Fly.INSTANCE.getIdentifier()),
+                MCPClient.getKeyBindManager().getCurrentKeyCode(Fly.INSTANCE.getIdentifier()),
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(Fly.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(Fly.INSTANCE.getIdentifier(), val);
@@ -388,7 +388,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
         settings.add(
             new KeybindSetting(
                 "Assign a key bind to the Fake Creative",
-                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(FakeCreative.INSTANCE.getIdentifier()),
+                MCPClient.getKeyBindManager().getCurrentKeyCode(FakeCreative.INSTANCE.getIdentifier()),
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(FakeCreative.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(FakeCreative.INSTANCE.getIdentifier(), val);
@@ -438,7 +438,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
         settings.add(
             new KeybindSetting(
                 "Assign a key bind to the Jesus",
-                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(Jesus.INSTANCE.getIdentifier()),
+                MCPClient.getKeyBindManager().getCurrentKeyCode(Jesus.INSTANCE.getIdentifier()),
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(Jesus.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(Jesus.INSTANCE.getIdentifier(), val);
@@ -472,7 +472,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
         settings.add(
             new KeybindSetting(
                 "Assign a key bind to the Spider",
-                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(Spider.INSTANCE.getIdentifier()),
+                MCPClient.getKeyBindManager().getCurrentKeyCode(Spider.INSTANCE.getIdentifier()),
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(Spider.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(Spider.INSTANCE.getIdentifier(), val);
@@ -495,7 +495,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
         settings.add(
             new KeybindSetting(
                 "Assign a key bind to the NoFall",
-                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(NoFall.INSTANCE.getIdentifier()),
+                MCPClient.getKeyBindManager().getCurrentKeyCode(NoFall.INSTANCE.getIdentifier()),
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(NoFall.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(NoFall.INSTANCE.getIdentifier(), val);
@@ -534,7 +534,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
         settings.add(
             new KeybindSetting(
                 "Assign a key bind to the WallHack",
-                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(WallHack.INSTANCE.getIdentifier()),
+                MCPClient.getKeyBindManager().getCurrentKeyCode(WallHack.INSTANCE.getIdentifier()),
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(WallHack.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(WallHack.INSTANCE.getIdentifier(), val);
@@ -568,7 +568,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
         settings.add(
             new KeybindSetting(
                 "Assign a key bind to the HClip",
-                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(HClip.INSTANCE.getIdentifier()),
+                MCPClient.getKeyBindManager().getCurrentKeyCode(HClip.INSTANCE.getIdentifier()),
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(HClip.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(HClip.INSTANCE.getIdentifier(), val);
@@ -602,7 +602,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
         settings.add(
             new KeybindSetting(
                 "Assign a key bind to the VClip",
-                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(VClip.INSTANCE.getIdentifier()),
+                MCPClient.getKeyBindManager().getCurrentKeyCode(VClip.INSTANCE.getIdentifier()),
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(VClip.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(VClip.INSTANCE.getIdentifier(), val);
@@ -636,7 +636,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
         settings.add(
             new KeybindSetting(
                 "Assign a key bind to the FullBright",
-                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(FullBright.INSTANCE.getIdentifier()),
+                MCPClient.getKeyBindManager().getCurrentKeyCode(FullBright.INSTANCE.getIdentifier()),
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(FullBright.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(FullBright.INSTANCE.getIdentifier(), val);
@@ -659,7 +659,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
         settings.add(
             new KeybindSetting(
                 "Assign a key bind to the AntiKB",
-                MCPClient.getSettingsManager().getCheatsSettings().getKeyForKeyBind(AntiKB.INSTANCE.getIdentifier()),
+                MCPClient.getKeyBindManager().getCurrentKeyCode(AntiKB.INSTANCE.getIdentifier()),
                 val -> {
                     MCPClient.getSettingsManager().getCheatsSettings().setKeyForKeyBind(AntiKB.INSTANCE.getIdentifier(), val);
                     MCPClient.getKeyBindManager().updateKey(AntiKB.INSTANCE.getIdentifier(), val);
@@ -789,7 +789,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
 
         settings.add(new KeybindSetting(
             "Assign a key bind to the BlockTracker",
-            cs.getKeyForKeyBind(BlockTracker.INSTANCE.getIdentifier()),
+            MCPClient.getKeyBindManager().getCurrentKeyCode(BlockTracker.INSTANCE.getIdentifier()),
             val -> {
                 cs.setKeyForKeyBind(BlockTracker.INSTANCE.getIdentifier(), val);
                 MCPClient.getKeyBindManager().updateKey(BlockTracker.INSTANCE.getIdentifier(), val);

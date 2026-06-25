@@ -7,6 +7,7 @@
 		"accessor.ServerListAccessor",
 		"accessor.MinecraftAccessor",
 		"accessor.SessionAccessor",
+		"accessor.KeyMappingAccessor",
 		"network.PluginChannelHandlerMixin",
 		"network.ServerListMixin",
 		"gui.AbstractSelectionListMixin",
