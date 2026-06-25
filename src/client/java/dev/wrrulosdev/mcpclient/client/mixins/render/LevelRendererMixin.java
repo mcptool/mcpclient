@@ -26,13 +26,6 @@ public class LevelRendererMixin {
     /**
      * Injects at the end of the world rendering pipeline to render custom ESP overlays
      * such as player wallhack boxes and animated stickman visualizations.
-     * <p>
-     * This method executes after the vanilla level rendering has completed, ensuring that
-     * custom rendering elements are drawn on top of all world geometry.
-     * <p>
-     * It delegates rendering responsibilities to the cheat rendering modules, including:
-     * - Player bounding box and Blocks ESP rendering
-     * - Animated stickman visualization for player entities
      *
      * @param resourceAllocator        Graphics resource allocator used by the rendering pipeline.
      * @param deltaTracker             Frame timing tracker used for smooth animation interpolation.

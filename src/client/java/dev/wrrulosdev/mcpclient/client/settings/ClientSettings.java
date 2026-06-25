@@ -27,6 +27,9 @@ public class ClientSettings {
     private double notificationDuration = 3;
 
     private boolean playerModelEnabled = true;
+    private double playerModelMarginX = 5;
+    private double playerModelMarginY = 45;
+    private double playerModelSize = 30;
 
     private void save() {
         MCPClient.saveSettings();
@@ -182,6 +185,33 @@ public class ClientSettings {
 
     public void setPlayerModelEnabled(boolean playerModelEnabled) {
         this.playerModelEnabled = playerModelEnabled;
+        save();
+    }
+
+    public double getPlayerModelMarginX() {
+        return playerModelMarginX;
+    }
+
+    public void setPlayerModelMarginX(double playerModelMarginX) {
+        this.playerModelMarginX = playerModelMarginX;
+        save();
+    }
+
+    public double getPlayerModelMarginY() {
+        return playerModelMarginY;
+    }
+
+    public void setPlayerModelMarginY(double playerModelMarginY) {
+        this.playerModelMarginY = playerModelMarginY;
+        save();
+    }
+
+    public double getPlayerModelSize() {
+        return playerModelSize;
+    }
+
+    public void setPlayerModelSize(double playerModelSize) {
+        this.playerModelSize = playerModelSize;
         save();
     }
 }

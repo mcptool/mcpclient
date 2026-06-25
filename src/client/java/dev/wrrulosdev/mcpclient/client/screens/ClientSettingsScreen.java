@@ -104,10 +104,9 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
             () -> openModuleSettings(
                 PlayerModel.INSTANCE.getName(),
                 PlayerModel.INSTANCE.getLongDescription(),
-                getChatAnimationSettings()
+                getPlayerModelSettings()
             )
         );
-        System.out.println(ChatAnimation.INSTANCE.isEnabled());
     }
 
     /**
@@ -239,8 +238,7 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
     }
 
     private List<AbstractSettingComponent> getAnonymousSettings() {
-        List<AbstractSettingComponent> settings =
-            new ArrayList<>();
+        List<AbstractSettingComponent> settings = new ArrayList<>();
 
         settings.add(
             new ToggleSetting(
@@ -356,6 +354,44 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         return settings;
     }
 
+    private List<AbstractSettingComponent> getPlayerModelSettings() {
+        List<AbstractSettingComponent> settings = new ArrayList<>();
+
+        settings.add(
+            new SliderSetting(
+                "Model X margin",
+                (float) 1,
+                (float) 100,
+                (float) this.clientSettings.getPlayerModelMarginX(),
+                "x",
+                this.clientSettings::setPlayerModelMarginX
+            )
+        );
+
+        settings.add(
+            new SliderSetting(
+                "Model Y margin",
+                (float) 1,
+                (float) 100,
+                (float) this.clientSettings.getPlayerModelMarginY(),
+                "x",
+                this.clientSettings::setPlayerModelMarginY
+            )
+        );
+
+        settings.add(
+            new SliderSetting(
+                "Model size",
+                (float) 1,
+                (float) 100,
+                (float) this.clientSettings.getPlayerModelSize(),
+                "x",
+                this.clientSettings::setPlayerModelSize
+            )
+        );
+
+        return settings;
+    }
 
     @Override
     protected String getWindowTitle() {
