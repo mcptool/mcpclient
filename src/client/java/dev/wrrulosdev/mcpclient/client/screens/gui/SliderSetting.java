@@ -104,7 +104,8 @@ public class SliderSetting extends AbstractSettingComponent {
             false
         );
 
-        String valStr = String.format("%.1f", this.value) + " " + this.suffix;
+        String format = (this.max < 1.0f) ? "%.3f" : "%.1f";
+        String valStr = String.format(format, this.value) + " " + this.suffix;
 
         graphics.text(
             font,

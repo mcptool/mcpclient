@@ -21,6 +21,7 @@ public class ClientSettings {
     private int nameTagColor = 0xFFFFFF;
 
     private boolean chatAnimationEnabled = true;
+    private double chatAnimationDuration = 0.015;
 
     private boolean notificationsEnabled = true;
 
@@ -144,6 +145,15 @@ public class ClientSettings {
 
     public void setChatAnimationEnabled(boolean chatAnimationEnabled) {
         this.chatAnimationEnabled = chatAnimationEnabled;
+        save();
+    }
+
+    public double getChatAnimationDuration() {
+        return chatAnimationDuration;
+    }
+
+    public void setChatAnimationDuration(double chatAnimationDuration) {
+        this.chatAnimationDuration = chatAnimationDuration;
         save();
     }
 

@@ -6,6 +6,7 @@ import dev.wrrulosdev.mcpclient.client.cheats.Jesus;
 import dev.wrrulosdev.mcpclient.client.constants.TextureConstants;
 import dev.wrrulosdev.mcpclient.client.options.*;
 import dev.wrrulosdev.mcpclient.client.screens.gui.*;
+import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
 import dev.wrrulosdev.mcpclient.client.utilities.screens.MainMenuScreenUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -27,12 +28,14 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
     private final List<SwitchOptionCard> allCards = new ArrayList<>();
     private double scrollOffset = 0;
     private double maxScrollOffset = 0;
+    private ClientSettings clientSettings;
 
     public ClientSettingsScreen(Screen parentScreen) {
         super(Component.empty());
         this.parentScreen = parentScreen;
         this.maxWidth = 650;
         this.maxHeight = 400;
+        this.clientSettings = MCPClient.getSettingsManager().getClientSettings();
     }
 
     @Override
@@ -242,40 +245,40 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         settings.add(
             new ToggleSetting(
                 "Hide name in chat",
-                MCPClient.getSettingsManager().getClientSettings().isAnonymousChatEnabled(),
-                MCPClient.getSettingsManager().getClientSettings()::setAnonymousChatEnabled
+                this.clientSettings.isAnonymousChatEnabled(),
+                this.clientSettings::setAnonymousChatEnabled
             )
         );
 
         settings.add(
             new ToggleSetting(
                 "Hide name on scoreboard",
-                MCPClient.getSettingsManager().getClientSettings().isAnonymousScoreboardEnabled(),
-                MCPClient.getSettingsManager().getClientSettings()::setAnonymousScoreboardEnabled
+                this.clientSettings.isAnonymousScoreboardEnabled(),
+                this.clientSettings::setAnonymousScoreboardEnabled
             )
         );
 
         settings.add(
             new ToggleSetting(
                 "Hide name in tab",
-                MCPClient.getSettingsManager().getClientSettings().isAnonymousTabListEnabled(),
-                MCPClient.getSettingsManager().getClientSettings()::setAnonymousTabListEnabled
+                this.clientSettings.isAnonymousTabListEnabled(),
+                this.clientSettings::setAnonymousTabListEnabled
             )
         );
 
         settings.add(
             new ToggleSetting(
                 "Hide name in holograms",
-                MCPClient.getSettingsManager().getClientSettings().isAnonymousHologramsEnabled(),
-                MCPClient.getSettingsManager().getClientSettings()::setAnonymousHologramsEnabled
+                this.clientSettings.isAnonymousHologramsEnabled(),
+                this.clientSettings::setAnonymousHologramsEnabled
             )
         );
 
         settings.add(
             new TextSetting(
                 "New Anonymous username",
-                MCPClient.getSettingsManager().getClientSettings().getNewAnonymousName(),
-                MCPClient.getSettingsManager().getClientSettings()::setNewAnonymousName
+                this.clientSettings.getNewAnonymousName(),
+                this.clientSettings::setNewAnonymousName
             )
         );
 
@@ -288,8 +291,8 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         settings.add(
             new ToggleSetting(
                 "Show FPS",
-                MCPClient.getSettingsManager().getClientSettings().isClientHudFpsEnabled(),
-                MCPClient.getSettingsManager().getClientSettings()::setClientHudFpsEnabled
+                this.clientSettings.isClientHudFpsEnabled(),
+                this.clientSettings::setClientHudFpsEnabled
             )
         );
 
@@ -298,13 +301,13 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
 
     private List<AbstractSettingComponent> getNameTagSettings() {
         List<AbstractSettingComponent> settings = new ArrayList<>();
-        int currentColor = MCPClient.getSettingsManager().getClientSettings().getNameTagColor();
+        int currentColor = this.clientSettings.getNameTagColor();
 
         settings.add(
             new ToggleSetting(
                 "Custom color enabled",
-                MCPClient.getSettingsManager().getClientSettings().isNameTagColorEnabled(),
-                MCPClient.getSettingsManager().getClientSettings()::setNameTagColorEnabled
+                this.clientSettings.isNameTagColorEnabled(),
+                this.clientSettings::setNameTagColorEnabled
             )
         );
 
@@ -312,7 +315,7 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
             new ColorSetting(
                 "Custom color",
                 String.format("#%06X", currentColor),
-                MCPClient.getSettingsManager().getClientSettings()::setNameTagColor
+                this.clientSettings::setNameTagColor
             )
         );
 
@@ -320,14 +323,16 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
     }
 
     private List<AbstractSettingComponent> getChatAnimationSettings() {
-        List<AbstractSettingComponent> settings =
-            new ArrayList<>();
+        List<AbstractSettingComponent> settings = new ArrayList<>();
 
         settings.add(
-            new ToggleSetting(
-                "Example",
-                MCPClient.getSettingsManager().getClientSettings().isClientHudFpsEnabled(),
-                MCPClient.getSettingsManager().getClientSettings()::setClientHudFpsEnabled
+            new SliderSetting(
+                "Chat animation speed",
+                (float) 0.005,
+                (float) 0.030,
+                (float) this.clientSettings.getChatAnimationDuration(),
+                "ms",
+                this.clientSettings::setChatAnimationDuration
             )
         );
 

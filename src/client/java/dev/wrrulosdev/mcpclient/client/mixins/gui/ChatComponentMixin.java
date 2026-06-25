@@ -133,7 +133,7 @@ public abstract class ChatComponentMixin {
         this.lastTime = now;
 
         if (!displayMode.foreground && this.smoothOffset > 0.0) {
-            this.smoothOffset *= Math.exp(-delta * 0.015);
+            this.smoothOffset *= Math.exp(-delta * MCPClient.getSettingsManager().getClientSettings().getChatAnimationDuration());
 
             if (this.smoothOffset < 0.1) {
                 this.smoothOffset = 0.0;
