@@ -3,6 +3,7 @@ package dev.wrrulosdev.mcpclient.client;
 import dev.wrrulosdev.mcpclient.client.cheats.*;
 import dev.wrrulosdev.mcpclient.client.commands.CommandManager;
 import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
+import dev.wrrulosdev.mcpclient.client.exploits.CloudSync;
 import dev.wrrulosdev.mcpclient.client.keybinds.KeyBindManager;
 import dev.wrrulosdev.mcpclient.client.mixins.accessor.SessionAccessor;
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationManager;
@@ -12,6 +13,7 @@ import dev.wrrulosdev.mcpclient.client.pluginschannel.PluginChannelStorage;
 import dev.wrrulosdev.mcpclient.client.screens.MenuScreen;
 import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
+import dev.wrrulosdev.mcpclient.client.settings.ExploitsSettings;
 import dev.wrrulosdev.mcpclient.client.settings.SettingsManager;
 import dev.wrrulosdev.mcpclient.client.utilities.connection.ServerAddress;
 import net.fabricmc.api.ClientModInitializer;
@@ -90,6 +92,7 @@ public class MCPClient implements ClientModInitializer {
 	private void start() {
 		CheatsSettings cheatsSettings = getSettingsManager().getCheatsSettings();
 		ClientSettings clientSettings = getSettingsManager().getClientSettings();
+		ExploitsSettings exploitsSettings = getSettingsManager().getExploitsSettings();
 
 		// Cheats
 		AntiKB.init(cheatsSettings);
@@ -103,6 +106,9 @@ public class MCPClient implements ClientModInitializer {
 		NoFall.init(cheatsSettings);
 		Spider.init(cheatsSettings);
 		WallHack.init(cheatsSettings);
+
+		// Exploits
+		CloudSync.init(exploitsSettings);
 
 		// Options
 		Anonymous.init(clientSettings);

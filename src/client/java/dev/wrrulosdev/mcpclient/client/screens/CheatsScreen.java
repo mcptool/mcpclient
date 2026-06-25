@@ -27,11 +27,6 @@ public class CheatsScreen extends BaseAnimatedScreen {
     private double scrollOffset = 0;
     private double maxScrollOffset = 0;
 
-    /**
-     * Creates a new cheats screen instance.
-     *
-     * @param parentScreen The screen that should be restored when exiting.
-     */
     public CheatsScreen(Screen parentScreen) {
         super(Component.empty());
 
@@ -41,7 +36,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
     }
 
     /**
-     * Initializes the screen and loads all available module cards.
+     * Initializes the screen and triggers the loading of cheat configuration cards.
      */
     @Override
     protected void init() {
@@ -49,10 +44,20 @@ public class CheatsScreen extends BaseAnimatedScreen {
         loadCards();
     }
 
+    /**
+     * Generates a generic description string for a given cheat module.
+     *
+     * @param cheat The cheat module to describe
+     * @return A formatted string describing the module's settings
+     */
     private String getGenericDescription(CheatBase cheat) {
         return cheat.getName() + " settings...";
     }
 
+    /**
+     * Registers all available cheat modules by creating and adding their respective
+     * interface cards to the screen's internal collection.
+     */
     private void loadCards() {
         this.allCards.clear();
 
@@ -169,12 +174,12 @@ public class CheatsScreen extends BaseAnimatedScreen {
     }
 
     /**
-     * Creates and registers a new cheat card linked to a cheat implementation.
+     * Configures and adds a {@link SwitchOptionCard} to the list of displayed cards.
      *
-     * @param cheat The cheat instance controlled by this card.
-     * @param title The display name shown in the card header.
-     * @param desc The descriptive text displayed below the title.
-     * @param onSettingsClick The action executed when the settings icon is clicked.
+     * @param cheat             The associated cheat module
+     * @param title             The title text for the card
+     * @param desc              The description text for the card
+     * @param onSettingsClick   Action to perform when the settings icon is clicked
      */
     private void addCard(
         CheatBase cheat,
@@ -199,20 +204,38 @@ public class CheatsScreen extends BaseAnimatedScreen {
     }
 
     /**
-     * Returns the title displayed in the window header.
+     * Defines the title of the screen.
      *
-     * @return The cheats screen title.
+     * @return The window title string
      */
     @Override
     protected String getWindowTitle() {
         return "Cheats / Modules";
     }
 
+    /**
+     * Renders the grid of cheat cards within the defined window area.
+     *
+     * @param graphics  The graphics extraction utility
+     * @param x1        Start X coordinate
+     * @param x2        End X coordinate
+     * @param y1        Start Y coordinate
+     * @param y2        End Y coordinate
+     * @param mouseX    Current mouse X position
+     * @param mouseY    Current mouse Y position
+     * @param progress  Current animation progress
+     */
     @Override
     protected void renderWindowContent(GuiGraphicsExtractor graphics, int x1, int x2, int y1, int y2, int mouseX, int mouseY, float progress) {
         this.maxScrollOffset = MainMenuScreenUtils.renderWindowGenericContent(graphics, x1, x2, y1, y2, mouseX, mouseY, progress, this.font, this.maxScrollOffset, this.scrollOffset, CARD_HEIGHT, SIDE_MARGIN, GAP, allCards);
     }
 
+    /**
+     * Handles mouse movement to update cursor feedback when hovering over cards.
+     *
+     * @param mouseX Current mouse X position
+     * @param mouseY Current mouse Y position
+     */
     @Override
     public void mouseMoved(double mouseX, double mouseY) {
         super.mouseMoved(mouseX, mouseY);
@@ -237,6 +260,13 @@ public class CheatsScreen extends BaseAnimatedScreen {
         );
     }
 
+    /**
+     * Handles mouse click events within the card grid area.
+     *
+     * @param event       The mouse button event details
+     * @param doubleClick Whether the click was a double click
+     * @return True if the click was handled by the grid, false otherwise
+     */
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
         boolean handled = MainMenuScreenUtils.handleGridClick(
@@ -263,26 +293,14 @@ public class CheatsScreen extends BaseAnimatedScreen {
     }
 
     /**
-     * Calculates the width available for each column based on the
-     * current layout dimensions and spacing rules.
+     * Handles mouse scrolling to update the vertical offset of the cards.
      *
-     * @param x1 The left boundary.
-     * @param x2 The right boundary.
-     * @param columns The total column count.
-     * @return The calculated column width.
+     * @param mouseX  Mouse X position
+     * @param mouseY  Mouse Y position
+     * @param scrollX Horizontal scroll delta
+     * @param scrollY Vertical scroll delta
+     * @return True if the event was processed
      */
-    private int calculateColWidth(
-        int x1,
-        int x2,
-        int columns
-    ) {
-        return (
-            (x2 - x1)
-                - (SIDE_MARGIN * 2)
-                - ((columns - 1) * GAP)
-        ) / columns;
-    }
-
     @Override
     public boolean mouseScrolled(
         double mouseX,
@@ -348,8 +366,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
      * @return A list containing all Fly configuration components.
      */
     private List<AbstractSettingComponent> getFlySettings() {
-        List<AbstractSettingComponent> settings =
-            new ArrayList<>();
+        List<AbstractSettingComponent> settings = new ArrayList<>();
 
         settings.add(
             new SliderSetting(
@@ -382,8 +399,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
      * @return A list containing all Fake Creative configuration components.
      */
     private List<AbstractSettingComponent> getFakeCreativeSettings() {
-        List<AbstractSettingComponent> settings =
-            new ArrayList<>();
+        List<AbstractSettingComponent> settings = new ArrayList<>();
 
         settings.add(
             new KeybindSetting(
@@ -405,8 +421,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
      * @return A list containing all Jesus configuration components.
      */
     private List<AbstractSettingComponent> getJesusSettings() {
-        List<AbstractSettingComponent> settings =
-            new ArrayList<>();
+        List<AbstractSettingComponent> settings = new ArrayList<>();
 
         settings.add(
             new SliderSetting(
@@ -455,8 +470,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
      * @return A list containing all Spider configuration components.
      */
     private List<AbstractSettingComponent> getSpiderSettings() {
-        List<AbstractSettingComponent> settings =
-            new ArrayList<>();
+        List<AbstractSettingComponent> settings = new ArrayList<>();
 
         settings.add(
             new SliderSetting(
@@ -489,8 +503,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
      * @return A list containing all NoFall configuration components.
      */
     private List<AbstractSettingComponent> getNoFallSettings() {
-        List<AbstractSettingComponent> settings =
-            new ArrayList<>();
+        List<AbstractSettingComponent> settings = new ArrayList<>();
 
         settings.add(
             new KeybindSetting(
@@ -512,8 +525,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
      * @return A list containing all WallHack configuration components.
      */
     private List<AbstractSettingComponent> getWallHackSettings() {
-        List<AbstractSettingComponent> settings =
-            new ArrayList<>();
+        List<AbstractSettingComponent> settings = new ArrayList<>();
 
         settings.add(
             new ToggleSetting(
@@ -551,8 +563,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
      * @return A list containing all HClip configuration components.
      */
     private List<AbstractSettingComponent> getHClipSettings() {
-        List<AbstractSettingComponent> settings =
-            new ArrayList<>();
+        List<AbstractSettingComponent> settings = new ArrayList<>();
 
         settings.add(
             new SliderSetting(
@@ -585,8 +596,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
      * @return A list containing all VClip configuration components.
      */
     private List<AbstractSettingComponent> getVClipSettings() {
-        List<AbstractSettingComponent> settings =
-            new ArrayList<>();
+        List<AbstractSettingComponent> settings = new ArrayList<>();
 
         settings.add(
             new SliderSetting(
@@ -619,8 +629,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
      * @return A list containing all FullBright configuration components.
      */
     private List<AbstractSettingComponent> getFullBrightSettings() {
-        List<AbstractSettingComponent> settings =
-            new ArrayList<>();
+        List<AbstractSettingComponent> settings = new ArrayList<>();
 
         settings.add(
             new SliderSetting(
@@ -653,8 +662,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
      * @return A list containing all AntiKB configuration components.
      */
     private List<AbstractSettingComponent> getAntiKBSettings() {
-        List<AbstractSettingComponent> settings =
-            new ArrayList<>();
+        List<AbstractSettingComponent> settings = new ArrayList<>();
 
         settings.add(
             new KeybindSetting(
@@ -676,8 +684,7 @@ public class CheatsScreen extends BaseAnimatedScreen {
      * @return A list containing all BlockTracker configuration components.
      */
     private List<AbstractSettingComponent> getBlockTrackerSettings() {
-        List<AbstractSettingComponent> settings =
-            new ArrayList<>();
+        List<AbstractSettingComponent> settings = new ArrayList<>();
 
         CheatsSettings cs = MCPClient.getSettingsManager().getCheatsSettings();
 

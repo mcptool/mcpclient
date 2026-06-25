@@ -15,6 +15,7 @@ public class SettingsManager {
     private final transient Gson gson;
     private CheatsSettings cheatsSettings;
     private ClientSettings clientSettings;
+    private ExploitsSettings exploitsSettings;
 
     /**
      * Constructs a new SettingsManager, determining the config path based on OS
@@ -34,6 +35,7 @@ public class SettingsManager {
         this.gson = new GsonBuilder().setPrettyPrinting().create();
         this.cheatsSettings = new CheatsSettings();
         this.clientSettings = new ClientSettings();
+        this.exploitsSettings = new ExploitsSettings();
     }
 
     /**
@@ -89,5 +91,12 @@ public class SettingsManager {
      */
     public ClientSettings getClientSettings() {
         return clientSettings;
+    }
+
+    /**
+     * @return the ClientSettings instance
+     */
+    public ExploitsSettings getExploitsSettings() {
+        return exploitsSettings;
     }
 }

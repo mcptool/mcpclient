@@ -3,38 +3,35 @@ package dev.wrrulosdev.mcpclient.client.keybinds;
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.wrrulosdev.mcpclient.client.MCPClient;
 import dev.wrrulosdev.mcpclient.client.cheats.*;
-import dev.wrrulosdev.mcpclient.client.mixins.accessor.KeyMappingAccessor;
+    import dev.wrrulosdev.mcpclient.client.exploits.*;
+    import dev.wrrulosdev.mcpclient.client.mixins.accessor.KeyMappingAccessor;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class KeyBindManager {
 
-    /**
-     * Internal registry containing every key mapping paired with
-     * its corresponding cheat implementation.
-     */
     private final List<KeyBindEntry> registry = new ArrayList<>();
 
-    /**
-     * Lightweight container used to associate a Minecraft key mapping
-     * with the cheat it controls.
-     *
-     * @param mapping The registered key mapping instance.
-     * @param cheat The cheat controlled by the keybind.
-     */
     private record KeyBindEntry(
         KeyMapping mapping,
-        CheatBase cheat
-    ) {}
+        Object feature
+    ) {
+        public String getIdentifier() {
+            if (feature instanceof CheatBase cheat) return cheat.getIdentifier();
+            if (feature instanceof ExploitBase exploit) return exploit.getIdentifier();
+            return "";
+        }
+    }
 
     /**
-     * Creates the keybind manager and registers all cheats that
-     * support keyboard activation.
+     * Initializes the key bind manager by registering all defined cheats and exploits.
      */
     public KeyBindManager() {
+        // Cheats
         register(Fly.INSTANCE);
         register(FakeCreative.INSTANCE);
         register(Jesus.INSTANCE);
@@ -46,44 +43,42 @@ public class KeyBindManager {
         register(FullBright.INSTANCE);
         register(AntiKB.INSTANCE);
         register(BlockTracker.INSTANCE);
+
+        // Exploits
+        register(CloudSync.INSTANCE);
     }
 
     /**
-     * Registers a cheat and creates its corresponding Minecraft key mapping.
-     * If a custom keybind exists in the saved settings, it will be used.
-     * Otherwise, the cheat's default key is assigned.
+     * Registers a feature (Cheat or Exploit) as a new KeyMapping.
      *
-     * @param cheat The cheat to register.
+     * @param feature The feature object to bind to a key
      */
-    private void register(CheatBase cheat) {
-        int keyCode = getStoredKey(cheat);
+    private void register(Object feature) {
+        String identifier = "";
+        if (feature instanceof CheatBase cheat) identifier = cheat.getIdentifier();
+        else if (feature instanceof ExploitBase exploit) identifier = exploit.getIdentifier();
+        if (identifier.isEmpty()) return;
+        int keyCode = getStoredKey(feature);
 
         KeyMapping mapping = new KeyMapping(
-            "key.mcpclient." + cheat.getIdentifier(),
+            "key.mcpclient." + identifier,
             InputConstants.Type.KEYSYM,
             keyCode,
             KeyMapping.Category.DEBUG
         );
-
         KeyMappingHelper.registerKeyMapping(mapping);
-
-        registry.add(new KeyBindEntry(mapping, cheat));
+        registry.add(new KeyBindEntry(mapping, feature));
     }
 
     /**
-     * Updates the key associated with a specific cheat identifier.
-     * The change is immediately applied to Minecraft's key mapping
-     * system and persisted to the game configuration.
+     * Updates the key code for a specific registered feature.
      *
-     * @param identifier The cheat identifier.
-     * @param keyCode The new GLFW key code to assign.
+     * @param identifier The unique string identifier of the feature
+     * @param keyCode    The new key code to be assigned
      */
-    public void updateKey(
-        String identifier,
-        int keyCode
-    ) {
+    public void updateKey(String identifier, int keyCode) {
         for (KeyBindEntry entry : registry) {
-            if (entry.cheat().getIdentifier().equals(identifier)) {
+            if (entry.getIdentifier().equals(identifier)) {
                 entry.mapping().setKey(
                     InputConstants.Type.KEYSYM.getOrCreate(keyCode)
                 );
@@ -96,48 +91,65 @@ public class KeyBindManager {
     }
 
     /**
-     * Processes all registered keybindings and executes the toggle
-     * action of the corresponding cheat whenever a key press is detected.
-     *
+     * Ticks the key bind registry to process user input, triggering toggle or run
+     * actions based on the feature type.
      */
     public void tick() {
         for (KeyBindEntry entry : registry) {
             if (entry.mapping().consumeClick()) {
-                if (entry.cheat().runOnToggle()) {
-                    entry.cheat().toggle();
-                } else {
-                    entry.cheat().run();
+                if (entry.feature() instanceof CheatBase cheat) {
+                    if (cheat.runOnToggle()) {
+                        cheat.toggle();
+                    } else {
+                        cheat.run();
+                    }
+                } else if (entry.feature() instanceof ExploitBase exploit) {
+                    exploit.run();
                 }
             }
         }
     }
 
     /**
-     * Retrieves the saved keybind associated with a cheat.
-     * If no custom keybind has been stored, the cheat's default
-     * key assignment is returned.
+     * Retrieves the stored key code for a feature from settings, falling back to
+     * default if not previously configured.
      *
-     * @param cheat The cheat whose keybind should be resolved.
-     * @return The GLFW key code assigned to the cheat.
+     * @param feature The feature object to look up
+     * @return The configured or default key code
      */
-    private int getStoredKey(CheatBase cheat) {
-        int savedKey = MCPClient.getSettingsManager()
-            .getCheatsSettings()
-            .getKeyForKeyBind(cheat.getIdentifier());
+    private int getStoredKey(Object feature) {
+        if (feature instanceof CheatBase cheat) {
+            int savedKey = MCPClient.getSettingsManager()
+                .getCheatsSettings()
+                .getKeyForKeyBind(cheat.getIdentifier());
 
-        return savedKey == 0
-            ? cheat.getDefaultKey()
-            : savedKey;
+            return savedKey == 0 ? cheat.getDefaultKey() : savedKey;
+
+        } else if (feature instanceof ExploitBase exploit) {
+            int savedKey = MCPClient.getSettingsManager()
+                .getExploitsSettings()
+                .getKeyForKeyBind(exploit.getIdentifier());
+
+            return savedKey == 0 ? exploit.getDefaultKey() : savedKey;
+        }
+
+        return 0;
     }
 
+    /**
+     * Gets the current numeric key code for a specific feature.
+     *
+     * @param identifier The unique string identifier of the feature
+     * @return The current key code value, or 0 if not found
+     */
     public int getCurrentKeyCode(String identifier) {
         for (KeyBindEntry entry : registry) {
-            if (entry.cheat().getIdentifier().equals(identifier)) {
+            if (entry.getIdentifier().equals(identifier)) {
                 KeyMappingAccessor accessor = (KeyMappingAccessor) (Object) entry.mapping();
                 return accessor.getKey().getValue();
             }
         }
-        
+
         return 0;
     }
 }
