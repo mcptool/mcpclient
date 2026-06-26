@@ -13,6 +13,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Display.TextDisplay.class)
 public class TextDisplayMixin {
 
+    /**
+     * Intercepts the text display retrieval to anonymize the player's name
+     * within holograms or text displays if the anonymous holograms setting is active.
+     *
+     * @param cir The callback information for the injection point
+     */
     @Inject(method = "getText", at = @At("RETURN"), cancellable = true)
     private void anonymizeTextDisplay(CallbackInfoReturnable<Component> cir) {
         if (!MCPClient.getSettingsManager().getClientSettings().isAnonymousHologramsEnabled()) {
