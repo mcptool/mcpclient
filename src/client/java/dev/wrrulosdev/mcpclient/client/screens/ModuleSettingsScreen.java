@@ -8,6 +8,9 @@ import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.FormattedCharSequence;
+import org.joml.Matrix3x2fKt;
+import org.joml.Matrix3x2fStack;
 import org.lwjgl.glfw.GLFW;
 import java.util.List;
 
@@ -136,21 +139,39 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
         );
 
         int descY = titleY + 16;
-        var pose = graphics.pose();
+        Matrix3x2fStack pose = graphics.pose();
         pose.pushMatrix();
+
         float descScale = 0.9f;
         pose.scale(descScale, descScale);
-        graphics.text(
-            font,
+
+        int scaledX = (int) (contentX / descScale);
+        int scaledY = (int) (descY / descScale);
+        int scaledWidth = (int) (contentWidth / descScale);
+        List<FormattedCharSequence> lines = font.split(
             Component.literal(this.moduleDescription),
-            (int) (contentX / descScale),
-            (int) (descY / descScale),
-            getAlphaColor(0xAAAAAA, progress),
-            false
+            scaledWidth
         );
+        int lineY = scaledY;
+
+        for (var line : lines) {
+            graphics.text(
+                font,
+                line,
+                scaledX,
+                lineY,
+                getAlphaColor(0xAAAAAA, progress),
+                false
+            );
+
+            lineY += font.lineHeight;
+        }
+
         pose.popMatrix();
 
-        int sepY = descY + 15;
+        int descHeight = (int) (lines.size() * font.lineHeight * descScale);
+        int sepY = descY + descHeight + 6;
+
         graphics.fill(
             contentX,
             sepY,
