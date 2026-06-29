@@ -64,16 +64,20 @@ public class PlayerTabOverlayMixin {
      */
     @Inject(method = "getNameForDisplay", at = @At("RETURN"), cancellable = true)
     private void modifyTabName(PlayerInfo info, CallbackInfoReturnable<Component> cir) {
-        if (!MCPClient.getSettingsManager().getClientSettings().isAnonymousScoreboardEnabled()) {
+        ClientSettings clientSettings = MCPClient.getSettingsManager().getClientSettings();
+
+        if (!Anonymous.INSTANCE.isEnabled() || !clientSettings.isAnonymousTabListEnabled()) {
             return;
         }
 
         Minecraft minecraft = Minecraft.getInstance();
+
         if (minecraft.player == null || !info.getProfile().id().equals(minecraft.player.getUUID())) {
             return;
         }
 
         Component originalComponent = cir.getReturnValue();
+
         if (originalComponent == null) {
             return;
         }

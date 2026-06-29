@@ -1,6 +1,8 @@
 package dev.wrrulosdev.mcpclient.client.mixins.world;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.options.Anonymous;
+import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
 import dev.wrrulosdev.mcpclient.client.utilities.messages.AnonymizerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -21,7 +23,9 @@ public class EntityMixin {
      */
     @Inject(method = "getCustomName", at = @At("RETURN"), cancellable = true)
     private void anonymizeEntityHolograms(CallbackInfoReturnable<Component> cir) {
-        if (!MCPClient.getSettingsManager().getClientSettings().isAnonymousHologramsEnabled()) {
+        ClientSettings clientSettings = MCPClient.getSettingsManager().getClientSettings();
+
+        if (!Anonymous.INSTANCE.isEnabled() || !clientSettings.isAnonymousHologramsEnabled()) {
             return;
         }
 

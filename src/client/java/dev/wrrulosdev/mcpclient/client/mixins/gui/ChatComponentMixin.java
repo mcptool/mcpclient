@@ -1,6 +1,7 @@
 package dev.wrrulosdev.mcpclient.client.mixins.gui;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.options.Anonymous;
 import dev.wrrulosdev.mcpclient.client.options.ChatAnimation;
 import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
 import net.minecraft.client.Minecraft;
@@ -165,7 +166,7 @@ public abstract class ChatComponentMixin {
         ClientSettings clientSettings = MCPClient.getSettingsManager().getClientSettings();
         String username = Minecraft.getInstance().player.getName().getString();
 
-        if (clientSettings.isAnonymousModeEnabled() && clientSettings.isAnonymousChatEnabled()) {
+        if (Anonymous.INSTANCE.isEnabled() && clientSettings.isAnonymousChatEnabled()) {
             String anonymousUsername = clientSettings.getNewAnonymousName();
             return anonymousFilterRecursive(contents, username, anonymousUsername);
         }

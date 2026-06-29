@@ -1,6 +1,8 @@
 package dev.wrrulosdev.mcpclient.client.mixins.world;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
+import dev.wrrulosdev.mcpclient.client.options.Anonymous;
+import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
 import dev.wrrulosdev.mcpclient.client.utilities.messages.AnonymizerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -21,14 +23,18 @@ public class TextDisplayMixin {
      */
     @Inject(method = "getText", at = @At("RETURN"), cancellable = true)
     private void anonymizeTextDisplay(CallbackInfoReturnable<Component> cir) {
-        if (!MCPClient.getSettingsManager().getClientSettings().isAnonymousHologramsEnabled()) {
+        ClientSettings clientSettings = MCPClient.getSettingsManager().getClientSettings();
+
+        if (!Anonymous.INSTANCE.isEnabled() || !clientSettings.isAnonymousHologramsEnabled()) {
             return;
         }
 
         Minecraft minecraft = Minecraft.getInstance();
+
         if (minecraft.player == null) return;
 
         Component originalComponent = cir.getReturnValue();
+
         if (originalComponent == null) return;
 
         String oldName = minecraft.player.getName().getString();

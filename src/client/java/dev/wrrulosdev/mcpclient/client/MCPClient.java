@@ -15,6 +15,7 @@ import dev.wrrulosdev.mcpclient.client.settings.CheatsSettings;
 import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
 import dev.wrrulosdev.mcpclient.client.settings.ExploitsSettings;
 import dev.wrrulosdev.mcpclient.client.settings.SettingsManager;
+import dev.wrrulosdev.mcpclient.client.spoofing.SpoofingManager;
 import dev.wrrulosdev.mcpclient.client.utilities.connection.ServerAddress;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -37,6 +38,7 @@ public class MCPClient implements ClientModInitializer {
 	private static SettingsManager settingsManager;
 	private static KeyBindManager keyBindManager;
 	private static ServerAddress lastServerAddress;
+	private static SpoofingManager spoofingManager;
 
     @Override
 	public void onInitializeClient() {
@@ -90,6 +92,8 @@ public class MCPClient implements ClientModInitializer {
 	}
 
 	private void start() {
+		User user = Minecraft.getInstance().getUser();
+
 		CheatsSettings cheatsSettings = getSettingsManager().getCheatsSettings();
 		ClientSettings clientSettings = getSettingsManager().getClientSettings();
 		ExploitsSettings exploitsSettings = getSettingsManager().getExploitsSettings();
@@ -121,6 +125,7 @@ public class MCPClient implements ClientModInitializer {
 		// Objects
 		pluginChannelStorage = new PluginChannelStorage();
 		keyBindManager = new KeyBindManager();
+		spoofingManager = new SpoofingManager(user.getName(), user.getProfileId());
 	}
 
 	public static void saveSettings() {
@@ -143,11 +148,15 @@ public class MCPClient implements ClientModInitializer {
 		return lastServerAddress;
 	}
 
-	public static void updateLastServerAddress() {
-		MCPClient.lastServerAddress = new ServerAddress(Minecraft.getInstance());
+	public static SpoofingManager getSpoofingManager() {
+		return spoofingManager;
 	}
 
 	public static KeyBindManager getKeyBindManager() {
 		return keyBindManager;
+	}
+
+	public static void updateLastServerAddress() {
+		MCPClient.lastServerAddress = new ServerAddress(Minecraft.getInstance());
 	}
 }

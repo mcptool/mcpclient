@@ -16,6 +16,7 @@ public class SettingsManager {
     private CheatsSettings cheatsSettings;
     private ClientSettings clientSettings;
     private ExploitsSettings exploitsSettings;
+    private SpoofingSettings spoofingSettings;
 
     /**
      * Constructs a new SettingsManager, determining the config path based on OS
@@ -36,6 +37,7 @@ public class SettingsManager {
         this.cheatsSettings = new CheatsSettings();
         this.clientSettings = new ClientSettings();
         this.exploitsSettings = new ExploitsSettings();
+        this.spoofingSettings = new SpoofingSettings();
     }
 
     /**
@@ -48,6 +50,8 @@ public class SettingsManager {
             SettingsManager loaded = gson.fromJson(json, SettingsManager.class);
             this.cheatsSettings = loaded.cheatsSettings;
             this.clientSettings = loaded.clientSettings;
+            this.exploitsSettings = loaded.exploitsSettings;
+            this.spoofingSettings = loaded.spoofingSettings;
         }
     }
 
@@ -94,9 +98,16 @@ public class SettingsManager {
     }
 
     /**
-     * @return the ClientSettings instance
+     * @return the ExploitSettings instance
      */
     public ExploitsSettings getExploitsSettings() {
         return exploitsSettings;
+    }
+
+    /**
+     * @return the SpoofingSettings instance
+     */
+    public SpoofingSettings getSpoofingSettings() {
+        return spoofingSettings;
     }
 }

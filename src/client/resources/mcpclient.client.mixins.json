@@ -10,6 +10,7 @@
 		"accessor.KeyMappingAccessor",
 		"network.PluginChannelHandlerMixin",
 		"network.ServerListMixin",
+		"network.ConnectionMixin",
 		"gui.AbstractSelectionListMixin",
 		"gui.PlayerTabOverlayMixin",
 		"gui.ChatComponentMixin",

@@ -3,6 +3,7 @@ package dev.wrrulosdev.mcpclient.client.mixins.screen;
 import com.viaversion.viafabricplus.ViaFabricPlus;
 import dev.wrrulosdev.mcpclient.client.constants.TextureConstants;
 import dev.wrrulosdev.mcpclient.client.mixins.accessor.JoinMultiplayerScreenAccessor;
+import dev.wrrulosdev.mcpclient.client.screens.SpoofSettingsScreen;
 import dev.wrrulosdev.mcpclient.client.screens.gui.CustomButton;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
@@ -153,7 +154,7 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
             "Open spoofing settings",
             TextureConstants.SETTINGS_ICON,
             TextureConstants.SETTINGS_HOVER_ICON,
-            b -> {}
+            _ -> Minecraft.getInstance().setScreenAndShow(new SpoofSettingsScreen(this))
         );
 
         // Creates a new server entry
