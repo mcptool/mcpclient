@@ -39,4 +39,7 @@ public interface JoinMultiplayerScreenAccessor {
 
     @Invoker("directJoinCallback")
     void invokeDirectJoinCallback(boolean result);
+
+    @Invoker("editServerCallback")
+    void invokeEditServerCallback(boolean result);
 }

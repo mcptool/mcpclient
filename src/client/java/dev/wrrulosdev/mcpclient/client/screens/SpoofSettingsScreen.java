@@ -6,9 +6,11 @@ import dev.wrrulosdev.mcpclient.client.screens.gui.CustomTextField;
 import dev.wrrulosdev.mcpclient.client.settings.SpoofingSettings;
 import dev.wrrulosdev.mcpclient.client.utilities.validators.IPValidators;
 import dev.wrrulosdev.mcpclient.client.utilities.validators.UuidValidators;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import org.jspecify.annotations.NonNull;
 
 public class SpoofSettingsScreen extends Screen {
@@ -29,8 +31,6 @@ public class SpoofSettingsScreen extends Screen {
     private CustomButton toggleSpoofButton;
     private CustomButton backButton;
 
-    private final String spoofEnabledText = "Spoof: Enabled";
-    private final String spoofDisabledText = "Spoof: Disabled";
     private final String buttonEnabledText = "ON";
     private final String buttonDisabledText = "OFF";
     private final SpoofingSettings spoofingSettings;
@@ -147,7 +147,7 @@ public class SpoofSettingsScreen extends Screen {
             .build();
         this.addRenderableWidget(this.hostnameToggleButton);
 
-        this.toggleSpoofButton = CustomButton.builder(Component.literal(spoofEnabled ? spoofEnabledText : spoofDisabledText))
+        this.toggleSpoofButton = CustomButton.builder(this.getSpoofButtonText())
             .position(centerX, startY + 160)
             .size(totalWidth, fieldHeight)
             .onPress(button -> {
@@ -187,9 +187,7 @@ public class SpoofSettingsScreen extends Screen {
         this.uuidToggleButton.active = this.spoofEnabled;
         this.ipToggleButton.active = this.spoofEnabled;
         this.hostnameToggleButton.active = this.spoofEnabled;
-
-        Component newText = Component.literal(this.spoofEnabled ? spoofEnabledText : spoofDisabledText);
-        this.toggleSpoofButton.setMessage(newText);
+        this.toggleSpoofButton.setMessage(this.getSpoofButtonText());
     }
 
     private String getToggleButtonText(boolean state) {
@@ -215,5 +213,17 @@ public class SpoofSettingsScreen extends Screen {
         graphics.text(this.font, Component.literal("Custom UUID"), centerX, startY + 46, textColor, true);
         graphics.text(this.font, Component.literal("IP Spoof"), centerX, startY + 82, textColor, true);
         graphics.text(this.font, Component.literal("Hostname spoof"), centerX, startY + 118, textColor, true);
+    }
+
+    private Component getSpoofButtonText() {
+        MutableComponent text = Component.literal("Spoof: ");
+
+        if (this.spoofEnabled) {
+            text.append(Component.literal("Enabled").withStyle(ChatFormatting.GREEN));
+        } else {
+            text.append(Component.literal("Disabled").withStyle(ChatFormatting.RED));
+        }
+
+        return text;
     }
 }

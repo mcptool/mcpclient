@@ -3,6 +3,9 @@ package dev.wrrulosdev.mcpclient.client.mixins.screen;
 import com.viaversion.viafabricplus.ViaFabricPlus;
 import dev.wrrulosdev.mcpclient.client.constants.TextureConstants;
 import dev.wrrulosdev.mcpclient.client.mixins.accessor.JoinMultiplayerScreenAccessor;
+import dev.wrrulosdev.mcpclient.client.screens.CustomConfirmScreen;
+import dev.wrrulosdev.mcpclient.client.screens.CustomDirectJoinServerScreen;
+import dev.wrrulosdev.mcpclient.client.screens.CustomManageServerScreen;
 import dev.wrrulosdev.mcpclient.client.screens.SpoofSettingsScreen;
 import dev.wrrulosdev.mcpclient.client.screens.gui.CustomButton;
 import net.fabricmc.loader.api.FabricLoader;
@@ -75,15 +78,14 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
 
                 if (entry instanceof ServerSelectionList.OnlineServerEntry) {
                     ServerData current = ((ServerSelectionList.OnlineServerEntry) entry).getServerData();
-
                     acc.setEditingServer(new ServerData(current.name, current.ip, ServerData.Type.OTHER));
                     acc.getEditingServer().copyFrom(current);
 
                     this.minecraft.setScreenAndShow(
-                        new ManageServerScreen(
+                        new CustomManageServerScreen(
                             this,
                             Component.translatable("manageServer.edit.title"),
-                            acc::invokeAddServerCallback,
+                            acc::invokeEditServerCallback,
                             acc.getEditingServer()
                         )
                     );
@@ -117,7 +119,7 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
                     Component no = CommonComponents.GUI_CANCEL;
 
                     this.minecraft.setScreenAndShow(
-                        new ConfirmScreen(acc::invokeDeleteCallback, title, warning, yes, no)
+                        new CustomConfirmScreen(acc::invokeDeleteCallback, title, warning, yes, no)
                     );
                 }
             }
@@ -140,7 +142,7 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
                 }
 
                 this.minecraft.setScreenAndShow(
-                    new DirectJoinServerScreen(
+                    new CustomDirectJoinServerScreen(
                         this,
                         acc::invokeDirectJoinCallback,
                         acc.getEditingServer()
@@ -167,7 +169,7 @@ public abstract class JoinMultiplayerScreenMixin extends Screen {
                 acc.setEditingServer(newServer);
 
                 this.minecraft.setScreenAndShow(
-                    new ManageServerScreen(
+                    new CustomManageServerScreen(
                         this,
                         Component.translatable("manageServer.add.title"),
                         acc::invokeAddServerCallback,
