@@ -14,6 +14,16 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(Connection.class)
 public class ConnectionMixin {
 
+    /**
+     * Modifies the {@link ClientIntentionPacket} before it is sent to the server.
+     * <p>
+     * If the intent is {@link ClientIntent#LOGIN} and spoofing is enabled, this method
+     * replaces the hostname field with a formatted string containing the spoofed
+     * hostname, IP, and UUID, separated by null bytes ({@code \000}).
+     *
+     * @param packet The original packet being sent
+     * @return The original packet, or a new {@link ClientIntentionPacket} with modified data if spoofing is active
+     */
     @ModifyVariable(
         method = "sendPacket(Lnet/minecraft/network/protocol/Packet;Lio/netty/channel/ChannelFutureListener;Z)V",
         at = @At("HEAD"),

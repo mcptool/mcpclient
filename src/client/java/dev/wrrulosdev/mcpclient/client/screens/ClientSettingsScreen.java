@@ -30,6 +30,13 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
     private double maxScrollOffset = 0;
     private ClientSettings clientSettings;
 
+    /**
+     * Constructs a new {@code ClientSettingsScreen}.
+     * Initializes the screen with predefined dimensions, caches the parent screen
+     * for navigation, and retrieves the current client settings from the manager.
+     *
+     * @param parentScreen The screen to return to when closing this settings menu
+     */
     public ClientSettingsScreen(Screen parentScreen) {
         super(Component.empty());
         this.parentScreen = parentScreen;
@@ -38,12 +45,19 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         this.clientSettings = MCPClient.getSettingsManager().getClientSettings();
     }
 
+    /**
+     * Called by the Minecraft GUI system when the screen is initialized or resized.
+     * Triggers the UI layout logic by populating the card list.
+     */
     @Override
     protected void init() {
         super.init();
         loadCards();
     }
 
+    /**
+     * Populates the screen with toggleable option cards for each client module.
+     */
     private void loadCards() {
         this.allCards.clear();
 
@@ -110,10 +124,12 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
     }
 
     /**
-     * Creates and registers a new exploit card.
+     * Creates and registers a new option card to the UI list.
      *
-     * @param title The exploit name.
-     * @param desc The exploit description.
+     * @param option          The option object instance
+     * @param title           The display title of the option
+     * @param desc            The description of the option
+     * @param onSettingsClick Callback to execute when the settings button is clicked
      */
     private void addCard(OptionsBase option, String title, String desc, Runnable onSettingsClick) {
         SwitchOptionCard card = new SwitchOptionCard(
@@ -132,11 +148,30 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         this.allCards.add(card);
     }
 
+    /**
+     * Renders the main content of the settings window, including the grid of option cards.
+     * Updates the maximum scroll offset based on the content size.
+     *
+     * @param graphics The graphics extractor for drawing UI elements
+     * @param x1 The start X coordinate of the window area
+     * @param x2 The end X coordinate of the window area
+     * @param y1 The start Y coordinate of the window area
+     * @param y2 The end Y coordinate of the window area
+     * @param mouseX The current X position of the mouse
+     * @param mouseY The current Y position of the mouse
+     * @param progress The current animation progress
+     */
     @Override
     protected void renderWindowContent(GuiGraphicsExtractor graphics, int x1, int x2, int y1, int y2, int mouseX, int mouseY, float progress) {
         this.maxScrollOffset = MainMenuScreenUtils.renderWindowGenericContent(graphics, x1, x2, y1, y2, mouseX, mouseY, progress, this.font, this.maxScrollOffset, this.scrollOffset, CARD_HEIGHT, SIDE_MARGIN, GAP, allCards);
     }
 
+    /**
+     * Handles mouse movement to update the cursor appearance when hovering over interactive cards.
+     *
+     * @param mouseX The current X position of the mouse
+     * @param mouseY The current Y position of the mouse
+     */
     @Override
     public void mouseMoved(double mouseX, double mouseY) {
         super.mouseMoved(mouseX, mouseY);
@@ -160,6 +195,14 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         );
     }
 
+    /**
+     * Handles mouse click events within the grid area.
+     * Delegates click handling to {@link MainMenuScreenUtils}.
+     *
+     * @param event The mouse button event
+     * @param doubleClick Whether the click was a double click
+     * @return True if the click was handled by a card in the grid, false otherwise
+     */
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
         boolean handled = MainMenuScreenUtils.handleGridClick(
@@ -185,6 +228,15 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         return super.mouseClicked(event, doubleClick);
     }
 
+    /**
+     * Handles mouse scroll events to update the vertical scroll position.
+     *
+     * @param mouseX The current X position of the mouse
+     * @param mouseY The current Y position of the mouse
+     * @param scrollX The horizontal scroll delta
+     * @param scrollY The vertical scroll delta
+     * @return Always returns true to indicate the event was handled
+     */
     @Override
     public boolean mouseScrolled(
         double mouseX,
@@ -222,6 +274,13 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         return super.keyPressed(event);
     }
 
+    /**
+     * Navigates to a sub-screen for configuring individual module settings.
+     *
+     * @param moduleName The name of the module to display in the sub-screen header
+     * @param desc       A short description or sub-header for the module
+     * @param settings   The list of setting components to render in the sub-screen
+     */
     private void openModuleSettings(
         String moduleName,
         String desc,
@@ -237,6 +296,11 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         );
     }
 
+    /**
+     * Generates a list of settings for the Anonymous module.
+     *
+     * @return A list of {@link AbstractSettingComponent} for anonymity toggles and text input
+     */
     private List<AbstractSettingComponent> getAnonymousSettings() {
         List<AbstractSettingComponent> settings = new ArrayList<>();
 
@@ -283,6 +347,11 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         return settings;
     }
 
+    /**
+     * Generates a list of settings for the Client HUD module.
+     *
+     * @return A list of {@link AbstractSettingComponent} for HUD toggles
+     */
     private List<AbstractSettingComponent> getClientHudSettings() {
         List<AbstractSettingComponent> settings = new ArrayList<>();
 
@@ -297,6 +366,11 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         return settings;
     }
 
+    /**
+     * Generates a list of settings for the NameTag module.
+     *
+     * @return A list of {@link AbstractSettingComponent} for name tag customization
+     */
     private List<AbstractSettingComponent> getNameTagSettings() {
         List<AbstractSettingComponent> settings = new ArrayList<>();
         int currentColor = this.clientSettings.getNameTagColor();
@@ -320,6 +394,11 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         return settings;
     }
 
+    /**
+     * Generates a list of settings for the Chat Animation module.
+     *
+     * @return A list containing the {@link SliderSetting} for animation duration
+     */
     private List<AbstractSettingComponent> getChatAnimationSettings() {
         List<AbstractSettingComponent> settings = new ArrayList<>();
 
@@ -337,6 +416,11 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         return settings;
     }
 
+    /**
+     * Generates a list of settings for the Notifications module.
+     *
+     * @return A list containing the {@link SliderSetting} for notification duration
+     */
     private List<AbstractSettingComponent> getNotificationsSettings() {
         List<AbstractSettingComponent> settings = new ArrayList<>();
 
@@ -354,6 +438,11 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         return settings;
     }
 
+    /**
+     * Generates a list of settings for the Player Model preview module.
+     *
+     * @return A list of {@link SliderSetting} components for model positioning and scaling
+     */
     private List<AbstractSettingComponent> getPlayerModelSettings() {
         List<AbstractSettingComponent> settings = new ArrayList<>();
 
@@ -393,6 +482,11 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
         return settings;
     }
 
+    /**
+     * Returns the title for this screen to be displayed in the UI.
+     *
+     * @return The window title string
+     */
     @Override
     protected String getWindowTitle() {
         return "Client Settings / Modules";

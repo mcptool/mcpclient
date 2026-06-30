@@ -58,14 +58,29 @@ public class CheatsSettings {
     private float blockTrackerScanRadius = 32.0f;
     private float blockTrackerScanDelay = 2.0f;
 
+    /**
+     * Persists the current cheat settings to the client configuration file.
+     */
     private void save() {
         MCPClient.saveSettings();
     }
 
+    /**
+     * Retrieves the key code associated with a specific cheat identifier.
+     *
+     * @param id The cheat identifier
+     * @return The key code, or the default invalid key if not set
+     */
     public int getKeyForKeyBind(String id) {
         return keyBinds.getOrDefault(id, ClientConstants.DEFAULT_INVALID_KEYBIND);
     }
 
+    /**
+     * Sets the key code for a specific cheat identifier and saves the settings.
+     *
+     * @param id      The cheat identifier
+     * @param keyCode The key code to assign
+     */
     public void setKeyForKeyBind(String id, int keyCode) {
         keyBinds.put(id, keyCode);
         save();
@@ -83,65 +98,29 @@ public class CheatsSettings {
     public boolean isJesusEnabled() { return jesusEnabled; }
     public void setJesusEnabled(boolean jesusEnabled) { this.jesusEnabled = jesusEnabled; save(); }
 
-    public boolean isJesusWaterEnabled() {
-        return jesusWaterEnabled;
-    }
+    public boolean isJesusWaterEnabled() { return jesusWaterEnabled; }
+    public void setJesusWaterEnabled(boolean jesusWater) { this.jesusWaterEnabled = jesusWater; save(); }
 
-    public void setJesusWaterEnabled(boolean jesusWater) {
-        this.jesusWaterEnabled = jesusWater;
-        save();
-    }
+    public boolean isJesusLavaEnabled() { return jesusLavaEnabled; }
+    public void setJesusLavaEnabled(boolean jesusLava) { this.jesusLavaEnabled = jesusLava; save(); }
 
-    public boolean isJesusLavaEnabled() {
-        return jesusLavaEnabled;
-    }
-
-    public void setJesusLavaEnabled(boolean jesusLava) {
-        this.jesusLavaEnabled = jesusLava;
-        save();
-    }
-
-    public double getJesusSpeed() {
-        return jesusSpeed;
-    }
-
-    public void setJesusSpeed(double jesusSpeed) {
-        this.jesusSpeed = jesusSpeed;
-        save();
-    }
+    public double getJesusSpeed() { return jesusSpeed; }
+    public void setJesusSpeed(double jesusSpeed) { this.jesusSpeed = jesusSpeed; save(); }
 
     public boolean isWallhackEnabled() { return wallhackEnabled; }
     public void setWallhackEnabled(boolean wallhackEnabled) { this.wallhackEnabled = wallhackEnabled; save(); }
 
-    public boolean isWallHackStickManEnabled() {
-        return wallHackStickManEnabled;
-    }
+    public boolean isWallHackStickManEnabled() { return wallHackStickManEnabled; }
+    public void setWallHackStickManEnabled(boolean wallHackStickManEnabled) { this.wallHackStickManEnabled = wallHackStickManEnabled; save(); }
 
-    public void setWallHackStickManEnabled(boolean wallHackStickManEnabled) {
-        this.wallHackStickManEnabled = wallHackStickManEnabled;
-        save();
-    }
-
-    public boolean isWallHackBoxesEnabled() {
-        return wallHackBoxesEnabled;
-    }
-
-    public void setWallHackBoxesEnabled(boolean wallHackBoxesEnabled) {
-        this.wallHackBoxesEnabled = wallHackBoxesEnabled;
-        save();
-    }
+    public boolean isWallHackBoxesEnabled() { return wallHackBoxesEnabled; }
+    public void setWallHackBoxesEnabled(boolean wallHackBoxesEnabled) { this.wallHackBoxesEnabled = wallHackBoxesEnabled; save(); }
 
     public boolean isSpiderEnabled() { return spiderEnabled; }
     public void setSpiderEnabled(boolean spiderEnabled) { this.spiderEnabled = spiderEnabled; save(); }
 
-    public double getSpiderSpeed() {
-        return spiderSpeed;
-    }
-
-    public void setSpiderSpeed(double spiderSpeed) {
-        this.spiderSpeed = spiderSpeed;
-        save();
-    }
+    public double getSpiderSpeed() { return spiderSpeed; }
+    public void setSpiderSpeed(double spiderSpeed) { this.spiderSpeed = spiderSpeed; save(); }
 
     public boolean isAntikbEnabled() { return antikbEnabled; }
     public void setAntikbEnabled(boolean antikbEnabled) { this.antikbEnabled = antikbEnabled; save(); }
@@ -149,39 +128,20 @@ public class CheatsSettings {
     public boolean isHClipEnabled() { return hClipEnabled; }
     public void setHClipEnabled(boolean hClipEnabled) { this.hClipEnabled = hClipEnabled; save(); }
 
-    public double gethClipDistance() {
-        return hClipDistance;
-    }
-
-    public void sethClipDistance(double hClipDistance) {
-        this.hClipDistance = hClipDistance;
-        save();
-    }
+    public double gethClipDistance() { return hClipDistance; }
+    public void sethClipDistance(double hClipDistance) { this.hClipDistance = hClipDistance; save(); }
 
     public boolean isVClipEnabled() { return vClipEnabled; }
     public void setVClipEnabled(boolean vClipEnabled) { this.vClipEnabled = vClipEnabled; save(); }
 
-
-    public double getvClipDistance() {
-        return vClipDistance;
-    }
-
-    public void setvClipDistance(double vClipDistance) {
-        this.vClipDistance = vClipDistance;
-        save();
-    }
+    public double getvClipDistance() { return vClipDistance; }
+    public void setvClipDistance(double vClipDistance) { this.vClipDistance = vClipDistance; save(); }
 
     public boolean isFullBrightEnabled() { return fullBrightEnabled; }
     public void setFullBrightEnabled(boolean fullBrightEnabled) { this.fullBrightEnabled = fullBrightEnabled; save(); }
 
-    public double getFullBrightAmount() {
-        return fullBrightAmount;
-    }
-
-    public void setFullBrightAmount(double fullBrightAmount) {
-        this.fullBrightAmount = fullBrightAmount;
-        save();
-    }
+    public double getFullBrightAmount() { return fullBrightAmount; }
+    public void setFullBrightAmount(double fullBrightAmount) { this.fullBrightAmount = fullBrightAmount; save(); }
 
     public boolean isNoFallEnabled() { return noFallEnabled; }
     public void setNoFallEnabled(boolean noFallEnabled) { this.noFallEnabled = noFallEnabled; save(); }
@@ -219,57 +179,21 @@ public class CheatsSettings {
     public boolean isBlockTrackerAncientDebrisEnabled() { return blockTrackerAncientDebrisEnabled; }
     public void setBlockTrackerAncientDebrisEnabled(boolean value) { this.blockTrackerAncientDebrisEnabled = value; save(); }
 
-    public boolean isBlockTrackerMineralBlocksEnabled() {
-        return blockTrackerMineralBlocksEnabled;
-    }
+    public boolean isBlockTrackerMineralBlocksEnabled() { return blockTrackerMineralBlocksEnabled; }
+    public void setBlockTrackerMineralBlocksEnabled(boolean blockTrackerMineralBlocksEnabled) { this.blockTrackerMineralBlocksEnabled = blockTrackerMineralBlocksEnabled; save(); }
 
-    public void setBlockTrackerMineralBlocksEnabled(boolean blockTrackerMineralBlocksEnabled) {
-        this.blockTrackerMineralBlocksEnabled = blockTrackerMineralBlocksEnabled;
-        save();
-    }
+    public boolean isBlockTrackerStorageEnabled() { return blockTrackerStorageEnabled; }
+    public void setBlockTrackerStorageEnabled(boolean blockTrackerStorageEnabled) { this.blockTrackerStorageEnabled = blockTrackerStorageEnabled; save(); }
 
-    public boolean isBlockTrackerStorageEnabled() {
-        return blockTrackerStorageEnabled;
-    }
+    public boolean isBlockTrackerUtilityEnabled() { return blockTrackerUtilityEnabled; }
+    public void setBlockTrackerUtilityEnabled(boolean blockTrackerUtilityEnabled) { this.blockTrackerUtilityEnabled = blockTrackerUtilityEnabled; save(); }
 
-    public void setBlockTrackerStorageEnabled(boolean blockTrackerStorageEnabled) {
-        this.blockTrackerStorageEnabled = blockTrackerStorageEnabled;
-        save();
-    }
+    public boolean isBlockTrackerRedstoneEnabled() { return blockTrackerRedstoneEnabled; }
+    public void setBlockTrackerRedstoneEnabled(boolean blockTrackerRedstoneEnabled) { this.blockTrackerRedstoneEnabled = blockTrackerRedstoneEnabled; save(); }
 
-    public boolean isBlockTrackerUtilityEnabled() {
-        return blockTrackerUtilityEnabled;
-    }
+    public float getBlockTrackerScanRadius() { return blockTrackerScanRadius; }
+    public void setBlockTrackerScanRadius(float blockTrackerScanRadius) { this.blockTrackerScanRadius = blockTrackerScanRadius; save(); }
 
-    public void setBlockTrackerUtilityEnabled(boolean blockTrackerUtilityEnabled) {
-        this.blockTrackerUtilityEnabled = blockTrackerUtilityEnabled;
-        save();
-    }
-
-    public boolean isBlockTrackerRedstoneEnabled() {
-        return blockTrackerRedstoneEnabled;
-    }
-
-    public void setBlockTrackerRedstoneEnabled(boolean blockTrackerRedstoneEnabled) {
-        this.blockTrackerRedstoneEnabled = blockTrackerRedstoneEnabled;
-        save();
-    }
-
-    public float getBlockTrackerScanRadius() {
-        return blockTrackerScanRadius;
-    }
-
-    public void setBlockTrackerScanRadius(float blockTrackerScanRadius) {
-        this.blockTrackerScanRadius =  blockTrackerScanRadius;
-        save();
-    }
-
-    public float getBlockTrackerScanDelay() {
-        return blockTrackerScanDelay;
-    }
-
-    public void setBlockTrackerScanDelay(float blockTrackerScanDelay) {
-        this.blockTrackerScanDelay = blockTrackerScanDelay;
-        save();
-    }
+    public float getBlockTrackerScanDelay() { return blockTrackerScanDelay; }
+    public void setBlockTrackerScanDelay(float blockTrackerScanDelay) { this.blockTrackerScanDelay = blockTrackerScanDelay; save(); }
 }

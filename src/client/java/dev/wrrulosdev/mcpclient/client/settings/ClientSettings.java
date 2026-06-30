@@ -31,6 +31,9 @@ public class ClientSettings {
     private double playerModelMarginY = 45;
     private double playerModelSize = 30;
 
+    /**
+     * Persists the current configuration state to the client's storage.
+     */
     private void save() {
         MCPClient.saveSettings();
     }

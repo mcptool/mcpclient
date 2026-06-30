@@ -14,6 +14,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Gui.class)
 public class GuiMixin {
 
+    /**
+     * Injects rendering logic into the {@code extractRenderState} method.
+     * This ensures the Client HUD and Player Model are drawn correctly before the
+     * cursor is applied to the screen state.
+     *
+     * @param deltaTracker      The tracker for game delta time
+     * @param shouldRenderLevel Whether the level should be rendered
+     * @param resourcesLoaded   Whether game resources are currently loaded
+     * @param ci                Callback info
+     * @param graphics          The graphics extractor local variable
+     */
     @Inject(
         method = "extractRenderState",
         at = @At(

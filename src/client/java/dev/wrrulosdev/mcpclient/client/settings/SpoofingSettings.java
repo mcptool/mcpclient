@@ -14,6 +14,9 @@ public class SpoofingSettings {
     private boolean hostnameSpoofingEnabled = false;
     private String hostnameSpoofed = "0.0.0.0";
 
+    /**
+     * Persists the current configuration state to the client's storage.
+     */
     private void save() {
         MCPClient.saveSettings();
     }

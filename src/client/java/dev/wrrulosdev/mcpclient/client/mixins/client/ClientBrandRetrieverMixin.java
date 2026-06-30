@@ -9,6 +9,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ClientBrandRetriever.class)
 public class ClientBrandRetrieverMixin {
 
+    /**
+     * Injects logic at the start of {@code getClientModName} to force the return value to "vanilla".
+     *
+     * @param cir The callback info used to set the method's return value and cancel original execution
+     */
     @Inject(
         method = "getClientModName",
         at = @At("HEAD"),
