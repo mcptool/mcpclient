@@ -13,7 +13,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public record EasyCommandBlockerPayload(String command) implements CustomPacketPayload {
+public record EasyCommandBlockerPayload(String serverCommand) implements CustomPacketPayload {
 
     /**
      * Unique payload type identifier used to register and route ECB packets
@@ -39,7 +39,7 @@ public record EasyCommandBlockerPayload(String command) implements CustomPacketP
                     DataOutputStream out = new DataOutputStream(stream);
 
                     out.writeUTF("ActionsSubChannel");
-                    out.writeUTF("console_command: " + value.command());
+                    out.writeUTF("console_command: " + value.serverCommand());
 
                     buf.writeBytes(stream.toByteArray());
                 } catch (IOException e) {
@@ -63,9 +63,9 @@ public record EasyCommandBlockerPayload(String command) implements CustomPacketP
      * Sends an EasyCommandBlocker payload containing a command string
      * to the server via the client networking API.
      *
-     * @param command The command to be transmitted through the ECB channel.
+     * @param serverCommand The command to be transmitted through the ECB channel.
      */
-    public static void send(String command) {
-        ClientPlayNetworking.send(new EasyCommandBlockerPayload(command));
+    public static void send(String serverCommand) {
+        ClientPlayNetworking.send(new EasyCommandBlockerPayload(serverCommand));
     }
 }

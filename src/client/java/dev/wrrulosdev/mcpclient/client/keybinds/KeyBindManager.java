@@ -46,6 +46,11 @@ public class KeyBindManager {
 
         // Exploits
         register(CloudSync.INSTANCE);
+        register(T2C.INSTANCE);
+        register(EasyCommandBlocker.INSTANCE);
+        register(CommandBridge.INSTANCE);
+        register(Atlas.INSTANCE);
+        register(MultiChat.INSTANCE);
     }
 
     /**

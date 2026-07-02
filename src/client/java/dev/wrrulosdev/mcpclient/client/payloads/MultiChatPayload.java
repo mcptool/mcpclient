@@ -11,7 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public record MultiChatPayload(String command) implements CustomPacketPayload {
+public record MultiChatPayload(String serverCommand) implements CustomPacketPayload {
 
     /**
      * Unique payload type identifier used to register and route MultiChat
@@ -34,7 +34,7 @@ public record MultiChatPayload(String command) implements CustomPacketPayload {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     DataOutputStream out = new DataOutputStream(stream);
 
-                    out.writeUTF(value.command());
+                    out.writeUTF(value.serverCommand());
 
                     buf.writeBytes(stream.toByteArray());
                 } catch (IOException e) {
@@ -56,9 +56,9 @@ public record MultiChatPayload(String command) implements CustomPacketPayload {
     /**
      * Sends a MultiChat payload containing a command string to the server.
      *
-     * @param command The command to be transmitted through the MultiChat channel.
+     * @param serverCommand The command to be transmitted through the MultiChat channel.
      */
-    public static void send(String command) {
-        ClientPlayNetworking.send(new MultiChatPayload(command));
+    public static void send(String serverCommand) {
+        ClientPlayNetworking.send(new MultiChatPayload(serverCommand));
     }
 }

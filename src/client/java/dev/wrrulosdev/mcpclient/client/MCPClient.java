@@ -3,7 +3,7 @@ package dev.wrrulosdev.mcpclient.client;
 import dev.wrrulosdev.mcpclient.client.cheats.*;
 import dev.wrrulosdev.mcpclient.client.commands.CommandManager;
 import dev.wrrulosdev.mcpclient.client.constants.ClientConstants;
-import dev.wrrulosdev.mcpclient.client.exploits.CloudSync;
+import dev.wrrulosdev.mcpclient.client.exploits.*;
 import dev.wrrulosdev.mcpclient.client.keybinds.KeyBindManager;
 import dev.wrrulosdev.mcpclient.client.mixins.accessor.SessionAccessor;
 import dev.wrrulosdev.mcpclient.client.notifications.NotificationManager;
@@ -113,6 +113,11 @@ public class MCPClient implements ClientModInitializer {
 
 		// Exploits
 		CloudSync.init(exploitsSettings);
+		T2C.init(exploitsSettings);
+		EasyCommandBlocker.init(exploitsSettings);
+		CommandBridge.init(exploitsSettings);
+		Atlas.init(exploitsSettings);
+		MultiChat.init(exploitsSettings);
 
 		// Options
 		Anonymous.init(clientSettings);

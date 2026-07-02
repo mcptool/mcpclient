@@ -9,7 +9,7 @@ import net.minecraft.resources.Identifier;
 
 import java.io.*;
 
-public record AtlasPayload(String command) implements CustomPacketPayload {
+public record AtlasPayload(String proxyCommand) implements CustomPacketPayload {
 
     /**
      * Unique identifier type for the Atlas payload used by the networking system
@@ -35,7 +35,7 @@ public record AtlasPayload(String command) implements CustomPacketPayload {
                     ObjectOutputStream oStream = new ObjectOutputStream(stream);
 
                     oStream.writeUTF("commandBungee");
-                    oStream.writeObject(value.command());
+                    oStream.writeObject(value.proxyCommand());
                     oStream.flush();
 
                     buf.writeBytes(stream.toByteArray());
@@ -58,9 +58,9 @@ public record AtlasPayload(String command) implements CustomPacketPayload {
     /**
      * Sends a command payload to the server using the client networking API.
      *
-     * @param command The command string to be transmitted through the Atlas channel.
+     * @param proxyCommand The command string to be transmitted through the Atlas channel.
      */
-    public static void send(String command) {
-        ClientPlayNetworking.send(new AtlasPayload(command));
+    public static void send(String proxyCommand) {
+        ClientPlayNetworking.send(new AtlasPayload(proxyCommand));
     }
 }
