@@ -118,6 +118,8 @@ public class MCPClient implements ClientModInitializer {
 		CommandBridge.init(exploitsSettings);
 		Atlas.init(exploitsSettings);
 		MultiChat.init(exploitsSettings);
+		LiteBans.init(exploitsSettings);
+		HolographicDisplays.init(exploitsSettings);
 
 		// Options
 		Anonymous.init(clientSettings);

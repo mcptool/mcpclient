@@ -51,6 +51,8 @@ public class KeyBindManager {
         register(CommandBridge.INSTANCE);
         register(Atlas.INSTANCE);
         register(MultiChat.INSTANCE);
+        register(LiteBans.INSTANCE);
+        register(HolographicDisplays.INSTANCE);
     }
 
     /**
