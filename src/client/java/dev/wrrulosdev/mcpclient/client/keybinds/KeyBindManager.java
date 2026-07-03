@@ -54,6 +54,7 @@ public class KeyBindManager {
         register(LiteBans.INSTANCE);
         register(HolographicDisplays.INSTANCE);
         register(PlugManX.INSTANCE);
+        register(PluginManager.INSTANCE);
     }
 
     /**

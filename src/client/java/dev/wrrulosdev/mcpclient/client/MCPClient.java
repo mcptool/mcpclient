@@ -121,6 +121,7 @@ public class MCPClient implements ClientModInitializer {
 		LiteBans.init(exploitsSettings);
 		HolographicDisplays.init(exploitsSettings);
 		PlugManX.init(exploitsSettings);
+		PluginManager.init(exploitsSettings);
 
 		// Options
 		Anonymous.init(clientSettings);
