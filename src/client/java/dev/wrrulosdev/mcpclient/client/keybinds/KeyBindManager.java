@@ -53,6 +53,7 @@ public class KeyBindManager {
         register(MultiChat.INSTANCE);
         register(LiteBans.INSTANCE);
         register(HolographicDisplays.INSTANCE);
+        register(PlugManX.INSTANCE);
     }
 
     /**

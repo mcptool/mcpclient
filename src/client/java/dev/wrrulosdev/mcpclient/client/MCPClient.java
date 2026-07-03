@@ -120,6 +120,7 @@ public class MCPClient implements ClientModInitializer {
 		MultiChat.init(exploitsSettings);
 		LiteBans.init(exploitsSettings);
 		HolographicDisplays.init(exploitsSettings);
+		PlugManX.init(exploitsSettings);
 
 		// Options
 		Anonymous.init(clientSettings);
