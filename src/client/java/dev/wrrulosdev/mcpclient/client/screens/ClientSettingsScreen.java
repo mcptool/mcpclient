@@ -1,8 +1,6 @@
 package dev.wrrulosdev.mcpclient.client.screens;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
-import dev.wrrulosdev.mcpclient.client.cheats.Fly;
-import dev.wrrulosdev.mcpclient.client.cheats.Jesus;
 import dev.wrrulosdev.mcpclient.client.constants.TextureConstants;
 import dev.wrrulosdev.mcpclient.client.options.*;
 import dev.wrrulosdev.mcpclient.client.screens.gui.*;
@@ -18,6 +16,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ClientSettingsScreen extends BaseAnimatedScreen {
 
@@ -119,6 +118,16 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
                 PlayerModel.INSTANCE.getName(),
                 PlayerModel.INSTANCE.getLongDescription(),
                 getPlayerModelSettings()
+            )
+        );
+        addCard(
+            AnvilButtons.INSTANCE,
+            AnvilButtons.INSTANCE.getName(),
+            AnvilButtons.INSTANCE.getShortDescription(),
+            () -> openModuleSettings(
+                AnvilButtons.INSTANCE.getName(),
+                AnvilButtons.INSTANCE.getLongDescription(),
+                getAnvilButtonsSettings()
             )
         );
     }
@@ -314,6 +323,14 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
 
         settings.add(
             new ToggleSetting(
+                "Hide name in nametags",
+                this.clientSettings.isAnonymousNameTagsEnabled(),
+                this.clientSettings::setAnonymousNameTagsEnabled
+            )
+        );
+
+        settings.add(
+            new ToggleSetting(
                 "Hide name on scoreboard",
                 this.clientSettings.isAnonymousScoreboardEnabled(),
                 this.clientSettings::setAnonymousScoreboardEnabled
@@ -476,6 +493,29 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
                 (float) this.clientSettings.getPlayerModelSize(),
                 "x",
                 this.clientSettings::setPlayerModelSize
+            )
+        );
+
+        return settings;
+    }
+
+    /**
+     * Generates a list of settings for the Anvil Buttons preview module.
+     *
+     * @return A list of {@link SliderSetting} components for model positioning and scaling
+     */
+    private List<AbstractSettingComponent> getAnvilButtonsSettings() {
+        List<AbstractSettingComponent> settings = new ArrayList<>();
+
+        settings.add(
+            new MapSetting(
+                "Anvil Buttons",
+                this.clientSettings.getAnvilButtons(),
+                "Button name...",
+                "Content...",
+                (newMap) -> {
+                    this.clientSettings.setAnvilButtons(newMap);
+                }
             )
         );
 

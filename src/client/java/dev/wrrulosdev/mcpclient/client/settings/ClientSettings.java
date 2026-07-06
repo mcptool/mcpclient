@@ -2,14 +2,17 @@ package dev.wrrulosdev.mcpclient.client.settings;
 
 import dev.wrrulosdev.mcpclient.client.MCPClient;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ClientSettings {
 
     private boolean anonymousModeEnabled = false;
 
     private boolean anonymousScoreboardEnabled = true;
     private boolean anonymousTabListEnabled = true;
-    private boolean anonymousChatEnabled = false;
-    private boolean anonymousHologramsEnabled = false;
+    private boolean anonymousChatEnabled = true;
+    private boolean anonymousHologramsEnabled = true;
     private boolean anonymousNameTagsEnabled = true;
     private String newAnonymousName = "***";
 
@@ -30,6 +33,9 @@ public class ClientSettings {
     private double playerModelMarginX = 5;
     private double playerModelMarginY = 45;
     private double playerModelSize = 30;
+
+    private boolean anvilButtonsEnabled = false;
+    private Map<String, String> anvilButtons = new HashMap<>();
 
     /**
      * Persists the current configuration state to the client's storage.
@@ -215,6 +221,24 @@ public class ClientSettings {
 
     public void setPlayerModelSize(double playerModelSize) {
         this.playerModelSize = playerModelSize;
+        save();
+    }
+
+    public boolean isAnvilButtonsEnabled() {
+        return anvilButtonsEnabled;
+    }
+
+    public void setAnvilButtonsEnabled(boolean anvilButtonsEnabled) {
+        this.anvilButtonsEnabled = anvilButtonsEnabled;
+        save();
+    }
+
+    public Map<String, String> getAnvilButtons() {
+        return anvilButtons;
+    }
+
+    public void setAnvilButtons(Map<String, String> newMap) {
+        this.anvilButtons = new HashMap<>(newMap);
         save();
     }
 }

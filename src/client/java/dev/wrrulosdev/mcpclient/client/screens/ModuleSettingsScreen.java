@@ -345,6 +345,12 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
                     return true;
                 }
             }
+
+            if (setting instanceof MapSetting mapSetting) {
+                if (mapSetting.keyPressed(event.key(), event.scancode(), event.modifiers())) {
+                    return true;
+                }
+            }
         }
 
         if (event.key() == GLFW.GLFW_KEY_ESCAPE) {
@@ -369,6 +375,12 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
 
             if (setting instanceof ColorSetting colorSetting) {
                 if (colorSetting.charTyped(character)) {
+                    return true;
+                }
+            }
+
+            if (setting instanceof MapSetting mapSetting) {
+                if (mapSetting.charTyped(character, modifiers)) {
                     return true;
                 }
             }

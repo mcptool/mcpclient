@@ -64,7 +64,6 @@ public class ToggleSetting extends AbstractSettingComponent {
         float progress
     ) {
         boolean hovered = isMouseOver(mouseX, mouseY, x, y, width);
-
         int bgCardColor = getAlphaColor(
             hovered ? 0x24262E : 0x1A1B22,
             220 * progress / 255
@@ -92,7 +91,6 @@ public class ToggleSetting extends AbstractSettingComponent {
         int swH = 10;
         int swX = x + width - 12 - swW;
         int swY = y + (getHeight() - swH) / 2;
-
         int switchBg = this.state
             ? 0xB71C1C
             : 0x42444D;

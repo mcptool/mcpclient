@@ -32,7 +32,7 @@ public class ServerAddress {
 
         ClientPacketListener connection = mc.getConnection();
 
-        if (connection == null || connection.getConnection() == null) {
+        if (connection == null) {
             defaultValue();
             return;
         }

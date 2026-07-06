@@ -21,6 +21,8 @@
 		"screen.PanoramaMixin",
 		"screen.LinearLayoutMixin",
 		"screen.JoinMultiplayerScreenMixin",
+		"screen.AnvilScreenMixin",
+		"screen.ServerSelectionListMixin",
 		"options.UnitDoubleMixin",
 		"player.LocalPlayerMixin",
 		"multiplayer.ClientPacketListenerMixin",
