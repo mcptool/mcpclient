@@ -110,7 +110,7 @@ public class MenuScreen extends BaseAnimatedScreen {
                 "MCPTool Connection",
                 "Connect your MCPTool.",
                 TextureConstants.CONNECTION_ICON,
-                () -> System.out.println("Blatant")
+                () -> Minecraft.getInstance().setScreenAndShow(new MCPToolConnectionScreen(this))
             )
         );
     }
