@@ -346,6 +346,12 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
                 }
             }
 
+            if (setting instanceof StringListSetting stringListSetting) {
+                if (stringListSetting.keyPressed(event.key(), event.scancode(), event.modifiers())) {
+                    return true;
+                }
+            }
+
             if (setting instanceof MapSetting mapSetting) {
                 if (mapSetting.keyPressed(event.key(), event.scancode(), event.modifiers())) {
                     return true;
@@ -375,6 +381,12 @@ public class ModuleSettingsScreen extends BaseAnimatedScreen {
 
             if (setting instanceof ColorSetting colorSetting) {
                 if (colorSetting.charTyped(character)) {
+                    return true;
+                }
+            }
+
+            if (setting instanceof StringListSetting stringListSetting){
+                if (stringListSetting.charTyped(character, modifiers)) {
                     return true;
                 }
             }

@@ -131,6 +131,7 @@ public class MCPClient implements ClientModInitializer {
 		Notifications.init(clientSettings);
 		PlayerModel.init(clientSettings);
 		AnvilButtons.init(clientSettings);
+		CustomPrefix.init(clientSettings);
 
 		// Objects
 		pluginChannelStorage = new PluginChannelStorage();

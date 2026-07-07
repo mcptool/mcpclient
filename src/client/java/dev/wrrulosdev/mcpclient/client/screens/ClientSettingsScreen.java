@@ -130,6 +130,16 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
                 getAnvilButtonsSettings()
             )
         );
+        addCard(
+            CustomPrefix.INSTANCE,
+            CustomPrefix.INSTANCE.getName(),
+            CustomPrefix.INSTANCE.getShortDescription(),
+            () -> openModuleSettings(
+                CustomPrefix.INSTANCE.getName(),
+                CustomPrefix.INSTANCE.getLongDescription(),
+                getCustomPrefixSettings()
+            )
+        );
     }
 
     /**
@@ -521,6 +531,34 @@ public class ClientSettingsScreen extends BaseAnimatedScreen {
 
         return settings;
     }
+
+    /**
+     * Generates a list of settings for the CustomPrefix preview module.
+     *
+     * @return A list of {@link SliderSetting} components for model positioning and scaling
+     */
+    private List<AbstractSettingComponent> getCustomPrefixSettings() {
+        List<AbstractSettingComponent> settings = new ArrayList<>();
+
+        settings.add(
+            new TextSetting(
+                "Custom Prefix",
+                this.clientSettings.getCustomPrefix(),
+                this.clientSettings::setCustomPrefix
+            )
+        );
+
+        settings.add(
+            new StringListSetting(
+                "Usernames",
+                this.clientSettings.getCustomPrefixUsernames(),
+                this.clientSettings::setCustomPrefixUsernames
+            )
+        );
+
+        return settings;
+    }
+
 
     /**
      * Returns the title for this screen to be displayed in the UI.

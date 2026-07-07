@@ -4,6 +4,7 @@ import dev.wrrulosdev.mcpclient.client.MCPClient;
 import dev.wrrulosdev.mcpclient.client.options.Anonymous;
 import dev.wrrulosdev.mcpclient.client.options.NameTag;
 import dev.wrrulosdev.mcpclient.client.settings.ClientSettings;
+import dev.wrrulosdev.mcpclient.client.utilities.messages.CC;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -68,13 +69,9 @@ public abstract class EntityRendererMixin<T extends Entity, S extends EntityRend
 
         // Custom Prefix
         if (entity instanceof Player && state.nameTag != null) {
-            MutableComponent prefix = Component.literal("[MCP] ")
-                .setStyle(Style.EMPTY
-                    .withColor(0xFF0000)
-                    .withBold(true));
-
+            if (!clientSettings.getCustomPrefixUsernames().contains(entity.getName().getString()) || !clientSettings.isCustomPrefixEnabled()) return;
             state.nameTag = Component.empty()
-                .append(prefix)
+                .append(CC.parseColorCodes(clientSettings.getCustomPrefix()))
                 .append(state.nameTag);
         }
     }

@@ -3,6 +3,7 @@ package dev.wrrulosdev.mcpclient.client.settings;
 import dev.wrrulosdev.mcpclient.client.MCPClient;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ClientSettings {
@@ -36,6 +37,10 @@ public class ClientSettings {
 
     private boolean anvilButtonsEnabled = false;
     private Map<String, String> anvilButtons = new HashMap<>();
+
+    private boolean customPrefixEnabled = false;
+    private String customPrefix = "&7[&dTeam&7]";
+    private List<String> customPrefixUsernames = List.of();
 
     /**
      * Persists the current configuration state to the client's storage.
@@ -239,6 +244,33 @@ public class ClientSettings {
 
     public void setAnvilButtons(Map<String, String> newMap) {
         this.anvilButtons = new HashMap<>(newMap);
+        save();
+    }
+
+    public boolean isCustomPrefixEnabled() {
+        return customPrefixEnabled;
+    }
+
+    public void setCustomPrefixEnabled(boolean customPrefixEnabled) {
+        this.customPrefixEnabled = customPrefixEnabled;
+        save();
+    }
+
+    public String getCustomPrefix() {
+        return customPrefix;
+    }
+
+    public void setCustomPrefix(String customPrefix) {
+        this.customPrefix = customPrefix;
+        save();
+    }
+
+    public List<String> getCustomPrefixUsernames() {
+        return customPrefixUsernames;
+    }
+
+    public void setCustomPrefixUsernames(List<String> customPrefixUsernames) {
+        this.customPrefixUsernames = customPrefixUsernames;
         save();
     }
 }
