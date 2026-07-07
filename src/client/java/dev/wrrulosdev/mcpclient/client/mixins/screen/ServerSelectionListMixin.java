@@ -43,7 +43,7 @@ public abstract class ServerSelectionListMixin {
     ) {
         ServerData server = ((ServerSelectionList.OnlineServerEntry) (Object) this).getServerData();
         int drawX = ((ServerSelectionList.OnlineServerEntry) (Object) this).getContentRight() + 10;
-        int textY = ((ServerSelectionList.OnlineServerEntry) (Object) this).getContentY() + 5;
+        int textY = ((ServerSelectionList.OnlineServerEntry) (Object) this).getContentY() + 2;
         String version = server.version.getString();
         String protocol = String.valueOf(server.protocol);
         String lastConnection = "Unknown";
